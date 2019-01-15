@@ -1,31 +1,33 @@
 @extends('layouts.app')
 
 @section('header')
-<header class="header header-inverse h-fullscreen pb-80" data-parallax="{{ asset('assets/img/header-bg.png ') }}">
-    <div class="container text-center">
+<header class="header header-inverse py-200 h-fullscreen" data-parallax="{{ asset('assets/img/header-bg.png ') }}">
+      <div class="container text-center">
 
-    <div class="row h-full">
-        <div class="col-12 col-lg-8 offset-lg-2 align-self-center">
+        <div class="row h-full">
+          <div class="col-12 col-lg-8 offset-lg-2 align-self-center">
 
-        <h1 class="display-4 hidden-sm-down">We Rank the Best Course on the Web</h1>
-        <h1 class="hidden-md-up">THE BEST WEB DEVELOPMENT SCREENCASTS ON THE INTERNET</h1>
-        <br>
-        <p class="lead text-white fs-20 hidden-sm-down"><span class="fw-400">AfghanYouthDev</span> e-Academy is an awesome web development learning<br>subscription based SaaS  application powered with Vuejs and <span class="mark-border">Laravel 5.5   </span>.</p>
+            <h1 class="hidden-sm-down">An e-Learning Platform for <span class="text-warning" data-type="Talented, Creative, Passionate, Afghans, "></span></h1>
+            <h1 class="hidden-md-up">An Learning Platform for  <br><span class="text-warning" data-type="Talented, Creative, Afghans, "></span></h1>
+            <br>
+            <p class="fs-20 hidden-sm-down">TheSaaS Is an elegant, modern and fully customizable template developed for software, SaaS product and Web Applications.</p>
+            <p class="fs-15 hidden-md-up">TheSaaS Is an elegant, modern and fully customizable template developed for software, SaaS product and Web Applications.</p>
 
-        <br><br><br>
+            <br>
+            <hr class="w-50 hidden-sm-down">
+            <br>
 
-        <a class="btn btn-lg btn-round w-200 btn-primary mr-16" href="/series">View more</a>
+            <p>
+              <a class="btn btn-lg btn-round btn-white mr-12" href="#" data-scrollto="section-start">Start Now</a>
+<!--               <a class="btn btn-lg btn-round btn-outline btn-white hidden-sm-down" href="//www.youtube.com/watch?v=ah4pcPbRi2M" data-provide="lightbox"><i class="fa fa-play mr-8"></i> Play Video</a> -->
+            </p>
+            
 
+          </div>
         </div>
 
-        <div class="col-12 align-self-end text-center">
-        <a class="scroll-down-1 scroll-down-inverse" href="#" data-scrollto="section-intro"><span></span></a>
-        </div>
-
-    </div>
-
-    </div>
-</header>
+      </div>
+    </header>
 @stop
 
 

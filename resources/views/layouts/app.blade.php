@@ -12,7 +12,7 @@
 
     <!-- Font-awesome -->
 <!--     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"> -->
-    
+
     <!-- Favicons -->
     <link rel="apple-touch-icon" href="{{ asset('assets/img/apple-touch-icon.png') }}">
     <link rel="icon" href="{{ asset('assets/img/favicon.png') }}">
@@ -32,8 +32,8 @@
         <div class="topbar-left">
           <button class="topbar-toggler">&#9776;</button>
           <a class="topbar-brand" href="index.html">
-            <img class="logo-default" src="{{ asset('assets/img/logo.png') }}" alt="logo">
-            <img class="logo-inverse" src="{{ asset('assets/img/logo-light.png') }}" alt="logo">
+           <!--  <img class="logo-default" src="{{ asset('assets/img/logo.png') }}" alt="logo">
+            <img class="logo-inverse" src="{{ asset('assets/img/logo-light.png') }}" alt="logo"> -->
           </a>
         </div>
 
@@ -43,8 +43,14 @@
           <ul class="topbar-nav nav">
            
             <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            @if(auth()->check())
+                    
+                   <li class="nav-item">Hey {{auth()->user()->name}}</li> 
+
+            @else
+
             <li class="nav-item"><a class="nav-link" href="javascript:;" data-toggle="modal" data-target="#loginModal">Login</a></li>
-           
+           @endif
           </ul>
 
         </div>
@@ -69,8 +75,10 @@
         
    
 
-
-    <vue-login></vue-login>
+    @if(!auth()->check())
+     <vue-login></vue-login>
+    @endif
+   
      <!-- Footer -->
     <footer class="site-footer">
       <div class="container">

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace elearning\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use elearning\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use elearning\Exceptions\AuthFailedException;
 
 class LoginController extends Controller
 {
@@ -47,7 +48,25 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        return 'login - successfull';
+        Session()->flash('success', 'Logged In');
+
+        return response()->json([
+
+            'status' => 'ok'
+        ]);
+    }
+
+    /**
+     * Get the failed login response instance.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw new AuthFailedException;
     }
 
 }

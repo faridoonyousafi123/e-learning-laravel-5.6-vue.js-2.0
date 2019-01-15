@@ -1763,6 +1763,8 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1821,9 +1823,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  data: function data() {
+    return {
+      email: '',
+      password: '',
+      remember: true,
+      loading: false,
+      errors: []
+    };
+  },
+  methods: {
+    isValidEmail: function isValidEmail() {
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
+        return true;
+      }
+
+      return false;
+    },
+    attemptLogin: function attemptLogin() {
+      var _this = this;
+
+      this.errors = [];
+      this.loading = true;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/login', {
+        email: this.email,
+        password: this.password,
+        remember: this.remember
+      }).then(function (res) {
+        location.reload();
+      }).catch(function (error) {
+        _this.loading = false;
+
+        if (error.response.status == 422) {
+          _this.errors.push("Sorry ! We could not verify your account.");
+        } else {
+          _this.errors.push("Something went wrong, Please refresh and try again");
+        }
+      });
+    }
+  },
+  computed: {
+    isValidLoginForm: function isValidLoginForm() {
+      return this.isValidEmail() && this.password && !this.loading;
+    }
   }
 });
 
@@ -36676,188 +36725,270 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    {
+      staticClass: "modal fade",
+      attrs: {
+        id: "loginModal",
+        tabindex: "-1",
+        role: "dialog",
+        "aria-labelledby": "exampleModalLabel",
+        "aria-hidden": "true"
+      }
+    },
+    [
+      _c("div", { staticClass: "modal-dialog", attrs: { role: "document" } }, [
+        _c("div", { staticClass: "modal-content" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-body text-center" }, [
+            _c(
+              "div",
+              {
+                staticClass: "card mb-0",
+                staticStyle: { "max-width": "100%" }
+              },
+              [
+                _c("h5", { staticClass: "text-uppercase text-center" }, [
+                  _vm._v("Login")
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _c("br"),
+                _vm._v(" "),
+                _c("form", [
+                  _vm.errors.length > 0
+                    ? _c(
+                        "div",
+                        { staticClass: "alert alert-danger" },
+                        _vm._l(_vm.errors, function(error) {
+                          return _c(
+                            "span",
+                            { key: _vm.errors.indexOf(error) },
+                            [_vm._v(" " + _vm._s(error))]
+                          )
+                        }),
+                        0
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.email,
+                          expression: "email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", placeholder: "Email" },
+                      domProps: { value: _vm.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.email = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.password,
+                          expression: "password"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "password", placeholder: "Password" },
+                      domProps: { value: _vm.password },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.password = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group flexbox py-10" }, [
+                    _c(
+                      "label",
+                      { staticClass: "custom-control custom-checkbox" },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.remember,
+                              expression: "remember"
+                            }
+                          ],
+                          staticClass: "custom-control-input",
+                          attrs: { type: "checkbox" },
+                          domProps: {
+                            checked: Array.isArray(_vm.remember)
+                              ? _vm._i(_vm.remember, null) > -1
+                              : _vm.remember
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.remember,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? true : false
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 && (_vm.remember = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.remember = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.remember = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "custom-control-indicator" }),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          { staticClass: "custom-control-description" },
+                          [_vm._v("Remember me")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "text-muted hover-primary fs-13",
+                        attrs: { href: "#" }
+                      },
+                      [_vm._v("Forgot password?")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-bold btn-block btn-primary",
+                        attrs: {
+                          disabled: !_vm.isValidLoginForm,
+                          type: "button"
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.attemptLogin()
+                          }
+                        }
+                      },
+                      [_vm._v("Login")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "divider" }, [
+                  _vm._v("Or Sign In With")
+                ]),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c("hr", { staticClass: "w-30" }),
+                _vm._v(" "),
+                _vm._m(2)
+              ]
+            )
+          ])
+        ])
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "loginModal",
-          tabindex: "-1",
-          role: "dialog",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true"
-        }
-      },
-      [
-        _c(
-          "div",
-          { staticClass: "modal-dialog", attrs: { role: "document" } },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _c("div", { staticClass: "modal-header" }, [
-                _c(
-                  "h5",
-                  {
-                    staticClass: "modal-title",
-                    attrs: { id: "exampleModalLabel" }
-                  },
-                  [_vm._v("Authintication")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "close",
-                    attrs: {
-                      type: "button",
-                      "data-dismiss": "modal",
-                      "aria-label": "Close"
-                    }
-                  },
-                  [
-                    _c("span", { attrs: { "aria-hidden": "true" } }, [
-                      _vm._v("×")
-                    ])
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body text-center" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass: "card mb-0",
-                    staticStyle: { "max-width": "100%" }
-                  },
-                  [
-                    _c("h5", { staticClass: "text-uppercase text-center" }, [
-                      _vm._v("Login")
-                    ]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("form", [
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("input", {
-                          staticClass: "form-control",
-                          attrs: { type: "text", placeholder: "Username" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
-                        _c("input", {
-                          staticClass: "form-control",
-                          attrs: { type: "password", placeholder: "Password" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group flexbox py-10" }, [
-                        _c(
-                          "label",
-                          { staticClass: "custom-control custom-checkbox" },
-                          [
-                            _c("input", {
-                              staticClass: "custom-control-input",
-                              attrs: { type: "checkbox", checked: "" }
-                            }),
-                            _vm._v(" "),
-                            _c("span", {
-                              staticClass: "custom-control-indicator"
-                            }),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              { staticClass: "custom-control-description" },
-                              [_vm._v("Remember me")]
-                            )
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "text-muted hover-primary fs-13",
-                            attrs: { href: "#" }
-                          },
-                          [_vm._v("Forgot password?")]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "form-group" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-bold btn-block btn-primary",
-                            attrs: { type: "submit" }
-                          },
-                          [_vm._v("Login")]
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "divider" }, [
-                      _vm._v("Or Sign In With")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "text-center" }, [
-                      _c(
-                        "a",
-                        {
-                          staticClass:
-                            "btn btn-circular btn-sm btn-facebook mr-4",
-                          attrs: { href: "#" }
-                        },
-                        [_c("i", { staticClass: "fa fa-facebook" })]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass:
-                            "btn btn-circular btn-sm btn-google mr-4",
-                          attrs: { href: "#" }
-                        },
-                        [_c("i", { staticClass: "fa fa-google" })]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-circular btn-sm btn-twitter",
-                          attrs: { href: "#" }
-                        },
-                        [_c("i", { staticClass: "fa fa-twitter" })]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("hr", { staticClass: "w-30" }),
-                    _vm._v(" "),
-                    _c(
-                      "p",
-                      { staticClass: "text-center text-muted fs-13 mt-20" },
-                      [
-                        _vm._v("Don't have an account? "),
-                        _c("a", { attrs: { href: "page-register.html" } }, [
-                          _vm._v("Sign up")
-                        ])
-                      ]
-                    )
-                  ]
-                )
-              ])
-            ])
-          ]
-        )
-      ]
-    )
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Authentication")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-center" }, [
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-circular btn-sm btn-facebook mr-4",
+          attrs: { href: "#" }
+        },
+        [_c("i", { staticClass: "fa fa-facebook" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-circular btn-sm btn-google mr-4",
+          attrs: { href: "#" }
+        },
+        [_c("i", { staticClass: "fa fa-google" })]
+      ),
+      _vm._v(" "),
+      _c(
+        "a",
+        {
+          staticClass: "btn btn-circular btn-sm btn-twitter",
+          attrs: { href: "#" }
+        },
+        [_c("i", { staticClass: "fa fa-twitter" })]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "text-center text-muted fs-13 mt-20" }, [
+      _vm._v("Don't have an account? "),
+      _c("a", { attrs: { href: "page-register.html" } }, [_vm._v("Sign up")])
+    ])
   }
 ]
 render._withStripped = true
