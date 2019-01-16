@@ -3,7 +3,7 @@
 
 Please confirm your email to access the application.
 
-@component('mail::button', ['url' => ''])
+@component('mail::button', ['url' => route('confirm-email'). '?token=' .$user->confirm_token])
 Confirm Your Email
 @endcomponent
 

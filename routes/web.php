@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 
 Route::get('/mail', function () {
@@ -21,6 +19,20 @@ Route::get('/mail', function () {
 });
 
 Route::get('/logout', function() { auth()->logout(); return redirect('/'); });
+
+
+Route::get('/register/confirm','confirmEmailController@index')->name('confirm-email');
+
+
+Route::group(['middleware'=>'CheckUser'], function(){
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+});
+
+
 
 Auth::routes();
 
@@ -30,6 +42,7 @@ Route::get('{provider}/auth',[
     'uses' => 'SocialsController@auth',
     'as' => 'social.auth'
 ]);
+
 Route::get('{provider}/redirect',[
     'uses' => 'SocialsController@authCallBack',
     'as' => 'social.authCallBack'

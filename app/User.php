@@ -35,6 +35,8 @@ class User extends Authenticatable
 
     public function confirmUser(){
 
+           $this->confirm_token = null;
+           $this->save();
 
     }
 }

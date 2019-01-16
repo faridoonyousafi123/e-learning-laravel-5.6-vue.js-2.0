@@ -1856,6 +1856,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1915,7 +1917,12 @@ __webpack_require__.r(__webpack_exports__);
         location.reload();
       }).catch(function (error) {
         _this2.r_loading = false;
-        console.log(error.response);
+
+        if (error.response.status == 422) {
+          _this2.r_errors.push("Sorry ! We could not verify your account.");
+        } else {
+          _this2.r_errors.push("Something went wrong, Please refresh and try again");
+        }
       });
     }
   },
@@ -37017,6 +37024,21 @@ var render = function() {
                               attrs: { type: "hidden", name: "_token" },
                               domProps: { value: _vm.csrf }
                             }),
+                            _vm._v(" "),
+                            _vm.r_errors.length > 0
+                              ? _c(
+                                  "div",
+                                  { staticClass: "alert alert-danger" },
+                                  _vm._l(_vm.r_errors, function(error) {
+                                    return _c(
+                                      "span",
+                                      { key: _vm.r_errors.indexOf(error) },
+                                      [_vm._v(" " + _vm._s(error))]
+                                    )
+                                  }),
+                                  0
+                                )
+                              : _vm._e(),
                             _vm._v(" "),
                             _c("div", { staticClass: "form-group" }, [
                               _c("input", {

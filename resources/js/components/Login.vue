@@ -55,7 +55,9 @@
                               <form class="form-type-material">
 
                                 <input type="hidden" name="_token" :value="csrf">
-
+                                   <div class="alert alert-danger" v-if="r_errors.length > 0">
+                                       <span v-for="error in r_errors" :key="r_errors.indexOf(error)"> {{ error }}</span>
+                                    </div>
 
                                  <div class="form-group">
                                     <input type="text" v-model="r_name" class="form-control" placeholder="Username" name="name"> 
@@ -101,7 +103,6 @@
            remember: true,
            loading : false,
            errors: [],
-
            r_email: '',
            r_password: '',
            r_name: '',
@@ -172,7 +173,14 @@
             }).catch(error => {
 
               this.r_loading = false
-              console.log(error.response)
+              if(error.response.status == 422){
+   
+                       this.r_errors.push("Sorry ! We could not verify your account.");
+                   }else{
+   
+                       this.r_errors.push("Something went wrong, Please refresh and try again");
+                   }
+              
 
             })
            }
