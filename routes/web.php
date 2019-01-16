@@ -15,8 +15,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/mail', function () {
+    return new App\Mail\ConfirmYourMail;
+});
+
 Route::get('/logout', function() { auth()->logout(); return redirect('/'); });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('{provider}/auth',[
+    'uses' => 'SocialsController@auth',
+    'as' => 'social.auth'
+]);
+Route::get('{provider}/redirect',[
+    'uses' => 'SocialsController@authCallBack',
+    'as' => 'social.authCallBack'
+]);

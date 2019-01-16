@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        AdamWathan\EloquentOAuthL5\EloquentOAuthServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -169,11 +170,11 @@ return [
         /*
          * Application Service Providers...
          */
-        elearning\Providers\AppServiceProvider::class,
-        elearning\Providers\AuthServiceProvider::class,
-        // elearning\Providers\BroadcastServiceProvider::class,
-        elearning\Providers\EventServiceProvider::class,
-        elearning\Providers\RouteServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
 
     ],
 
@@ -223,6 +224,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'SocialAuth' => AdamWathan\EloquentOAuth\Facades\OAuth::class
 
     ],
 

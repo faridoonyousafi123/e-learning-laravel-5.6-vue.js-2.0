@@ -1,6 +1,6 @@
 <?php
 
-namespace elearning\Providers;
+namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Broadcast;

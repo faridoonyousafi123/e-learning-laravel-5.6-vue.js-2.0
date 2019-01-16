@@ -78,7 +78,6 @@
 
     @if(!auth()->check())
      <vue-login></vue-login>
-     <vue-register></vue-register>
     @endif
    
      <!-- Footer -->

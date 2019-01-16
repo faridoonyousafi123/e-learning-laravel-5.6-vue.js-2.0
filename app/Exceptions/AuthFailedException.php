@@ -1,6 +1,6 @@
 <?php
 
-namespace elearning\Exceptions;
+namespace App\Exceptions;
 use Exception;
 
 class AuthFailedException extends Exception

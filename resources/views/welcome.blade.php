@@ -10,7 +10,7 @@
             <h1 class="hidden-sm-down">An e-Learning Platform for <span class="text-warning" data-type="Talented, Creative, Passionate, Afghans, "></span></h1>
             <h1 class="hidden-md-up">An Learning Platform for  <br><span class="text-warning" data-type="Talented, Creative, Afghans, "></span></h1>
             <br>
-            <p class="fs-20 hidden-sm-down">TheSaaS Is an elegant, modern and fully customizable template developed for software, SaaS product and Web Applications.</p>
+            <p class="fs-20 hidden-sm-down">We bring learning to people instead of people to learning</p>
             <p class="fs-15 hidden-md-up">TheSaaS Is an elegant, modern and fully customizable template developed for software, SaaS product and Web Applications.</p>
 
             <br>

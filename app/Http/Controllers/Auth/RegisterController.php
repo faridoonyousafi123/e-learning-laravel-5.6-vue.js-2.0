@@ -1,12 +1,15 @@
 <?php
 
-namespace elearning\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use elearning\User;
-use elearning\Http\Controllers\Controller;
+use Mail;
+use App\User;
+use App\Http\Controllers\Controller;
+use App\Mail\ConfirmYourMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -51,7 +54,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'password' => ['required', 'string', 'min:6',],
         ]);
     }
 
@@ -59,14 +62,34 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \elearning\User
+     * @return \App\User
      */
     protected function create(array $data)
     {
         return User::create([
             'name' => $data['name'],
+            'username' => str_slug($data['name']),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'confirm_token' => str_random(25)
         ]);
+
+        return response()->json([
+
+            'status' => 'ok'
+        ]);
+    }
+
+     /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        Mail::to($user)->send(new ConfirmYourMail);
+        return redirect($this->redirectPath()); 
     }
 }
