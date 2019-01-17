@@ -18,25 +18,36 @@ Route::get('/mail', function () {
     return new App\Mail\ConfirmYourMail;
 });
 
+Route::get('/confirmemail',[
+
+	'uses' => 'confirmEmailController@show',
+	'as' => 'email.confirm'
+]);
+
 Route::get('/logout', function() { auth()->logout(); return redirect('/'); });
 
 
 Route::get('/register/confirm','confirmEmailController@index')->name('confirm-email');
 
 
-Route::group(['middleware'=>'CheckUser'], function(){
 
 Route::get('/', function () {
+    
     return view('welcome');
-});
 
 });
 
+Auth::routes(['verify' => true]);
 
 
-Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home')->middleware('checkuser');
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+
+
+
+
+
 
 Route::get('{provider}/auth',[
     'uses' => 'SocialsController@auth',

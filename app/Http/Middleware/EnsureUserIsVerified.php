@@ -3,9 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\User;
+use Auth;
+use Session;
 
-class CheckUser
+class EnsureUserIsVerified
 {
     /**
      * Handle an incoming request.
@@ -14,12 +15,12 @@ class CheckUser
      * @param  \Closure  $next
      * @return mixed
      */
-   public function handle($request, Closure $next)
+    public function handle($request, Closure $next)
     {
         try {
-            if(!Auth::user()->isUserConfirmed){
-            
-           return redirect()->route('/mail');
+            if(!Auth::user()->confirm_token == null){
+            Session::flash('info','You do not have permission to perform this action');
+            return redirect('/confirmemail');
         }
             
         } catch (Exception $e) {

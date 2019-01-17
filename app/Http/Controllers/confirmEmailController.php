@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Auth;
 
 class confirmEmailController extends Controller
 {
@@ -26,6 +27,18 @@ class confirmEmailController extends Controller
 
     		return redirect('/');
     	}
+
+    }
+
+    public function show(){
+
+    	if(Auth::user()->confirm_token == null){
+
+    		return redirect()->back();
+   		 }
+   		 else{
+   		 	return view('confirmEmail')->with('user', Auth::user());
+   		 }
 
     }
 }
