@@ -30,16 +30,18 @@
       <div class="container">
         
         <div class="topbar-left">
-         
+        
           <a class="topbar-brand" href="index.html">
             <img class="logo-default logo-size" src="{{ asset('assets/img/logo-black.png') }}" alt="logo">
             <img class="logo-inverse logo-size" src="{{ asset('assets/img/logo3.png') }}" alt="logo">
           </a>
+
         </div>
+        
 
 
         <div class="topbar-right">
-
+  <button class="topbar-toggler">&#9776;</button>
           <ul class="topbar-nav nav">
            
             <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>

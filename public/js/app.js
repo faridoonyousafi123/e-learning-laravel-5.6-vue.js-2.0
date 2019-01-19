@@ -1914,7 +1914,7 @@ __webpack_require__.r(__webpack_exports__);
         email: this.r_email,
         password: this.r_password
       }).then(function (res) {
-        location.reload();
+        window.location.replace('/confirmemail');
       }).catch(function (error) {
         _this2.r_loading = false;
 
@@ -37208,7 +37208,7 @@ var staticRenderFns = [
           )
         ]),
         _vm._v(" "),
-        _c("li", { staticClass: "nav-item w-140 hidden-sm-down" }, [
+        _c("li", { staticClass: "nav-item w-140 " }, [
           _c(
             "a",
             {

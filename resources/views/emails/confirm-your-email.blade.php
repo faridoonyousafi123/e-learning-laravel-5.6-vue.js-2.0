@@ -8,5 +8,7 @@ Confirm Your Email
 @endcomponent
 
 Thanks,<br>
-# {{ config('app.name') }}
+ <img src="https://i.ibb.co/6RNHh8m/logo-black.png" width="150px" height="150px"> 
+{{-- # {{ config('app.name') }} --}}
+
 @endcomponent

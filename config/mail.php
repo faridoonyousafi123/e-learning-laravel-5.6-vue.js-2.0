@@ -57,7 +57,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'faridoon@kandaharnawbahar.com'),
-        'name' => env('MAIL_FROM_NAME', 'Faridoon'),
+        'name' => env('MAIL_FROM_NAME', 'AfghanYouthDev Team'),
     ],
 
     /*

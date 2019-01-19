@@ -16,7 +16,7 @@
                            <li class="nav-item w-140">
                               <a class="nav-link nav-link-e active login-button-color" data-toggle="tab" href="#home-1">Login</a>
                            </li>
-                           <li class="nav-item w-140 hidden-sm-down">
+                           <li class="nav-item w-140 ">
                               <a class="nav-link" data-toggle="tab" href="#profile-1">Register</a>
                            </li>
                         </ul>
@@ -169,7 +169,7 @@
             }).then(res => {
 
               
-              location.reload()
+              window.location.replace('/confirmemail')
 
             }).catch(error => {
 

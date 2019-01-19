@@ -32,6 +32,7 @@ class confirmEmailController extends Controller
 
     public function show(){
 
+    	
     	if(Auth::user()->confirm_token == null){
 
     		return redirect()->back();

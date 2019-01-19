@@ -22,7 +22,7 @@ Route::get('/confirmemail',[
 
 	'uses' => 'confirmEmailController@show',
 	'as' => 'email.confirm'
-]);
+])->middleware('auth');
 
 Route::get('/logout', function() { auth()->logout(); return redirect('/'); });
 
