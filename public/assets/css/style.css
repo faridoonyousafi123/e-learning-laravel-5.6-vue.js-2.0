@@ -40,6 +40,9 @@
 -moz-box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
 box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
 }
+.logo-size{
+  width: 120px;
+}
 .nav-outline .nav-link:hover, .nav-outline .nav-link.active{
   background-color: #0facf3;
 }

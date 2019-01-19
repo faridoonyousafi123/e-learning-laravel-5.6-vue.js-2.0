@@ -8,5 +8,5 @@ Confirm Your Email
 @endcomponent
 
 Thanks,<br>
-{{ config('app.name') }}
+# {{ config('app.name') }}
 @endcomponent

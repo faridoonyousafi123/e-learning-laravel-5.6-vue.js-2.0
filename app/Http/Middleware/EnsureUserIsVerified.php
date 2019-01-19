@@ -19,7 +19,7 @@ class EnsureUserIsVerified
     {
         try {
             if(!Auth::user()->confirm_token == null){
-            Session::flash('info','You do not have permission to perform this action');
+            
             return redirect('/confirmemail');
         }
             

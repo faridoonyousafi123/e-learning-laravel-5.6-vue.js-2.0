@@ -3,19 +3,19 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <title>E-Learning</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Styles -->
     <link href="{{ asset('assets/css/core.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/thesaas.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/thesaas.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
     <!-- Font-awesome -->
 <!--     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"> -->
 
     <!-- Favicons -->
-    <link rel="apple-touch-icon" href="{{ asset('assets/img/apple-touch-icon.png') }}">
-    <link rel="icon" href="{{ asset('assets/img/favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('assets/img/logo2.png') }}">
+    <link rel="icon" href="{{ asset('assets/img/logo2.png') }}">
 
     @yield('scripts')
   </head>
@@ -30,10 +30,10 @@
       <div class="container">
         
         <div class="topbar-left">
-          <button class="topbar-toggler">&#9776;</button>
+         
           <a class="topbar-brand" href="index.html">
-           <!--  <img class="logo-default" src="{{ asset('assets/img/logo.png') }}" alt="logo">
-            <img class="logo-inverse" src="{{ asset('assets/img/logo-light.png') }}" alt="logo"> -->
+            <img class="logo-default logo-size" src="{{ asset('assets/img/logo-black.png') }}" alt="logo">
+            <img class="logo-inverse logo-size" src="{{ asset('assets/img/logo3.png') }}" alt="logo">
           </a>
         </div>
 
@@ -42,7 +42,7 @@
 
           <ul class="topbar-nav nav">
            
-            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
             @if(auth()->check())
                     
                    <li class="nav-item">Hey {{auth()->user()->name}}</li> 

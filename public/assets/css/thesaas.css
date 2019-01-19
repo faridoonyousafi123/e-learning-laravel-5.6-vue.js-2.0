@@ -4911,7 +4911,7 @@ ul.flexbox {
 }
 
 .topbar-brand img {
-  max-height: 50px;
+  /*max-height: 50px;*/
 }
 
 .topbar-brand .logo-inverse {
@@ -5091,11 +5091,13 @@ ul.flexbox {
 
 .body-scrolled .topbar.topbar-inverse.topbar-sticky .topbar-brand .logo-default {
   display: inline-block;
+ 
 }
 
 .body-scrolled .topbar.topbar-inverse.topbar-sticky .topbar-brand .logo-inverse {
   display: none;
 }
+
 
 .body-scrolled .topbar.topbar-inverse.topbar-sticky .topbar-nav > .nav-item > .nav-link,
 .body-scrolled .topbar.topbar-inverse.topbar-sticky .topbar-toggler,

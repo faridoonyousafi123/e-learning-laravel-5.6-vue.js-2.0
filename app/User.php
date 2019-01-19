@@ -36,6 +36,7 @@ class User extends Authenticatable
     public function confirmUser(){
 
            $this->confirm_token = null;
+           $this->email_verified_at = $this->freshTimestamp();
            $this->save();
 
     }

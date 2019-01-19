@@ -161,13 +161,14 @@
 
 
             this.r_errors = []
-            this.r_laoding = true
+            this.r_loading = true
             axios.post('/register', {
 
               name: this.r_name, email: this.r_email, password: this.r_password
 
             }).then(res => {
 
+              
               location.reload()
 
             }).catch(error => {
@@ -175,7 +176,7 @@
               this.r_loading = false
               if(error.response.status == 422){
    
-                       this.r_errors.push("Sorry ! We could not verify your account.");
+                       this.r_errors.push("Sorry ! The Email has already been taken.");
                    }else{
    
                        this.r_errors.push("Something went wrong, Please refresh and try again");
