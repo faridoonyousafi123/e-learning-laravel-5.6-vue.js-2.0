@@ -43,7 +43,20 @@ Auth::routes(['verify' => true]);
 Route::get('/home', 'HomeController@index')->name('home')->middleware('checkuser');
 
 
+Route::group(['prefix'=>'admin','middleware'=>'auth'], function(){
+    
+    Route::get('/series/create',[
+       
+    	'uses' => 'SeriesController@create',
+    	'as'   => 'series.create'
+    ]);
 
+    Route::post('/series/store',[
+       
+    	'uses' => 'SeriesController@store',
+    	'as'   => 'series.store'
+    ]);
+});
 
 
 

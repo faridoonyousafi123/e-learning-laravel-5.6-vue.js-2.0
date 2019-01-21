@@ -16,7 +16,7 @@
                            <li class="nav-item w-140">
                               <a class="nav-link nav-link-e active login-button-color" data-toggle="tab" href="#home-1">Login</a>
                            </li>
-                           <li class="nav-item w-140 ">
+                           <li class="nav-item w-140 hidden-sm-down">
                               <a class="nav-link" data-toggle="tab" href="#profile-1">Register</a>
                            </li>
                         </ul>
@@ -32,10 +32,11 @@
                                        <span v-for="error in errors" :key="errors.indexOf(error)"> {{ error }}</span>
                                     </div>
                                     <div class="form-group">
-                                       <input type="text" class="form-control" placeholder="Email" v-model="email">
+                                       <input type="text" class="form-control" placeholder="Email" v-model="email" required>
                                     </div>
                                     <div class="form-group">
-                                       <input type="password" class="form-control" placeholder="Password" v-model="password">
+                                       <input type="password" class="form-control" placeholder="Password" v-model="password" required>
+                                        
                                     </div>
                                     <div class="form-group flexbox py-10">
                                        <label class="custom-control custom-checkbox">
@@ -55,18 +56,18 @@
                               <form class="form-type-material">
 
                                 <input type="hidden" name="_token" :value="csrf">
-                                   <div class="alert alert-danger" v-if="r_errors.length > 0">
-                                       <span v-for="error in r_errors" :key="r_errors.indexOf(error)"> {{ error }}</span>
+                                   <div class="alert alert-danger text-left" v-if="r_errors.length > 0">
+                                       <li v-for="error in r_errors" :key="r_errors.indexOf(error)"> {{ error }}</li>
                                     </div>
 
                                  <div class="form-group">
-                                    <input type="text" v-model="r_name" class="form-control" placeholder="Username" name="name"> 
+                                    <input type="text" v-model="r_name" class="form-control"  required placeholder="Username" name="name"> 
                                  </div>
                                  <div class="form-group">
-                                    <input type="email" v-model="r_email" name="email" class="form-control" placeholder="Email address">
+                                    <input type="email" v-model="r_email" name="email" class="form-control" required placeholder="Email address">
                                  </div>
                                  <div class="form-group">
-                                    <input name="password" v-model="r_password" type="password" class="form-control" placeholder="Password">
+                                    <input name="password" v-model="r_password" type="password" class="form-control" required placeholder="Password">
                                  </div>
                                 
                                 
@@ -115,7 +116,7 @@
        },
    
        methods: {
-   
+       
            isValidEmail(email) {
    
                 if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
@@ -175,8 +176,11 @@
 
               this.r_loading = false
               if(error.response.status == 422){
-   
-                       this.r_errors.push("Sorry ! The Email has already been taken.");
+                var errorObject = error.response.data.errors;
+
+                for (var key in errorObject) {
+                  this.r_errors.push(errorObject[key][0]);
+                }
                    }else{
    
                        this.r_errors.push("Something went wrong, Please refresh and try again");
@@ -188,6 +192,8 @@
    
    
        },
+
+      
    
        computed: {
    

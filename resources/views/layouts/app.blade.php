@@ -37,7 +37,7 @@
           </a>
 
         </div>
-        
+
 
 
         <div class="topbar-right">
@@ -104,5 +104,6 @@
     <script src="{{ asset('assets/js/thesaas.min.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/imageUpload.js') }}"></script>
 </body>
 </html>
