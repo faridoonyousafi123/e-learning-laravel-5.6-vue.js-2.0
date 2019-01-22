@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('header')
-<header class="header header-inverse py-200 h-fullscreen" data-parallax="{{ asset('assets/img/bg-series2.jpg ') }}" data-overlay="5">
+<header class="header header-inverse py-200 h-fullscreen" data-parallax="{{ asset('assets/img/series_header1.jpg ') }}" data-overlay="5">
       <div class="container text-center">
 
         <div class="row h-full">

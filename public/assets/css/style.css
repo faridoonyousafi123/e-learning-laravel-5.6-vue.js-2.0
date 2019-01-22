@@ -36,9 +36,9 @@
   color:white;
   background-color: black;
   border-color:black;
- -webkit-box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
--moz-box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
-box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
+  box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
 }
 .logo-size{
   width: 120px;
@@ -58,7 +58,7 @@ box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
 }
 .avatar-upload .avatar-edit {
   position: absolute;
-  left:500px;
+  left:550px;
   z-index: 1;
   top: 10px;
 }
@@ -94,20 +94,22 @@ box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
   margin: auto;
 }
 .avatar-upload .avatar-preview {
-  width: 550px;
+  width: 593px;
   height: 230px;
   position: relative;
-  /*border-radius: 100%;*/
   border: 6px solid #F8F8F8;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
 }
 .avatar-upload .avatar-preview > div {
   width: 100%;
   height: 100%;
-  /*border-radius: 100%;*/
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+.img-series{
+  border: 5px solid #fdfff2;
+  box-shadow: 2px 2px 2px 2px #ecf0f7;
 }
 
 @media (max-width: 768px) {
@@ -117,19 +119,91 @@ box-shadow: 0px -1px 23px -4px rgba(0,0,0,0.75);
     margin: 30px 0 100px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
-
   .avatar-upload .avatar-preview{
-     width: 330px;
-  height: 150px;
-  }
-  .avatar-upload .avatar-edit{
+   width: 280px;
+   height: 150px;
+ }
+ .avatar-upload .avatar-edit{
 
-    left:280px;
-    position: absolute;
+  left:200px;
+  position: absolute;
 
   z-index: 1;
-  top: 10px;
-  }
+  top: 6px;
+}
+
+}
+
+@media (max-width: 575.98px){
+
+  .avatar-upload .avatar-preview{
+   width: 10px;
+   height: 150px;
+ }
+ .avatar-upload .avatar-edit{
+
+  left:200px;
+  position: absolute;
+
+  z-index: 1;
+  top: 6px;
+}
+
+}
+
+
+
+@media (max-width: 1024px) {
+
+
+  .avatar-upload .avatar-preview{
+   width: 280px;
+   height: 150px;
+ }
+ .avatar-upload .avatar-edit{
+
+  left:240px;
+  position: absolute;
+
+  z-index: 1;
+  top: 6px;
+}
+
+}
+
+@media (max-width: 1500px) {
+
+
+  .avatar-upload .avatar-preview{
+   width: 520px;
+   height: 200px;
+ }
+ .avatar-upload .avatar-edit{
+
+  left:480px;
+  position: absolute;
+
+  z-index: 1;
+  top: 6px;
+}
+
+}
+
+@media (min-width: 1500px) {
+
+
+  .avatar-upload .avatar-preview{
+   width: 750px;
+   height: 250px;
+ }
+ .avatar-upload .avatar-edit{
+
+  left:700px;
+  position: absolute;
+
+  z-index: 1;
+  top: 8px;
+}
 
 }
 

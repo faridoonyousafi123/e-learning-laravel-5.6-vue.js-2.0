@@ -1859,6 +1859,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2018,6 +2019,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2032,30 +2049,40 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    processFile: function processFile(event) {
+      this.series_image_url = event.target.files[0];
+      console.log(this.series_image_url);
+    },
     createSeries: function createSeries() {
       var _this = this;
 
       this.errors = [];
       this.loading = true;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/series/store', {
-        series_title: this.series_title,
-        series_image_url: this.series_image_url,
-        series_description: this.series_description
+      var formData = new FormData();
+      formData.append("series_image_url", this.series_image_url);
+      formData.append("series_title", this.series_title);
+      formData.append("series_description", this.series_description);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/series/store', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       }).then(function (res) {
+        _this.loading = false;
+
         _this.successes.push("Series Created Successfully");
 
         _this.reloadForm();
       }).catch(function (error) {
         _this.loading = false;
 
-        if (error.response.status == 422 && error.response.status == 500) {
+        if (error.response.status == 422) {
           var errorObject = error.response.data.errors;
 
           for (var key in errorObject) {
             _this.errors.push(errorObject[key][0]);
           }
         } else {
-          _this.errors.push("Something went wrong, Please refresh and try again");
+          _this.errors.push("Sorry ! Can't create Series. Please make sure you uploaded a correct image file.");
         }
       });
     },
@@ -2063,6 +2090,7 @@ __webpack_require__.r(__webpack_exports__);
       setTimeout(function () {
         $('#mydiv').fadeOut('slow');
         $('form').find("input[type=text], textarea").val("");
+        $('#imagePreview').css('background-image', 'url(/assets/img/upload_image.png)');
       }, 3000);
     }
   },
@@ -37422,26 +37450,27 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "section",
-    { staticClass: "section", attrs: { id: "section-apply" } },
+    {
+      staticClass: "section overflow-hidden py-120",
+      attrs: { id: "section-apply" }
+    },
     [
-      _c("div", { staticClass: "container" }, [
-        _vm._m(0),
-        _vm._v(" "),
+      _c("div", { staticClass: "container-wide" }, [
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-12 col-md-8 offset-md-2" }, [
-            _c("form", [
-              _vm.errors.length > 0
-                ? _c(
-                    "div",
-                    { staticClass: "alert alert-danger text-left" },
-                    _vm._l(_vm.errors, function(error) {
-                      return _c("li", { key: _vm.errors.indexOf(error) }, [
-                        _vm._v(" " + _vm._s(error))
-                      ])
-                    }),
-                    0
-                  )
-                : _vm._e(),
+          _c(
+            "div",
+            {
+              staticClass:
+                "offset-1 col-10 col-lg-6 offset-lg-1 text-center text-lg-left"
+            },
+            [
+              _c("h2", [_vm._v("Create a new Series")]),
+              _vm._v(" "),
+              _c("p", { staticClass: "lead" }, [
+                _vm._v("Please fill in the blanks..")
+              ]),
+              _vm._v(" "),
+              _c("br"),
               _vm._v(" "),
               _vm.successes.length > 0
                 ? _c(
@@ -37459,81 +37488,141 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "row" }, [
-                _c("div", { staticClass: "form-group col-12 col-md-6" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.series_title,
-                        expression: "series_title"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: {
-                      type: "text",
-                      name: "series_title",
-                      placeholder: "Title"
-                    },
-                    domProps: { value: _vm.series_title },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.series_title = $event.target.value
-                      }
-                    }
-                  }),
+              _c("div", { staticClass: "col-12 col-md-10" }, [
+                _c("form", [
+                  _vm.errors.length > 0
+                    ? _c(
+                        "div",
+                        { staticClass: "alert alert-danger text-left" },
+                        _vm._l(_vm.errors, function(error) {
+                          return _c("li", { key: _vm.errors.indexOf(error) }, [
+                            _vm._v(" " + _vm._s(error))
+                          ])
+                        }),
+                        0
+                      )
+                    : _vm._e(),
                   _vm._v(" "),
-                  _vm._m(1)
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("textarea", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.series_description,
-                      expression: "series_description"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    name: "description",
-                    placeholder: "Description",
-                    rows: "3"
-                  },
-                  domProps: { value: _vm.series_description },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "form-group pl-0 col-sm-12 col-lg-12 col-md-12"
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.series_title,
+                              expression: "series_title"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            required: "",
+                            type: "text",
+                            name: "series_title",
+                            placeholder: "Title"
+                          },
+                          domProps: { value: _vm.series_title },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.series_title = $event.target.value
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "avatar-upload" }, [
+                          _c("div", { staticClass: "avatar-edit" }, [
+                            _c("input", {
+                              attrs: {
+                                type: "file",
+                                id: "imageUpload",
+                                name: "series_image_url"
+                              },
+                              on: {
+                                change: function($event) {
+                                  _vm.processFile($event)
+                                }
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("label", { attrs: { for: "imageUpload" } })
+                          ]),
+                          _vm._v(" "),
+                          _vm._m(0)
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group small-size-screen" }, [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.series_description,
+                          expression: "series_description"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        name: "description",
+                        required: "",
+                        placeholder: "Description",
+                        rows: "3"
+                      },
+                      domProps: { value: _vm.series_description },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.series_description = $event.target.value
+                        }
                       }
-                      _vm.series_description = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary btn-block",
-                  attrs: { disabled: !_vm.isValidSeriesForm, type: "button" },
-                  on: {
-                    click: function($event) {
-                      _vm.createSeries()
-                    }
-                  }
-                },
-                [_vm._v("Create Series")]
-              )
-            ])
-          ])
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary btn-block",
+                      attrs: {
+                        disabled: !_vm.isValidSeriesForm,
+                        type: "button"
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.createSeries()
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n               " +
+                          _vm._s(
+                            _vm.loading
+                              ? "Creating Series ..."
+                              : "Create Series"
+                          ) +
+                          "\n             "
+                      )
+                    ]
+                  )
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _vm._m(1)
         ])
       ])
     ]
@@ -37544,45 +37633,34 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("header", { staticClass: "section-header" }, [
-      _c("h2", [_vm._v("Create Your Series")]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("p", { staticClass: "lead" }, [
-        _vm._v(
-          "Prepare a PDF for your resume and fill the following form. We will contact you as soon as possible."
-        )
-      ])
+    return _c("div", { staticClass: "avatar-preview" }, [
+      _c("div", {
+        staticStyle: {
+          "background-image": "url('/assets/img/upload_image.png')"
+        },
+        attrs: { id: "imagePreview" }
+      })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "avatar-upload" }, [
-      _c("div", { staticClass: "avatar-edit" }, [
-        _c("input", {
+    return _c(
+      "div",
+      { staticClass: "col-lg-4 hidden-md-down align-self-center" },
+      [
+        _c("img", {
+          staticClass: "shadow-3",
           attrs: {
-            type: "file",
-            id: "imageUpload",
-            name: "series_image_url",
-            accept: ".png, .jpg, .jpeg"
+            src: "/assets/img/series_img.jpg",
+            alt: "...",
+            "data-aos": "slide-left",
+            "data-aos-duration": "1500"
           }
-        }),
-        _vm._v(" "),
-        _c("label", { attrs: { for: "imageUpload" } })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "avatar-preview" }, [
-        _c("div", {
-          staticStyle: {
-            "background-image": "url('/assets/img/upload_image.gif')"
-          },
-          attrs: { id: "imagePreview" }
         })
-      ])
-    ])
+      ]
+    )
   }
 ]
 render._withStripped = true
