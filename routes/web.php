@@ -36,10 +36,18 @@ Route::get('/applyadmin',[
 
 Route::post('/submitrequest',[
 
-	'uses' => 'AdministratorController@submitRequest',
+	'uses' => 'AdministratorController@submitUserRequest',
 	'as' => 'request.submit'
 
 ]);
+
+Route::get('/users',[
+
+	'uses' => 'AdministratorController@sendUsers',
+	'as' => 'show.users'
+
+]);
+
 
 Route::get('/logout', function() { auth()->logout(); return redirect('/'); });
 
@@ -74,6 +82,14 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'], function(){
 		'uses' => 'SeriesController@store',
 		'as'   => 'series.store'
 	]);
+
+	Route::get('/admin-requests',[
+
+	'uses' => 'AdministratorController@showAdminRequests',
+	'as' => 'requests.show'
+
+	]);
+
 });
 
 

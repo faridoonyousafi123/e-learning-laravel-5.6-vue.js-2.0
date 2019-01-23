@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\administratorRequest;
 use Auth;
 use App\User;
 
@@ -14,11 +15,22 @@ class AdministratorController extends Controller
 
     }
 
-    public function submitRequest(Request $request){
+    public function submitUserRequest(administratorRequest $request){
 
-    	$user = User::find($request->id);
+    	return $request->saveUserRequest();
 
-    	dd($user->name);
+    }
 
+    public function showAdminRequests(){
+
+    	return view('admin.adminRequests')->with('users', User::all());
+
+
+    }
+
+    public function sendUsers(){
+
+    	$users = User::all();
+    	return response()->json($users);
     }
 }

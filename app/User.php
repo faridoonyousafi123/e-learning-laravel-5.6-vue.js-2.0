@@ -45,4 +45,18 @@ class User extends Authenticatable
 
         return in_array($this->email, config('adminstrator.administratorUsers'));
     }
+
+   
+
+    public function makeAdminRequest(){
+
+           $this->admin_request = str_random(25);
+           $this->save();
+
+    }
+
+    public function hasAdminRequest(){
+
+        return $this->admin_request == null;
+    }
 }
