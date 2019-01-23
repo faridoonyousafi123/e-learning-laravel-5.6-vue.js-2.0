@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('email_domain');
             $table->string('admin_request')->nullable();
+            $table->boolean('admin')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('confirm_token')->nullable();
             $table->string('password');

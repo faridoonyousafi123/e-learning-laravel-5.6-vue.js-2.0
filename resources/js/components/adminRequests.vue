@@ -31,7 +31,7 @@
       <div class="tab-content text-center" data-aos="fade-in">
         <div class="tab-pane fade show active" id="header-color">
          <div class="row col-lg-12 col-md-12 col-md-offset-2 custyle">
-          <table class="table table-striped custab">
+          <table v-if="noRequest()" class="table table-striped custab">
             <thead class="">
               <tr>
                 <th>Name</th>
@@ -47,11 +47,14 @@
 
                 <td v-else>No</td>
 
-                <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Approve</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Reject</a></td>
+                <td class="text-center">
+                  <button class="btn btn-info btn-xs" type="button" @click="approveRequest(user)">Approve</button> 
+                  <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Reject</a></td>
               </tr>
 
             </tbody>
           </table>
+          
         </div>
       </div>
       <div class="tab-pane fade" id="header-gradient">
@@ -72,7 +75,10 @@
 
             <td v-else>No</td>
 
-            <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span> Approve</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Reject</a></td>
+            <td class="text-center">
+              <button class="btn btn-info btn-xs" type="button" @click="approveRequest(user)">Approve</button> 
+
+              <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Reject</a></td>
           </tr>
 
         </tbody>
@@ -120,10 +126,39 @@ methods: {
     .then(res => {
       this.users = res.data;
       console.log(res);
+
+
     })
     .catch(error => {
       console.error(error);
     })
+  },
+
+  approveRequest(user){
+
+    console.log(user.id);
+
+    var formData = new FormData();
+
+    formData.append("user_id", user.id);
+
+     axios.post('/admin/approve-request', formData, {
+        
+
+            }).then(res => {
+
+              console.log('approved');
+
+              location.reload();
+              
+
+            }).catch(error => {
+
+               console.log('errororrr');
+              
+
+            })
+
   },
 
   isConfirm(user){
@@ -131,9 +166,16 @@ methods: {
     return user.confirm_token == null;
 
   },
+
   hasAdminRequest(user)
   {
     return user.admin_request != null;
+
+  },
+
+  noRequest(){
+
+    return this.users != null;
 
   }
 

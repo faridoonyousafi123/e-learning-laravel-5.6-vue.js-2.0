@@ -2050,6 +2050,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2072,11 +2078,25 @@ __webpack_require__.r(__webpack_exports__);
         console.error(error);
       });
     },
+    approveRequest: function approveRequest(user) {
+      console.log(user.id);
+      var formData = new FormData();
+      formData.append("user_id", user.id);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
+        console.log('approved');
+        location.reload();
+      }).catch(function (error) {
+        console.log('errororrr');
+      });
+    },
     isConfirm: function isConfirm(user) {
       return user.confirm_token == null;
     },
     hasAdminRequest: function hasAdminRequest(user) {
       return user.admin_request != null;
+    },
+    noRequest: function noRequest() {
+      return this.users != null;
     }
   }
 });
@@ -37622,28 +37642,50 @@ var render = function() {
                       "row col-lg-12 col-md-12 col-md-offset-2 custyle"
                   },
                   [
-                    _c("table", { staticClass: "table table-striped custab" }, [
-                      _vm._m(2),
-                      _vm._v(" "),
-                      _c(
-                        "tbody",
-                        { staticClass: "text-left" },
-                        _vm._l(_vm.users, function(user) {
-                          return _vm.hasAdminRequest(user)
-                            ? _c("tr", { key: _vm.users.indexOf(user) }, [
-                                _c("td", [_vm._v(_vm._s(user.name))]),
-                                _vm._v(" "),
-                                user.confirm_token == null
-                                  ? _c("td", [_vm._v("Yes")])
-                                  : _c("td", [_vm._v("No")]),
-                                _vm._v(" "),
-                                _vm._m(3, true)
-                              ])
-                            : _vm._e()
-                        }),
-                        0
-                      )
-                    ])
+                    _vm.noRequest()
+                      ? _c(
+                          "table",
+                          { staticClass: "table table-striped custab" },
+                          [
+                            _vm._m(2),
+                            _vm._v(" "),
+                            _c(
+                              "tbody",
+                              { staticClass: "text-left" },
+                              _vm._l(_vm.users, function(user) {
+                                return _vm.hasAdminRequest(user)
+                                  ? _c("tr", { key: _vm.users.indexOf(user) }, [
+                                      _c("td", [_vm._v(_vm._s(user.name))]),
+                                      _vm._v(" "),
+                                      user.confirm_token == null
+                                        ? _c("td", [_vm._v("Yes")])
+                                        : _c("td", [_vm._v("No")]),
+                                      _vm._v(" "),
+                                      _c("td", { staticClass: "text-center" }, [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn btn-info btn-xs",
+                                            attrs: { type: "button" },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.approveRequest(user)
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Approve")]
+                                        ),
+                                        _vm._v(" "),
+                                        _vm._m(3, true)
+                                      ])
+                                    ])
+                                  : _vm._e()
+                              }),
+                              0
+                            )
+                          ]
+                        )
+                      : _vm._e()
                   ]
                 )
               ]
@@ -37678,7 +37720,23 @@ var render = function() {
                                   ? _c("td", [_vm._v("Yes")])
                                   : _c("td", [_vm._v("No")]),
                                 _vm._v(" "),
-                                _vm._m(5, true)
+                                _c("td", { staticClass: "text-center" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-info btn-xs",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.approveRequest(user)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Approve")]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._m(5, true)
+                                ])
                               ])
                             : _vm._e()
                         }),
@@ -37760,17 +37818,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "text-center" }, [
-      _c("a", { staticClass: "btn btn-info btn-xs", attrs: { href: "#" } }, [
-        _c("span", { staticClass: "glyphicon glyphicon-edit" }),
-        _vm._v(" Approve")
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "btn btn-danger btn-xs", attrs: { href: "#" } }, [
+    return _c(
+      "a",
+      { staticClass: "btn btn-danger btn-xs", attrs: { href: "#" } },
+      [
         _c("span", { staticClass: "glyphicon glyphicon-remove" }),
         _vm._v(" Reject")
-      ])
-    ])
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -37790,17 +37845,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "text-center" }, [
-      _c("a", { staticClass: "btn btn-info btn-xs", attrs: { href: "#" } }, [
-        _c("span", { staticClass: "glyphicon glyphicon-edit" }),
-        _vm._v(" Approve")
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "btn btn-danger btn-xs", attrs: { href: "#" } }, [
+    return _c(
+      "a",
+      { staticClass: "btn btn-danger btn-xs", attrs: { href: "#" } },
+      [
         _c("span", { staticClass: "glyphicon glyphicon-remove" }),
         _vm._v(" Reject")
-      ])
-    ])
+      ]
+    )
   }
 ]
 render._withStripped = true

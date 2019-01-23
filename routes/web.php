@@ -49,6 +49,7 @@ Route::get('/users',[
 ]);
 
 
+
 Route::get('/logout', function() { auth()->logout(); return redirect('/'); });
 
 
@@ -89,6 +90,13 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'], function(){
 	'as' => 'requests.show'
 
 	]);
+
+	Route::post('/approve-request',[
+
+	'uses' => 'AdministratorController@approveRequest',
+	'as' => 'user.approve'
+
+]);
 
 });
 

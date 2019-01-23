@@ -38,4 +38,11 @@ class administratorRequest extends FormRequest
         return redirect('/');
         
     }
+
+    public function approveUserAsAdmin(){
+
+        $user = User::find($this->user_id);  
+        
+        $user->makeAdmin();
+    }
 }

@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public function isAdminstrator(){
 
-        return in_array($this->email, config('adminstrator.administratorUsers'));
+        return $this->admin;
     }
 
    
@@ -58,5 +58,13 @@ class User extends Authenticatable
     public function hasAdminRequest(){
 
         return $this->admin_request == null;
+    }
+
+    public function makeAdmin(){
+
+           $this->admin_request = null;
+           $this->admin = true;
+           $this->save();
+
     }
 }

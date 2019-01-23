@@ -33,4 +33,17 @@ class AdministratorController extends Controller
     	$users = User::all();
     	return response()->json($users);
     }
+
+    public function approveRequest(administratorRequest $request){
+
+
+
+    	return $request->approveUserAsAdmin();
+
+
+    	return response()->json([
+
+            'status' => 'ok'
+        ]);
+    }
 }
