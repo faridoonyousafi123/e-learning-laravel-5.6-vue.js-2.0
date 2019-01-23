@@ -17,7 +17,7 @@
           <div class="col-12 col-md-10">
 
 
-            <form>
+            <form autocomplete="off">
               <div class="alert alert-danger text-left" v-if="errors.length > 0">
                 <li v-for="error in errors" :key="errors.indexOf(error)"> {{ error }}</li>
               </div>
@@ -33,7 +33,7 @@
                       <label for="imageUpload"></label>
                     </div>
                     <div class="avatar-preview">
-                      <div id="imagePreview" style="background-image: url('/assets/img/upload_image.png');">
+                      <div id="imagePreview" style="background-image: url('/assets/img/upload_img.gif');">
                       </div>
                     </div>
                   </div>
@@ -48,7 +48,7 @@
 
 
               <div class="form-group small-size-screen">
-                <textarea class="form-control"  name="description" required v-model="series_description" placeholder="Description" rows="3"></textarea>
+                <textarea class="form-control"  autocomplete="false" name="series_description" v-model="series_description" placeholder="Description" rows="3"></textarea>
               </div>
 
               <button class="btn btn-primary btn-block" @click="createSeries()" :disabled="!isValidSeriesForm" type="button">
@@ -131,8 +131,10 @@ export default {
 
     this.successes.push("Series Created Successfully");
 
-
+    this.series_description = '';
+    this.series_title = '';
     this.reloadForm();
+
 
   }).catch(error => {
 
@@ -155,10 +157,9 @@ export default {
 reloadForm(){
 
  setTimeout(function() {
- 
+
   $('#mydiv').fadeOut('slow');
-  $('form').find("input[type=text], textarea").val("");
-  $('#imagePreview').css('background-image','url(/assets/img/upload_image.png)');
+  $('#imagePreview').css('background-image','url(/assets/img/upload_img.gif)');
 }, 3000);
 
 }

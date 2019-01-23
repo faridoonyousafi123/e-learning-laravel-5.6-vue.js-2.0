@@ -40,4 +40,9 @@ class User extends Authenticatable
            $this->save();
 
     }
+
+    public function isAdminstrator(){
+
+        return in_array($this->email, config('adminstrator.administratorUsers'));
+    }
 }

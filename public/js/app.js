@@ -2071,6 +2071,9 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.successes.push("Series Created Successfully");
 
+        _this.series_description = '';
+        _this.series_title = '';
+
         _this.reloadForm();
       }).catch(function (error) {
         _this.loading = false;
@@ -2089,8 +2092,7 @@ __webpack_require__.r(__webpack_exports__);
     reloadForm: function reloadForm() {
       setTimeout(function () {
         $('#mydiv').fadeOut('slow');
-        $('form').find("input[type=text], textarea").val("");
-        $('#imagePreview').css('background-image', 'url(/assets/img/upload_image.png)');
+        $('#imagePreview').css('background-image', 'url(/assets/img/upload_img.gif)');
       }, 3000);
     }
   },
@@ -37489,7 +37491,7 @@ var render = function() {
                 : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "col-12 col-md-10" }, [
-                _c("form", [
+                _c("form", { attrs: { autocomplete: "off" } }, [
                   _vm.errors.length > 0
                     ? _c(
                         "div",
@@ -37574,8 +37576,8 @@ var render = function() {
                       ],
                       staticClass: "form-control",
                       attrs: {
-                        name: "description",
-                        required: "",
+                        autocomplete: "false",
+                        name: "series_description",
                         placeholder: "Description",
                         rows: "3"
                       },
@@ -37636,7 +37638,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "avatar-preview" }, [
       _c("div", {
         staticStyle: {
-          "background-image": "url('/assets/img/upload_image.png')"
+          "background-image": "url('/assets/img/upload_img.gif')"
         },
         attrs: { id: "imagePreview" }
       })
