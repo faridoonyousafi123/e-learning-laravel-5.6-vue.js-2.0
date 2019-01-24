@@ -35,3 +35,4 @@ class adminRequestApproval extends Mailable
        return $this->markdown('emails.admin-request-approval');
     }
 }
+

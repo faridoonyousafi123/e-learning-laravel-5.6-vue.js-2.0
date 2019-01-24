@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\User;
 use Mail;
 use App\Mail\adminRequestApproval;
-s
+
 class administratorRequest extends FormRequest
 {
     /**
@@ -44,7 +44,14 @@ class administratorRequest extends FormRequest
     public function approveUserAsAdmin(){
 
         $user = User::find($this->user_id);  
-        Mail::to($user)->send(new adminRequestApproval($user));
         $user->makeAdmin();
+
+        return $this;
+    }
+
+    public function sendApprovalMail()
+    {
+        $user = User::find($this->user_id);  
+        Mail::to($user)->send(new adminRequestApproval($user));
     }
 }

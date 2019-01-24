@@ -2047,15 +2047,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2073,7 +2064,12 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users').then(function (res) {
         _this.users = res.data;
-        console.log(res);
+
+        if (_this.users == null) {
+          console.log("its null");
+        } else {
+          console.log("its not null");
+        }
       }).catch(function (error) {
         console.error(error);
       });
@@ -2094,9 +2090,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     hasAdminRequest: function hasAdminRequest(user) {
       return user.admin_request != null;
-    },
-    noRequest: function noRequest() {
-      return this.users != null;
     }
   }
 });
@@ -37642,71 +37635,8 @@ var render = function() {
                       "row col-lg-12 col-md-12 col-md-offset-2 custyle"
                   },
                   [
-                    _vm.noRequest()
-                      ? _c(
-                          "table",
-                          { staticClass: "table table-striped custab" },
-                          [
-                            _vm._m(2),
-                            _vm._v(" "),
-                            _c(
-                              "tbody",
-                              { staticClass: "text-left" },
-                              _vm._l(_vm.users, function(user) {
-                                return _vm.hasAdminRequest(user)
-                                  ? _c("tr", { key: _vm.users.indexOf(user) }, [
-                                      _c("td", [_vm._v(_vm._s(user.name))]),
-                                      _vm._v(" "),
-                                      user.confirm_token == null
-                                        ? _c("td", [_vm._v("Yes")])
-                                        : _c("td", [_vm._v("No")]),
-                                      _vm._v(" "),
-                                      _c("td", { staticClass: "text-center" }, [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass: "btn btn-info btn-xs",
-                                            attrs: { type: "button" },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.approveRequest(user)
-                                              }
-                                            }
-                                          },
-                                          [_vm._v("Approve")]
-                                        ),
-                                        _vm._v(" "),
-                                        _vm._m(3, true)
-                                      ])
-                                    ])
-                                  : _vm._e()
-                              }),
-                              0
-                            )
-                          ]
-                        )
-                      : _vm._e()
-                  ]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "tab-pane fade",
-                attrs: { id: "header-gradient" }
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "row col-lg-12 col-md-12 col-md-offset-2 custyle"
-                  },
-                  [
                     _c("table", { staticClass: "table table-striped custab" }, [
-                      _vm._m(4),
+                      _vm._m(2),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -37714,11 +37644,17 @@ var render = function() {
                         _vm._l(_vm.users, function(user) {
                           return _vm.hasAdminRequest(user)
                             ? _c("tr", { key: _vm.users.indexOf(user) }, [
-                                _c("td", [_vm._v(_vm._s(user.name))]),
+                                _c("td", { staticClass: "text-center" }, [
+                                  _vm._v(_vm._s(user.name))
+                                ]),
                                 _vm._v(" "),
-                                user.confirm_token == null
-                                  ? _c("td", [_vm._v("Yes")])
-                                  : _c("td", [_vm._v("No")]),
+                                _vm.isConfirm(user)
+                                  ? _c("td", { staticClass: "text-center" }, [
+                                      _vm._v("Yes")
+                                    ])
+                                  : _c("td", { staticClass: "text-center" }, [
+                                      _vm._v("No")
+                                    ]),
                                 _vm._v(" "),
                                 _c("td", { staticClass: "text-center" }, [
                                   _c(
@@ -37735,7 +37671,11 @@ var render = function() {
                                     [_vm._v("Approve")]
                                   ),
                                   _vm._v(" "),
-                                  _vm._m(5, true)
+                                  _c(
+                                    "button",
+                                    { staticClass: "btn btn-danger btn-xs" },
+                                    [_vm._v("Reject")]
+                                  )
                                 ])
                               ])
                             : _vm._e()
@@ -37746,7 +37686,9 @@ var render = function() {
                   ]
                 )
               ]
-            )
+            ),
+            _vm._v(" "),
+            _vm._m(3)
           ]
         )
       ])
@@ -37804,11 +37746,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", {}, [
+    return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Name")]),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Name")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Email Confirmed")]),
+        _c("th", { staticClass: "text-center" }, [_vm._v("Email Confirmed")]),
         _vm._v(" "),
         _c("th", { staticClass: "text-center" }, [_vm._v("Action")])
       ])
@@ -37819,38 +37761,12 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "a",
-      { staticClass: "btn btn-danger btn-xs", attrs: { href: "#" } },
+      "div",
+      { staticClass: "tab-pane fade", attrs: { id: "header-gradient" } },
       [
-        _c("span", { staticClass: "glyphicon glyphicon-remove" }),
-        _vm._v(" Reject")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", {}, [
-      _c("tr", [
-        _c("th", [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Email Confirmed")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-center" }, [_vm._v("Action")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "btn btn-danger btn-xs", attrs: { href: "#" } },
-      [
-        _c("span", { staticClass: "glyphicon glyphicon-remove" }),
-        _vm._v(" Reject")
+        _c("div", {
+          staticClass: "row col-lg-12 col-md-12 col-md-offset-2 custyle"
+        })
       ]
     )
   }

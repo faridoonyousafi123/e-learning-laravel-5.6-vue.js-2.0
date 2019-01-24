@@ -31,58 +31,49 @@
       <div class="tab-content text-center" data-aos="fade-in">
         <div class="tab-pane fade show active" id="header-color">
          <div class="row col-lg-12 col-md-12 col-md-offset-2 custyle">
-          <table v-if="noRequest()" class="table table-striped custab">
-            <thead class="">
+          <table  class="table table-striped custab">
+         <thead>
               <tr>
-                <th>Name</th>
-                <th>Email Confirmed</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Email Confirmed</th>
                 <th class="text-center">Action</th>
               </tr>
+
             </thead>
             <tbody class="text-left">
 
               <tr v-for="user in users" v-if="hasAdminRequest(user)" :key="users.indexOf(user)">
-                <td>{{ user.name }}</td>
-                <td v-if="user.confirm_token == null">Yes</td>
+                <td class="text-center">{{ user.name }}</td>
+                <td class="text-center" v-if="isConfirm(user)">Yes</td>
 
-                <td v-else>No</td>
+                <td class="text-center" v-else>No</td>
 
                 <td class="text-center">
                   <button class="btn btn-info btn-xs" type="button" @click="approveRequest(user)">Approve</button> 
-                  <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Reject</a></td>
+                  <button class="btn btn-danger btn-xs">Reject</button>
+                </td>
               </tr>
 
+
+
+           
+
             </tbody>
+
+           
+            
           </table>
+
           
         </div>
+
+      
+
+
       </div>
       <div class="tab-pane fade" id="header-gradient">
       <div class="row col-lg-12 col-md-12 col-md-offset-2 custyle">
-       <table class="table table-striped custab">
-        <thead class="">
-          <tr>
-            <th>Name</th>
-            <th>Email Confirmed</th>
-            <th class="text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody class="text-left">
-
-          <tr v-for="user in users" v-if="hasAdminRequest(user)" :key="users.indexOf(user)">
-            <td>{{ user.name }}</td>
-            <td v-if="user.confirm_token == null">Yes</td>
-
-            <td v-else>No</td>
-
-            <td class="text-center">
-              <button class="btn btn-info btn-xs" type="button" @click="approveRequest(user)">Approve</button> 
-
-              <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Reject</a></td>
-          </tr>
-
-        </tbody>
-      </table>
+   
     </div>
 </div>
 
@@ -125,7 +116,14 @@ methods: {
     axios.get('/users')
     .then(res => {
       this.users = res.data;
-      console.log(res);
+      
+      if(this.users == null )
+      {
+        console.log("its null");
+      }else{
+
+        console.log("its not null");
+      }
 
 
     })
@@ -172,14 +170,6 @@ methods: {
     return user.admin_request != null;
 
   },
-
-  noRequest(){
-
-    return this.users != null;
-
-  }
-
-
 
 
 

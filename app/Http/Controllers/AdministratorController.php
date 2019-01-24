@@ -40,7 +40,8 @@ class AdministratorController extends Controller
 
 
     	
-    	return $request->approveUserAsAdmin();
+    	return $request->approveUserAsAdmin()
+    			->sendApprovalMail();
     	
 
 
