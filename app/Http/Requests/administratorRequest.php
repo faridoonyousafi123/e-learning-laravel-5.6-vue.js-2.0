@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\User;
 use Mail;
 use App\Mail\adminRequestApproval;
-
+s
 class administratorRequest extends FormRequest
 {
     /**
