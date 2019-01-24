@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\administratorRequest;
 use Auth;
 use App\User;
+use Mail;
+use App\Mail\adminRequestApproval;
 
 class AdministratorController extends Controller
 {
@@ -37,8 +39,9 @@ class AdministratorController extends Controller
     public function approveRequest(administratorRequest $request){
 
 
-
+    	
     	return $request->approveUserAsAdmin();
+    	
 
 
     	return response()->json([
