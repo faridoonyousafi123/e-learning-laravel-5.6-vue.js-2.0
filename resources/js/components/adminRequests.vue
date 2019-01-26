@@ -6,7 +6,7 @@
         <div class="container">
 
           <form class="row gap-y">
-            <div class="col-lg-12 col-lg-8 col-md-8">
+            <div class="col-lg-12 col-lg-8 col-md-6">
 
               <table class="table table-cart">
                 <tbody valign="middle">
@@ -15,7 +15,7 @@
 
 
 
-                  <tr v-for="user in users" v-if="hasAdminRequest(user)" :key="users.indexOf(user)">
+                  <tr v-for="user in users" :key="users.indexOf(user)">
                     <td>
                       <a href="shop-single.html">
                         <img style="border-radius:50%;" v-bind:src="'/' + user.avatar" alt="...">
@@ -37,8 +37,19 @@
 
                     </td>
   
-                    <td>
-                      <h4 class="price"></h4>
+                    <td class="text-center">
+                     
+                     <h5>Action</h5>
+                     
+                     <p>
+                       <button class="btn btn-primary btn-sm btn-round w-180" @click="approveRequest(user, index)" :disabled="approvalSending">
+                        Approve
+                       </button>
+
+                        <button class="btn btn-danger btn-sm btn-round w-180">Reject</button>
+                     </p>
+
+
                     </td>
                   </tr>
 
@@ -46,6 +57,8 @@
                  
 
                 </tbody>
+
+
               </table>
 
 
@@ -88,6 +101,7 @@ export default {
  mounted() {
   this.getUsers();
 
+
 },
 
 
@@ -95,17 +109,14 @@ export default {
 methods: {
 
   getUsers(){
+
+
+    
+
+
     axios.get('/users')
     .then(res => {
       this.users = res.data;
-      
-      if(this.users == null )
-      {
-        console.log("its null");
-      }else{
-
-        console.log("its not null");
-      }
 
 
     })
@@ -114,7 +125,7 @@ methods: {
     })
   },
 
-  approveRequest(user){
+  approveRequest(user, index){
 
    this.loading = true
 
@@ -131,9 +142,7 @@ methods: {
 
     this.loading = false;
 
-    console.log('approved');
-
-    location.reload();
+    console.log(index);
 
 
 
@@ -153,19 +162,14 @@ isConfirm(user){
 
 },
 
-hasAdminRequest(user)
-{
-  return user.admin_request != null && user.email != "faridoon.y@gmail.com";
-
-},
 
 },
 
 computed: {
 
- isApprovalSending(){
+ approvalSending(){
 
-   return !this.loading
+   return this.loading
  }
 
 

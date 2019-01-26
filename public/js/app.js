@@ -2027,6 +2027,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2045,17 +2058,11 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users').then(function (res) {
         _this.users = res.data;
-
-        if (_this.users == null) {
-          console.log("its null");
-        } else {
-          console.log("its not null");
-        }
       }).catch(function (error) {
         console.error(error);
       });
     },
-    approveRequest: function approveRequest(user) {
+    approveRequest: function approveRequest(user, index) {
       var _this2 = this;
 
       this.loading = true;
@@ -2064,22 +2071,18 @@ __webpack_require__.r(__webpack_exports__);
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
         _this2.loading = false;
-        console.log('approved');
-        location.reload();
+        console.log(index);
       }).catch(function (error) {
         console.log('errororrr');
       });
     },
     isConfirm: function isConfirm(user) {
       return user.confirm_token == null;
-    },
-    hasAdminRequest: function hasAdminRequest(user) {
-      return user.admin_request != null && user.email != "faridoon.y@gmail.com";
     }
   },
   computed: {
-    isApprovalSending: function isApprovalSending() {
-      return !this.loading;
+    approvalSending: function approvalSending() {
+      return this.loading;
     }
   }
 });
@@ -37595,40 +37598,68 @@ var render = function() {
   return _c("section", { staticClass: "section" }, [
     _c("div", { staticClass: "container" }, [
       _c("form", { staticClass: "row gap-y" }, [
-        _c("div", { staticClass: "col-lg-12 col-lg-8 col-md-8" }, [
+        _c("div", { staticClass: "col-lg-12 col-lg-8 col-md-6" }, [
           _c("table", { staticClass: "table table-cart" }, [
             _c(
               "tbody",
               { attrs: { valign: "middle" } },
               _vm._l(_vm.users, function(user) {
-                return _vm.hasAdminRequest(user)
-                  ? _c("tr", { key: _vm.users.indexOf(user) }, [
-                      _c("td", [
-                        _c("a", { attrs: { href: "shop-single.html" } }, [
-                          _c("img", {
-                            staticStyle: { "border-radius": "50%" },
-                            attrs: { src: "/" + user.avatar, alt: "..." }
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("h5", [_vm._v(_vm._s(user.name))]),
-                        _vm._v(" "),
-                        _c("p", [_vm._v("Senior Software at Netlinks")])
-                      ]),
-                      _vm._v(" "),
-                      _vm.isConfirm(user)
-                        ? _c("td", [
-                            _c("h5", [_vm._v("Email Confirmation")]),
-                            _vm._v(" "),
-                            _c("p", [_vm._v("Confirmed")])
-                          ])
-                        : _c("td", [_c("p", [_vm._v("Not Confirmed")])]),
-                      _vm._v(" "),
-                      _vm._m(0, true)
+                return _c("tr", { key: _vm.users.indexOf(user) }, [
+                  _c("td", [
+                    _c("a", { attrs: { href: "shop-single.html" } }, [
+                      _c("img", {
+                        staticStyle: { "border-radius": "50%" },
+                        attrs: { src: "/" + user.avatar, alt: "..." }
+                      })
                     ])
-                  : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c("h5", [_vm._v(_vm._s(user.name))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v("Senior Software at Netlinks")])
+                  ]),
+                  _vm._v(" "),
+                  _vm.isConfirm(user)
+                    ? _c("td", [
+                        _c("h5", [_vm._v("Email Confirmation")]),
+                        _vm._v(" "),
+                        _c("p", [_vm._v("Confirmed")])
+                      ])
+                    : _c("td", [_c("p", [_vm._v("Not Confirmed")])]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-center" }, [
+                    _c("h5", [_vm._v("Action")]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary btn-sm btn-round w-180",
+                          attrs: { disabled: _vm.approvalSending },
+                          on: {
+                            click: function($event) {
+                              _vm.approveRequest(user, _vm.index)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                   Approve\n                  "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm btn-round w-180"
+                        },
+                        [_vm._v("Reject")]
+                      )
+                    ])
+                  ])
+                ])
               }),
               0
             )
@@ -37638,14 +37669,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("h4", { staticClass: "price" })])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

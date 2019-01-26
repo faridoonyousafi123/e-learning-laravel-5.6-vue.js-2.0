@@ -32,7 +32,7 @@ class AdministratorController extends Controller
 
     public function sendUsers(){
 
-    	$users = User::all();
+    	$users = User::whereNotNull('admin_request')->get();
     	return response()->json($users);
     }
 
