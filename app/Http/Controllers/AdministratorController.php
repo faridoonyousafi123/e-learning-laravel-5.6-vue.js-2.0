@@ -47,7 +47,7 @@ class AdministratorController extends Controller
 
     	return response()->json([
 
-            'status' => 'ok'
+            'status' => 'ok',
         ]);
     }
 }

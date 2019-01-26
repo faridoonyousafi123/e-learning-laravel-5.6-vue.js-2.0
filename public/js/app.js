@@ -2027,32 +2027,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      users: []
+      users: [],
+      loading: false
     };
   },
   mounted: function mounted() {
@@ -2075,10 +2056,14 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     approveRequest: function approveRequest(user) {
+      var _this2 = this;
+
+      this.loading = true;
       console.log(user.id);
       var formData = new FormData();
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
+        _this2.loading = false;
         console.log('approved');
         location.reload();
       }).catch(function (error) {
@@ -2089,7 +2074,12 @@ __webpack_require__.r(__webpack_exports__);
       return user.confirm_token == null;
     },
     hasAdminRequest: function hasAdminRequest(user) {
-      return user.admin_request != null;
+      return user.admin_request != null && user.email != "faridoon.y@gmail.com";
+    }
+  },
+  computed: {
+    isApprovalSending: function isApprovalSending() {
+      return !this.loading;
     }
   }
 });
@@ -37602,173 +37592,58 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "section",
-    { staticClass: "section pb-0", attrs: { id: "section-apply" } },
-    [
-      _c("div", { staticClass: "container" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _c("br"),
-        _c("br"),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "tab-content text-center",
-            attrs: { "data-aos": "fade-in" }
-          },
-          [
+  return _c("section", { staticClass: "section" }, [
+    _c("div", { staticClass: "container" }, [
+      _c("form", { staticClass: "row gap-y" }, [
+        _c("div", { staticClass: "col-lg-12 col-lg-8 col-md-8" }, [
+          _c("table", { staticClass: "table table-cart" }, [
             _c(
-              "div",
-              {
-                staticClass: "tab-pane fade show active",
-                attrs: { id: "header-color" }
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "row col-lg-12 col-md-12 col-md-offset-2 custyle"
-                  },
-                  [
-                    _c("table", { staticClass: "table table-striped custab" }, [
-                      _vm._m(2),
+              "tbody",
+              { attrs: { valign: "middle" } },
+              _vm._l(_vm.users, function(user) {
+                return _vm.hasAdminRequest(user)
+                  ? _c("tr", { key: _vm.users.indexOf(user) }, [
+                      _c("td", [
+                        _c("a", { attrs: { href: "shop-single.html" } }, [
+                          _c("img", {
+                            staticStyle: { "border-radius": "50%" },
+                            attrs: { src: "/" + user.avatar, alt: "..." }
+                          })
+                        ])
+                      ]),
                       _vm._v(" "),
-                      _c(
-                        "tbody",
-                        { staticClass: "text-left" },
-                        _vm._l(_vm.users, function(user) {
-                          return _vm.hasAdminRequest(user)
-                            ? _c("tr", { key: _vm.users.indexOf(user) }, [
-                                _c("td", { staticClass: "text-center" }, [
-                                  _vm._v(_vm._s(user.name))
-                                ]),
-                                _vm._v(" "),
-                                _vm.isConfirm(user)
-                                  ? _c("td", { staticClass: "text-center" }, [
-                                      _vm._v("Yes")
-                                    ])
-                                  : _c("td", { staticClass: "text-center" }, [
-                                      _vm._v("No")
-                                    ]),
-                                _vm._v(" "),
-                                _c("td", { staticClass: "text-center" }, [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-info btn-xs",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          _vm.approveRequest(user)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("Approve")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "button",
-                                    { staticClass: "btn btn-danger btn-xs" },
-                                    [_vm._v("Reject")]
-                                  )
-                                ])
-                              ])
-                            : _vm._e()
-                        }),
-                        0
-                      )
+                      _c("td", [
+                        _c("h5", [_vm._v(_vm._s(user.name))]),
+                        _vm._v(" "),
+                        _c("p", [_vm._v("Senior Software at Netlinks")])
+                      ]),
+                      _vm._v(" "),
+                      _vm.isConfirm(user)
+                        ? _c("td", [
+                            _c("h5", [_vm._v("Email Confirmation")]),
+                            _vm._v(" "),
+                            _c("p", [_vm._v("Confirmed")])
+                          ])
+                        : _c("td", [_c("p", [_vm._v("Not Confirmed")])]),
+                      _vm._v(" "),
+                      _vm._m(0, true)
                     ])
-                  ]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _vm._m(3)
-          ]
-        )
+                  : _vm._e()
+              }),
+              0
+            )
+          ])
+        ])
       ])
-    ]
-  )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("header", { staticClass: "section-header" }, [
-      _c("h2", [_vm._v("System Administrations")]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("p", { staticClass: "lead" }, [
-        _vm._v(
-          "These are the requests by the users for the Administrator Role."
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center" }, [
-      _c("ul", { staticClass: "nav nav-outline nav-round" }, [
-        _c("li", { staticClass: "nav-item w-140" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link active",
-              attrs: { "data-toggle": "tab", href: "#header-color" }
-            },
-            [_vm._v("Pending")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item w-140" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: { "data-toggle": "tab", href: "#header-gradient" }
-            },
-            [_vm._v("Approved")]
-          )
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "text-center" }, [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-center" }, [_vm._v("Email Confirmed")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-center" }, [_vm._v("Action")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "tab-pane fade", attrs: { id: "header-gradient" } },
-      [
-        _c("div", {
-          staticClass: "row col-lg-12 col-md-12 col-md-offset-2 custyle"
-        })
-      ]
-    )
+    return _c("td", [_c("h4", { staticClass: "price" })])
   }
 ]
 render._withStripped = true
