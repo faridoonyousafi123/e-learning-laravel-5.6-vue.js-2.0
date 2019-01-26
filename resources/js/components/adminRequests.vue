@@ -1,179 +1,201 @@
 <template>
-
-
-
-     <section class="section">
-        <div class="container">
-
-          <form class="row gap-y">
-            <div class="col-lg-12 col-lg-8 col-md-6">
-
-              <table class="table table-cart">
-                <tbody valign="middle">
-                 
-
-
-
-
-                  <tr v-for="user in users" :key="users.indexOf(user)">
-                    <td>
-                      <a href="shop-single.html">
-                        <img style="border-radius:50%;" v-bind:src="'/' + user.avatar" alt="...">
-                      </a>
-                    </td>
-
-                    <td>
-                      <h5>{{ user.name }}</h5>
-                      <p>Senior Software at Netlinks</p>
-                    </td>
-                      
-                    <td v-if="isConfirm(user)">
-                      <h5>Email Confirmation</h5>
-                      <p>Confirmed</p>
-                    </td>
-
-                    <td v-else>
-                      <p>Not Confirmed</p>
-
-                    </td>
-  
-                    <td class="text-center">
-                     
-                     <h5>Action</h5>
-                     
-                     <p>
-                       <button class="btn btn-primary btn-sm btn-round w-180" @click="approveRequest(user, index)" :disabled="approvalSending">
-                        Approve
-                       </button>
-
-                        <button class="btn btn-danger btn-sm btn-round w-180">Reject</button>
-                     </p>
-
-
-                    </td>
-                  </tr>
-
-
-                 
-
-                </tbody>
-
-
-              </table>
-
-
-            
-
-             
-            
-
+   <section class="section">
+      <div class="container">
+         <header class="section-header">
+            <h2>Requests</h2>
+            <hr>
+         </header>
+         <div class="row gap-5">
+            <div class="col-12 col-md-4">
+               <ul class="nav nav-vertical">
+                  <li class="nav-item">
+                     <a class="nav-link active" data-toggle="tab" href="#tab-1">
+                        <h6>Pending</h6>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" data-toggle="tab" href="#tab-2">
+                        <h6>Approved</h6>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" data-toggle="tab" href="#tab-3">
+                        <h6>To be Approved</h6>
+                     </a>
+                  </li>
+               </ul>
             </div>
-
-
-          
-          </form>
-
-
-
-        </div>
-      </section>
-
-
-
-
+            <div class="col-12 col-md-8 ">
+               <div class="tab-content text-center">
+                  <div class="tab-pane fade show active" id="tab-1">
+                     <div class="container">
+                        <form class="row gap-y" v-on:submit.prevent>
+                           <div class="col-lg-12 col-lg-8 col-md-6">
+                              <table class="table table-cart">
+                                 <tbody valign="middle">
+                                    <tr v-for="user in users" :key="users.indexOf(user)">
+                                       <td>
+                                          <a href="shop-single.html">
+                                          <img style="border-radius:50%;" v-bind:src="'/' + user.avatar" alt="...">
+                                          </a>
+                                       </td>
+                                       <td>
+                                          <h5>{{ user.name }}</h5>
+                                          <p>Senior Software at Netlinks</p>
+                                       </td>
+                                       <td class="text-center">
+                                          <h5>Action</h5>
+                                          <p>
+                                             <button  class="btn btn-primary btn-sm btn-round w-180 mb-5" @click="approveRequest(user)" :disabled="approvalSending">
+                                             {{ user.loading ? 'Approving ...' : 'Approve'}}
+                                             </button>
+                                             <br>
+                                             <button class="btn btn-danger btn-sm btn-round w-180 mb-5">Reject</button>
+                                             <br>
+                                             <button class="btn btn-warning btn-sm btn-round w-180">Approve Later</button>
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="tab-2">
+                     <div class="container">
+                        <form class="row gap-y" v-on:submit.prevent>
+                           <div class="col-lg-12 col-lg-8 col-md-6">
+                              <table class="table table-cart">
+                                 <tbody valign="middle">
+                                    <tr v-for="user in users" :key="users.indexOf(user)">
+                                       <td>
+                                          <a href="shop-single.html">
+                                          <img style="border-radius:50%;" v-bind:src="'/' + user.avatar" alt="...">
+                                          </a>
+                                       </td>
+                                       <td>
+                                          <h5>{{ user.name }}</h5>
+                                          <p>Senior Software at Netlinks</p>
+                                       </td>
+                                       <td class="text-center">
+                                          <h5>Action</h5>
+                                          <p>
+                                            <span class="btn btn-md btn-info">approved</span>
+                                          </p>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="tab-3">
+                     <img class="shadow-3" src="/assets/img/header-image.jpg" alt="...">
+                  </div>
+                  <div class="tab-pane fade" id="tab-4">
+                     <img class="shadow-3" src="/assets/img/header-particle.jpg" alt="...">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
 </template>
-
 <script>
-import axios from 'axios'
-export default {
- data() {
-
-   return{
-     csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-     users: [],
-     loading: false
-
-
+   import axios from 'axios'
+   export default {
+    data() {
+   
+      return{
+        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        users: [],
+        loading: false
+   
+   
+      }
+    },
+   
+   
+    mounted() {
+     this.getUsers();
+   
+   
+   },
+   
+   
+   
+   methods: {
+   
+     getUsers(){
+   
+   
+       
+   
+   
+       axios.get('/users')
+       .then(res => {
+         this.users = res.data;
+   
+   
+       })
+       .catch(error => {
+         console.error(error);
+       })
+     },
+   
+     approveRequest(user){
+   
+      this.loading = true
+      user.loading = true;
+   
+      console.log(user.id);
+   
+      var formData = new FormData();
+   
+      formData.append("user_id", user.id);
+   
+      axios.post('/admin/approve-request', formData, {
+   
+   
+      }).then(res => {
+   
+       this.loading = false;
+   
+       const index = this.users.indexOf(user);
+   
+       if (index > -1) {
+         this.users.splice(index, 1);
+       }
+   
+     }).catch(error => {
+   
+      console.log('errororrr');
+      user.loading = false;
+   
+    })
+   
+   },
+   
+   isConfirm(user){
+   
+     return user.confirm_token == null;
+   
+   },
+   
+   
+   },
+   
+   computed: {
+   
+    approvalSending(){
+   
+      return this.loading
+    }
+   
+   
    }
- },
-
-
- mounted() {
-  this.getUsers();
-
-
-},
-
-
-
-methods: {
-
-  getUsers(){
-
-
-    
-
-
-    axios.get('/users')
-    .then(res => {
-      this.users = res.data;
-
-
-    })
-    .catch(error => {
-      console.error(error);
-    })
-  },
-
-  approveRequest(user, index){
-
-   this.loading = true
-
-   console.log(user.id);
-
-   var formData = new FormData();
-
-   formData.append("user_id", user.id);
-
-   axios.post('/admin/approve-request', formData, {
-
-
-   }).then(res => {
-
-    this.loading = false;
-
-    console.log(index);
-
-
-
-
-  }).catch(error => {
-
-   console.log('errororrr');
-
-
- })
-
-},
-
-isConfirm(user){
-
-  return user.confirm_token == null;
-
-},
-
-
-},
-
-computed: {
-
- approvalSending(){
-
-   return this.loading
- }
-
-
-}
-}
-
+   }
+   
 </script>

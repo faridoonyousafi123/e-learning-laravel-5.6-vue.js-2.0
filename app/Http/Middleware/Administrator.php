@@ -29,7 +29,7 @@ class Administrator
 
         }else{
 
-            return redirect()->back();
+            return redirect('/');
 
         }
        

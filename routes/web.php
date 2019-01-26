@@ -70,13 +70,13 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('checkuser
 
 
 
-Route::group(['prefix'=>'admin','middleware'=>'admin'], function(){
+Route::group(['prefix'=>'admin','middleware'=> 'checkuser'], function(){
 
 	Route::get('/series/create',[
 
 		'uses' => 'SeriesController@create',
 		'as'   => 'series.create'
-	]);
+	])->middleware('admin');
 
 	Route::post('/series/store',[
 

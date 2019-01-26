@@ -2040,6 +2040,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2062,18 +2082,25 @@ __webpack_require__.r(__webpack_exports__);
         console.error(error);
       });
     },
-    approveRequest: function approveRequest(user, index) {
+    approveRequest: function approveRequest(user) {
       var _this2 = this;
 
       this.loading = true;
+      user.loading = true;
       console.log(user.id);
       var formData = new FormData();
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
         _this2.loading = false;
-        console.log(index);
+
+        var index = _this2.users.indexOf(user);
+
+        if (index > -1) {
+          _this2.users.splice(index, 1);
+        }
       }).catch(function (error) {
         console.log('errororrr');
+        user.loading = false;
       });
     },
     isConfirm: function isConfirm(user) {
@@ -37597,79 +37624,305 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("section", { staticClass: "section" }, [
     _c("div", { staticClass: "container" }, [
-      _c("form", { staticClass: "row gap-y" }, [
-        _c("div", { staticClass: "col-lg-12 col-lg-8 col-md-6" }, [
-          _c("table", { staticClass: "table table-cart" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row gap-5" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-12 col-md-8 " }, [
+          _c("div", { staticClass: "tab-content text-center" }, [
             _c(
-              "tbody",
-              { attrs: { valign: "middle" } },
-              _vm._l(_vm.users, function(user) {
-                return _c("tr", { key: _vm.users.indexOf(user) }, [
-                  _c("td", [
-                    _c("a", { attrs: { href: "shop-single.html" } }, [
-                      _c("img", {
-                        staticStyle: { "border-radius": "50%" },
-                        attrs: { src: "/" + user.avatar, alt: "..." }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("h5", [_vm._v(_vm._s(user.name))]),
-                    _vm._v(" "),
-                    _c("p", [_vm._v("Senior Software at Netlinks")])
-                  ]),
-                  _vm._v(" "),
-                  _vm.isConfirm(user)
-                    ? _c("td", [
-                        _c("h5", [_vm._v("Email Confirmation")]),
-                        _vm._v(" "),
-                        _c("p", [_vm._v("Confirmed")])
-                      ])
-                    : _c("td", [_c("p", [_vm._v("Not Confirmed")])]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-center" }, [
-                    _c("h5", [_vm._v("Action")]),
-                    _vm._v(" "),
-                    _c("p", [
+              "div",
+              {
+                staticClass: "tab-pane fade show active",
+                attrs: { id: "tab-1" }
+              },
+              [
+                _c("div", { staticClass: "container" }, [
+                  _c(
+                    "form",
+                    {
+                      staticClass: "row gap-y",
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                        }
+                      }
+                    },
+                    [
                       _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary btn-sm btn-round w-180",
-                          attrs: { disabled: _vm.approvalSending },
-                          on: {
-                            click: function($event) {
-                              _vm.approveRequest(user, _vm.index)
-                            }
-                          }
-                        },
+                        "div",
+                        { staticClass: "col-lg-12 col-lg-8 col-md-6" },
                         [
-                          _vm._v(
-                            "\n                   Approve\n                  "
-                          )
+                          _c("table", { staticClass: "table table-cart" }, [
+                            _c(
+                              "tbody",
+                              { attrs: { valign: "middle" } },
+                              _vm._l(_vm.users, function(user) {
+                                return _c(
+                                  "tr",
+                                  { key: _vm.users.indexOf(user) },
+                                  [
+                                    _c("td", [
+                                      _c(
+                                        "a",
+                                        { attrs: { href: "shop-single.html" } },
+                                        [
+                                          _c("img", {
+                                            staticStyle: {
+                                              "border-radius": "50%"
+                                            },
+                                            attrs: {
+                                              src: "/" + user.avatar,
+                                              alt: "..."
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("h5", [_vm._v(_vm._s(user.name))]),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _vm._v("Senior Software at Netlinks")
+                                      ])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _c("h5", [_vm._v("Action")]),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-primary btn-sm btn-round w-180 mb-5",
+                                            attrs: {
+                                              disabled: _vm.approvalSending
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.approveRequest(user)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                          " +
+                                                _vm._s(
+                                                  user.loading
+                                                    ? "Approving ..."
+                                                    : "Approve"
+                                                ) +
+                                                "\n                                          "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-danger btn-sm btn-round w-180 mb-5"
+                                          },
+                                          [_vm._v("Reject")]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-warning btn-sm btn-round w-180"
+                                          },
+                                          [_vm._v("Approve Later")]
+                                        )
+                                      ])
+                                    ])
+                                  ]
+                                )
+                              }),
+                              0
+                            )
+                          ])
                         ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger btn-sm btn-round w-180"
-                        },
-                        [_vm._v("Reject")]
                       )
-                    ])
-                  ])
+                    ]
+                  )
                 ])
-              }),
-              0
-            )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "tab-pane fade", attrs: { id: "tab-2" } },
+              [
+                _c("div", { staticClass: "container" }, [
+                  _c(
+                    "form",
+                    {
+                      staticClass: "row gap-y",
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "col-lg-12 col-lg-8 col-md-6" },
+                        [
+                          _c("table", { staticClass: "table table-cart" }, [
+                            _c(
+                              "tbody",
+                              { attrs: { valign: "middle" } },
+                              _vm._l(_vm.users, function(user) {
+                                return _c(
+                                  "tr",
+                                  { key: _vm.users.indexOf(user) },
+                                  [
+                                    _c("td", [
+                                      _c(
+                                        "a",
+                                        { attrs: { href: "shop-single.html" } },
+                                        [
+                                          _c("img", {
+                                            staticStyle: {
+                                              "border-radius": "50%"
+                                            },
+                                            attrs: {
+                                              src: "/" + user.avatar,
+                                              alt: "..."
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("h5", [_vm._v(_vm._s(user.name))]),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _vm._v("Senior Software at Netlinks")
+                                      ])
+                                    ]),
+                                    _vm._v(" "),
+                                    _vm._m(2, true)
+                                  ]
+                                )
+                              }),
+                              0
+                            )
+                          ])
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _vm._m(3),
+            _vm._v(" "),
+            _vm._m(4)
           ])
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("header", { staticClass: "section-header" }, [
+      _c("h2", [_vm._v("Requests")]),
+      _vm._v(" "),
+      _c("hr")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-12 col-md-4" }, [
+      _c("ul", { staticClass: "nav nav-vertical" }, [
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link active",
+              attrs: { "data-toggle": "tab", href: "#tab-1" }
+            },
+            [_c("h6", [_vm._v("Pending")])]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: { "data-toggle": "tab", href: "#tab-2" }
+            },
+            [_c("h6", [_vm._v("Approved")])]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: { "data-toggle": "tab", href: "#tab-3" }
+            },
+            [_c("h6", [_vm._v("To be Approved")])]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "text-center" }, [
+      _c("h5", [_vm._v("Action")]),
+      _vm._v(" "),
+      _c("p", [
+        _c("span", { staticClass: "btn btn-md btn-info" }, [_vm._v("approved")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "tab-pane fade", attrs: { id: "tab-3" } }, [
+      _c("img", {
+        staticClass: "shadow-3",
+        attrs: { src: "/assets/img/header-image.jpg", alt: "..." }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "tab-pane fade", attrs: { id: "tab-4" } }, [
+      _c("img", {
+        staticClass: "shadow-3",
+        attrs: { src: "/assets/img/header-particle.jpg", alt: "..." }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
