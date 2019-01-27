@@ -11,6 +11,7 @@ use App\Mail\adminRequestApproval;
 
 class AdministratorController extends Controller
 {
+    
     public function index(){
 
     	return view('admin.applyAdministrator')->with('user', Auth::user());
@@ -28,7 +29,7 @@ class AdministratorController extends Controller
 
     public function sendUsers(){
 
-    	$users = User::whereNotNull('admin_request')->get();
+    	$users = User::whereNotNull('admin_request')->where('later_approval', null)->get();
     	return response()->json($users);
     }
 
@@ -61,4 +62,24 @@ class AdministratorController extends Controller
             'status' => 'ok',
         ]);
     }
+
+    public function sendtoBeApprovedUsers(){
+
+    	$users = User::whereNotNull('later_approval')->whereNotNull('admin_request')->get();
+    	return response()->json($users);
+
+
+    }
+
+    public function approveRequestLater(administratorRequest $request){
+
+    	return $request->approveUserAsAdminLater();
+
+    	return response()->json([
+
+            'status' => 'ok',
+        ]);
+    }
+
+
 }

@@ -2063,6 +2063,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2070,33 +2100,63 @@ __webpack_require__.r(__webpack_exports__);
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       users: [],
       approvedUsers: [],
-      loading: false
+      toBeApprovedUsers: [],
+      loading: false,
+      currentTab: 'pending'
     };
   },
   mounted: function mounted() {
-    this.getUsers();
+    this.getPendingRequests();
   },
   methods: {
-    getApprovedUsers: function getApprovedUsers() {
+    //Getting Users that are approved
+    getApprovedUsers: function getApprovedUsers(tab) {
       var _this = this;
 
+      if (tab == this.currentTab) {
+        return;
+      }
+
+      this.currentTab = tab;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users-approved').then(function (resp) {
         _this.approvedUsers = resp.data;
       }).catch(function (error) {
         console.error(error);
       });
     },
-    getUsers: function getUsers() {
+    //Getting Users that needs to be approved later
+    getTobeApprovedUsers: function getTobeApprovedUsers(tab) {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users').then(function (res) {
-        _this2.users = res.data;
+      if (tab == this.currentTab) {
+        return;
+      }
+
+      this.currentTab = tab;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users-to-be-approved').then(function (resp) {
+        _this2.toBeApprovedUsers = resp.data;
       }).catch(function (error) {
         console.error(error);
       });
     },
-    approveRequest: function approveRequest(user) {
+    // get Users that needs to be approved now
+    getPendingRequests: function getPendingRequests(tab) {
       var _this3 = this;
+
+      if (tab == this.currentTab) {
+        return;
+      }
+
+      this.currentTab = tab;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users').then(function (res) {
+        _this3.users = res.data;
+      }).catch(function (error) {
+        console.error(error);
+      });
+    },
+    // Approve Users as Administrator
+    approveRequest: function approveRequest(user, pending) {
+      var _this4 = this;
 
       this.loading = true;
       user.loading = true;
@@ -2104,20 +2164,31 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
-        _this3.loading = false;
+        _this4.loading = false;
 
-        var index = _this3.users.indexOf(user);
+        if (pending) {
+          var _index = _this4.users.indexOf(user);
+
+          if (_index > -1) {
+            _this4.users.splice(_index, 1);
+          }
+
+          return;
+        }
+
+        var index = _this4.toBeApprovedUsers.indexOf(user);
 
         if (index > -1) {
-          _this3.users.splice(index, 1);
+          _this4.toBeApprovedUsers.splice(index, 1);
         }
       }).catch(function (error) {
         console.log('errororrr');
         user.loading = false;
       });
     },
+    // Rejects the Users Requests
     rejectRequest: function rejectRequest(user) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.loading = true;
       user.rejecting = true;
@@ -2125,20 +2196,39 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/reject-request', formData, {}).then(function (res) {
-        _this4.loading = false;
+        _this5.loading = false;
 
-        var index = _this4.users.indexOf(user);
+        var index = _this5.users.indexOf(user);
 
         if (index > -1) {
-          _this4.users.splice(index, 1);
+          _this5.users.splice(index, 1);
         }
       }).catch(function (error) {
         console.log('errororrr');
         user.rejecting = false;
       });
     },
-    isConfirm: function isConfirm(user) {
-      return user.confirm_token == null;
+    // Approve the Requests later
+    approveRequestLater: function approveRequestLater(user) {
+      var _this6 = this;
+
+      this.loading = true;
+      user.approving = true;
+      console.log(user.id);
+      var formData = new FormData();
+      formData.append("user_id", user.id);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/later-request', formData, {}).then(function (res) {
+        _this6.loading = false;
+
+        var index = _this6.users.indexOf(user);
+
+        if (index > -1) {
+          _this6.users.splice(index, 1);
+        }
+      }).catch(function (error) {
+        console.log('errororrr');
+        user.approving = false;
+      });
     }
   },
   computed: {
@@ -37661,7 +37751,21 @@ var render = function() {
       _c("div", { staticClass: "row gap-5" }, [
         _c("div", { staticClass: "col-12 col-md-4" }, [
           _c("ul", { staticClass: "nav nav-vertical" }, [
-            _vm._m(0),
+            _c("li", { staticClass: "nav-item" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link active",
+                  attrs: { "data-toggle": "tab", href: "#tab-1" },
+                  on: {
+                    click: function($event) {
+                      _vm.getPendingRequests("pending")
+                    }
+                  }
+                },
+                [_c("h6", [_vm._v("Pending")])]
+              )
+            ]),
             _vm._v(" "),
             _c("li", { staticClass: "nav-item" }, [
               _c(
@@ -37669,13 +37773,31 @@ var render = function() {
                 {
                   staticClass: "nav-link",
                   attrs: { "data-toggle": "tab", href: "#tab-2" },
-                  on: { click: _vm.getApprovedUsers }
+                  on: {
+                    click: function($event) {
+                      _vm.getApprovedUsers("approved")
+                    }
+                  }
                 },
                 [_c("h6", [_vm._v("Approved")])]
               )
             ]),
             _vm._v(" "),
-            _vm._m(1)
+            _c("li", { staticClass: "nav-item" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link",
+                  attrs: { "data-toggle": "tab", href: "#tab-3" },
+                  on: {
+                    click: function($event) {
+                      _vm.getTobeApprovedUsers("toBeApproved")
+                    }
+                  }
+                },
+                [_c("h6", [_vm._v("To be Approved")])]
+              )
+            ])
           ])
         ]),
         _vm._v(" "),
@@ -37753,19 +37875,19 @@ var render = function() {
                                             },
                                             on: {
                                               click: function($event) {
-                                                _vm.approveRequest(user)
+                                                _vm.approveRequest(user, true)
                                               }
                                             }
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                          " +
+                                              "\n             " +
                                                 _vm._s(
                                                   user.loading
                                                     ? "Approving ..."
                                                     : "Approve"
                                                 ) +
-                                                "\n                                          "
+                                                "\n           "
                                             )
                                           ]
                                         ),
@@ -37788,13 +37910,13 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                            " +
+                                              "\n             " +
                                                 _vm._s(
                                                   user.rejecting
                                                     ? "Rejecting..."
                                                     : "Reject"
                                                 ) +
-                                                "\n                                          "
+                                                "\n           "
                                             )
                                           ]
                                         ),
@@ -37805,9 +37927,27 @@ var render = function() {
                                           "button",
                                           {
                                             staticClass:
-                                              "btn btn-warning btn-sm btn-round w-180"
+                                              "btn btn-warning btn-sm btn-round w-180",
+                                            attrs: {
+                                              disabled: _vm.approvalSending
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.approveRequestLater(user)
+                                              }
+                                            }
                                           },
-                                          [_vm._v("Approve Later")]
+                                          [
+                                            _vm._v(
+                                              "\n             " +
+                                                _vm._s(
+                                                  user.approving
+                                                    ? "Approving Later..."
+                                                    : "Approve Later"
+                                                ) +
+                                                "\n           "
+                                            )
+                                          ]
                                         )
                                       ])
                                     ])
@@ -37882,7 +38022,7 @@ var render = function() {
                                       ])
                                     ]),
                                     _vm._v(" "),
-                                    _vm._m(2, true)
+                                    _vm._m(0, true)
                                   ]
                                 )
                               }),
@@ -37897,9 +38037,139 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _vm._m(3),
+            _c(
+              "div",
+              { staticClass: "tab-pane fade", attrs: { id: "tab-3" } },
+              [
+                _c("div", { staticClass: "container" }, [
+                  _c(
+                    "form",
+                    {
+                      staticClass: "row gap-y",
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "col-lg-12 col-lg-8 col-md-6  no-scroll"
+                        },
+                        [
+                          _c("table", { staticClass: "table table-cart" }, [
+                            _c(
+                              "tbody",
+                              { attrs: { valign: "middle" } },
+                              _vm._l(_vm.toBeApprovedUsers, function(user) {
+                                return _c(
+                                  "tr",
+                                  { key: _vm.toBeApprovedUsers.indexOf(user) },
+                                  [
+                                    _c("td", [
+                                      _c(
+                                        "a",
+                                        { attrs: { href: "shop-single.html" } },
+                                        [
+                                          _c("img", {
+                                            staticStyle: {
+                                              "border-radius": "50%"
+                                            },
+                                            attrs: {
+                                              src: "/" + user.avatar,
+                                              alt: "..."
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c("h5", [_vm._v(_vm._s(user.name))]),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _vm._v("Senior Software at Netlinks")
+                                      ])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _c("h5", [_vm._v("Action")]),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-primary btn-sm btn-round w-180 mb-5",
+                                            attrs: {
+                                              disabled: _vm.approvalSending
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.approveRequest(user, false)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n           " +
+                                                _vm._s(
+                                                  user.loading
+                                                    ? "Approving ..."
+                                                    : "Approve"
+                                                ) +
+                                                "\n         "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("br"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-danger btn-sm btn-round w-180 mb-5",
+                                            attrs: {
+                                              disabled: _vm.approvalSending
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.rejectRequest(user)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n           " +
+                                                _vm._s(
+                                                  user.rejecting
+                                                    ? "Rejecting..."
+                                                    : "Reject"
+                                                ) +
+                                                "\n         "
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    ])
+                                  ]
+                                )
+                              }),
+                              0
+                            )
+                          ])
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ]
+            ),
             _vm._v(" "),
-            _vm._m(4)
+            _c("div", { staticClass: "tab-pane fade", attrs: { id: "tab-4" } })
           ])
         ])
       ])
@@ -37911,36 +38181,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link active",
-          attrs: { "data-toggle": "tab", href: "#tab-1" }
-        },
-        [_c("h6", [_vm._v("Pending")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item" }, [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link",
-          attrs: { "data-toggle": "tab", href: "#tab-3" }
-        },
-        [_c("h6", [_vm._v("To be Approved")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("td", { staticClass: "text-center" }, [
       _c("h5", [_vm._v("Action")]),
       _vm._v(" "),
@@ -37948,35 +38188,9 @@ var staticRenderFns = [
         _c(
           "button",
           { staticClass: "btn btn-danger btn-sm btn-round w-180 mb-5" },
-          [
-            _vm._v(
-              "\n                                          Revoke\n                                          "
-            )
-          ]
+          [_vm._v("\n           Revoke\n         ")]
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "tab-pane fade", attrs: { id: "tab-3" } }, [
-      _c("img", {
-        staticClass: "shadow-3",
-        attrs: { src: "/assets/img/header-image.jpg", alt: "..." }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "tab-pane fade", attrs: { id: "tab-4" } }, [
-      _c("img", {
-        staticClass: "shadow-3",
-        attrs: { src: "/assets/img/header-particle.jpg", alt: "..." }
-      })
     ])
   }
 ]

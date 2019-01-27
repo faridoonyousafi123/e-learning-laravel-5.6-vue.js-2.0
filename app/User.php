@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','confirm_token','email_verified_at','admin_request','email','admin','created_at','updated_at'
     ];
 
     public function isUserConfirmed(){
@@ -71,6 +71,12 @@ class User extends Authenticatable
     public function rejectRequest(){
 
         $this->admin_request = null;
+        $this->save();
+    }
+
+    public function approveRequestLater(){
+
+        $this->later_approval = str_random(25);
         $this->save();
     }
 }

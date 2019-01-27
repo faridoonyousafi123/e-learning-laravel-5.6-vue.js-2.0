@@ -69,4 +69,11 @@ class administratorRequest extends FormRequest
         $user = User::find($this->user_id);
         Mail::to($user)->send(new adminRequestRejection($user));
     }
+
+    public function approveUserAsAdminLater(){
+
+        $user = User::find($this->user_id);
+        $user->approveRequestLater();
+
+    }
 }
