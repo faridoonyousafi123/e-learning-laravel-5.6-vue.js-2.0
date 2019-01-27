@@ -106,7 +106,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  
+
 }
 .img-series{
   border: 5px solid #fdfff2;
@@ -119,6 +119,12 @@
     box-shadow: 3px 3px 2px #ccc;
     transition: 0.5s;
     }
+
+.no-scroll{
+
+  overflow-y: hidden;
+ 
+}
 
 @media (max-width: 768px) {
 

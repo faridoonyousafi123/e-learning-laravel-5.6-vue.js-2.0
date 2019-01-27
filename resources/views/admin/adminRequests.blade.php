@@ -24,7 +24,7 @@
 @section('content')
 
  <!-- Main container -->
-    <main class="main-content">
+    <main class="main-content" >
 
 
 

@@ -2060,12 +2060,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       users: [],
+      approvedUsers: [],
       loading: false
     };
   },
@@ -2073,17 +2077,26 @@ __webpack_require__.r(__webpack_exports__);
     this.getUsers();
   },
   methods: {
-    getUsers: function getUsers() {
+    getApprovedUsers: function getApprovedUsers() {
       var _this = this;
 
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users-approved').then(function (resp) {
+        _this.approvedUsers = resp.data;
+      }).catch(function (error) {
+        console.error(error);
+      });
+    },
+    getUsers: function getUsers() {
+      var _this2 = this;
+
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users').then(function (res) {
-        _this.users = res.data;
+        _this2.users = res.data;
       }).catch(function (error) {
         console.error(error);
       });
     },
     approveRequest: function approveRequest(user) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.loading = true;
       user.loading = true;
@@ -2091,16 +2104,37 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
-        _this2.loading = false;
+        _this3.loading = false;
 
-        var index = _this2.users.indexOf(user);
+        var index = _this3.users.indexOf(user);
 
         if (index > -1) {
-          _this2.users.splice(index, 1);
+          _this3.users.splice(index, 1);
         }
       }).catch(function (error) {
         console.log('errororrr');
         user.loading = false;
+      });
+    },
+    rejectRequest: function rejectRequest(user) {
+      var _this4 = this;
+
+      this.loading = true;
+      user.rejecting = true;
+      console.log(user.id);
+      var formData = new FormData();
+      formData.append("user_id", user.id);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/reject-request', formData, {}).then(function (res) {
+        _this4.loading = false;
+
+        var index = _this4.users.indexOf(user);
+
+        if (index > -1) {
+          _this4.users.splice(index, 1);
+        }
+      }).catch(function (error) {
+        console.log('errororrr');
+        user.rejecting = false;
       });
     },
     isConfirm: function isConfirm(user) {
@@ -37622,14 +37656,30 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { staticClass: "section" }, [
+  return _c("section", { staticClass: "section no-scroll" }, [
     _c("div", { staticClass: "container" }, [
-      _vm._m(0),
-      _vm._v(" "),
       _c("div", { staticClass: "row gap-5" }, [
-        _vm._m(1),
+        _c("div", { staticClass: "col-12 col-md-4" }, [
+          _c("ul", { staticClass: "nav nav-vertical" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("li", { staticClass: "nav-item" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link",
+                  attrs: { "data-toggle": "tab", href: "#tab-2" },
+                  on: { click: _vm.getApprovedUsers }
+                },
+                [_c("h6", [_vm._v("Approved")])]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._m(1)
+          ])
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-12 col-md-8 " }, [
+        _c("div", { staticClass: "col-12 col-md-8  no-scroll" }, [
           _c("div", { staticClass: "tab-content text-center" }, [
             _c(
               "div",
@@ -37726,9 +37776,27 @@ var render = function() {
                                           "button",
                                           {
                                             staticClass:
-                                              "btn btn-danger btn-sm btn-round w-180 mb-5"
+                                              "btn btn-danger btn-sm btn-round w-180 mb-5",
+                                            attrs: {
+                                              disabled: _vm.approvalSending
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.rejectRequest(user)
+                                              }
+                                            }
                                           },
-                                          [_vm._v("Reject")]
+                                          [
+                                            _vm._v(
+                                              "\n                                            " +
+                                                _vm._s(
+                                                  user.rejecting
+                                                    ? "Rejecting..."
+                                                    : "Reject"
+                                                ) +
+                                                "\n                                          "
+                                            )
+                                          ]
                                         ),
                                         _vm._v(" "),
                                         _c("br"),
@@ -37775,16 +37843,18 @@ var render = function() {
                     [
                       _c(
                         "div",
-                        { staticClass: "col-lg-12 col-lg-8 col-md-6" },
+                        {
+                          staticClass: "col-lg-12 col-lg-8 col-md-6  no-scroll"
+                        },
                         [
                           _c("table", { staticClass: "table table-cart" }, [
                             _c(
                               "tbody",
                               { attrs: { valign: "middle" } },
-                              _vm._l(_vm.users, function(user) {
+                              _vm._l(_vm.approvedUsers, function(user) {
                                 return _c(
                                   "tr",
-                                  { key: _vm.users.indexOf(user) },
+                                  { key: _vm.approvedUsers.indexOf(user) },
                                   [
                                     _c("td", [
                                       _c(
@@ -37841,51 +37911,30 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("header", { staticClass: "section-header" }, [
-      _c("h2", [_vm._v("Requests")]),
-      _vm._v(" "),
-      _c("hr")
+    return _c("li", { staticClass: "nav-item" }, [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link active",
+          attrs: { "data-toggle": "tab", href: "#tab-1" }
+        },
+        [_c("h6", [_vm._v("Pending")])]
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-12 col-md-4" }, [
-      _c("ul", { staticClass: "nav nav-vertical" }, [
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link active",
-              attrs: { "data-toggle": "tab", href: "#tab-1" }
-            },
-            [_c("h6", [_vm._v("Pending")])]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: { "data-toggle": "tab", href: "#tab-2" }
-            },
-            [_c("h6", [_vm._v("Approved")])]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "nav-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "nav-link",
-              attrs: { "data-toggle": "tab", href: "#tab-3" }
-            },
-            [_c("h6", [_vm._v("To be Approved")])]
-          )
-        ])
-      ])
+    return _c("li", { staticClass: "nav-item" }, [
+      _c(
+        "a",
+        {
+          staticClass: "nav-link",
+          attrs: { "data-toggle": "tab", href: "#tab-3" }
+        },
+        [_c("h6", [_vm._v("To be Approved")])]
+      )
     ])
   },
   function() {
@@ -37896,7 +37945,15 @@ var staticRenderFns = [
       _c("h5", [_vm._v("Action")]),
       _vm._v(" "),
       _c("p", [
-        _c("span", { staticClass: "btn btn-md btn-info" }, [_vm._v("approved")])
+        _c(
+          "button",
+          { staticClass: "btn btn-danger btn-sm btn-round w-180 mb-5" },
+          [
+            _vm._v(
+              "\n                                          Revoke\n                                          "
+            )
+          ]
+        )
       ])
     ])
   },

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\User;
 use Mail;
 use App\Mail\adminRequestApproval;
+use App\Mail\adminRequestRejection;
 
 class administratorRequest extends FormRequest
 {
@@ -49,9 +50,23 @@ class administratorRequest extends FormRequest
         return $this;
     }
 
+    public function rejectUserAsAdmin(){
+
+        $user = User::find($this->user_id);
+        $user->rejectRequest();
+
+        return $this;
+    }
+
     public function sendApprovalMail()
     {
         $user = User::find($this->user_id);  
         Mail::to($user)->send(new adminRequestApproval($user));
+    }
+
+    public function sendRejectionMail(){
+
+        $user = User::find($this->user_id);
+        Mail::to($user)->send(new adminRequestRejection($user));
     }
 }

@@ -67,4 +67,10 @@ class User extends Authenticatable
            $this->save();
 
     }
+
+    public function rejectRequest(){
+
+        $this->admin_request = null;
+        $this->save();
+    }
 }

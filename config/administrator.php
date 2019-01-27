@@ -4,8 +4,8 @@ return [
 
 	'administratorUsers' => [
 
-		'faridoon.y@gmail.com',
-		
+		'faridoon.y@gmail.com'
+
 
 	]
 

@@ -1,7 +1,8 @@
 @component('mail::message')
 # Dear {{$user->name}}
 
-Your Request for Administrator Privilage has been approved.
+Your Request for Administrator Privilages has been rejected.
+
 
 
 

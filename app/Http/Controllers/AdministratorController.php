@@ -14,20 +14,16 @@ class AdministratorController extends Controller
     public function index(){
 
     	return view('admin.applyAdministrator')->with('user', Auth::user());
-
     }
 
     public function submitUserRequest(administratorRequest $request){
 
     	return $request->saveUserRequest();
-
     }
 
     public function showAdminRequests(){
 
     	return view('admin.adminRequests')->with('users', User::all());
-
-
     }
 
     public function sendUsers(){
@@ -36,14 +32,29 @@ class AdministratorController extends Controller
     	return response()->json($users);
     }
 
+    public function sendApprovedUsers(){
+
+    	$superAdmin = config('administrator.administratorUsers');
+
+    	$users = User::where('admin_request', null)->where('admin' , '1')->where('email', '!=' , $superAdmin[0])->get();
+    	return response()->json($users);
+    }
+
     public function approveRequest(administratorRequest $request){
 
-
-    	
     	return $request->approveUserAsAdmin()
     			->sendApprovalMail();
-    	
 
+    	return response()->json([
+
+            'status' => 'ok',
+        ]);
+    }
+
+    public function rejectRequest(administratorRequest $request){
+
+    	return $request->rejectUserAsAdmin()
+    			->sendRejectionMail();
 
     	return response()->json([
 

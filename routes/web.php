@@ -48,6 +48,13 @@ Route::get('/users',[
 
 ]);
 
+Route::get('/users-approved',[
+
+	'uses' => 'AdministratorController@sendApprovedUsers',
+	'as' => 'show.approvedUsers'
+
+]);
+
 
 
 Route::get('/logout', function() { auth()->logout(); return redirect('/'); });
@@ -96,7 +103,14 @@ Route::group(['prefix'=>'admin','middleware'=> 'checkuser'], function(){
 	'uses' => 'AdministratorController@approveRequest',
 	'as' => 'user.approve'
 
-]);
+	]);
+
+	Route::post('/reject-request',[
+
+	'uses' => 'AdministratorController@rejectRequest',
+	'as' => 'user.reject'
+
+	]);
 
 });
 
