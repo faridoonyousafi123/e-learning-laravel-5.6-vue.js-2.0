@@ -44,10 +44,17 @@ class administratorRequest extends FormRequest
 
     public function approveUserAsAdmin(){
 
-        $user = User::find($this->user_id);  
-        $user->makeAdmin();
+        $usersRequests = explode(',' , $this->users);
+        
+        foreach ($usersRequests as $user) {
+            
+            $user = User::find($user);  
+            $user->makeAdmin();
 
+            
+        }
         return $this;
+        
     }
 
     public function rejectUserAsAdmin(){
@@ -60,26 +67,35 @@ class administratorRequest extends FormRequest
 
     public function sendApprovalMail()
     {
-        $user = User::find($this->user_id);  
-        Mail::to($user)->send(new adminRequestApproval($user));
-    }
+        $usersRequests = explode(',' , $this->users);
 
-    public function sendRejectionMail(){
+        foreach ($usersRequests as $user) {
+          $user = User::find($user); 
+          Mail::to($user)->send(new adminRequestApproval($user));
 
-        $user = User::find($this->user_id);
-        Mail::to($user)->send(new adminRequestRejection($user));
-    }
+      }
 
-    public function approveUserAsAdminLater(){
+      
+      
+      
+  }
 
-        $user = User::find($this->user_id);
-        $user->approveRequestLater();
+  public function sendRejectionMail(){
 
-    }
+    $user = User::find($this->user_id);
+    Mail::to($user)->send(new adminRequestRejection($user));
+}
 
-    public function revokeUserRequestBack(){
+public function approveUserAsAdminLater(){
 
-        $user = User::find($this->user_id);
-        $user->revokeAdminRequest();
-    }
+    $user = User::find($this->user_id);
+    $user->approveRequestLater();
+
+}
+
+public function revokeUserRequestBack(){
+
+    $user = User::find($this->user_id);
+    $user->revokeAdminRequest();
+}
 }

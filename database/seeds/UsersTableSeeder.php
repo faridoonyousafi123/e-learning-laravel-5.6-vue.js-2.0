@@ -25,9 +25,10 @@ class UsersTableSeeder extends Seeder
                 
             'name' => 'Kati Frantz',
             'password' => bcrypt('admin'),
-            'email' => 'faridoon@faridoon.com',
+            'email' => 'faridoon.yousafi7@gmail.com',
             'username' => str_slug('Kati Frantz'),
-            'avatar' => 'avatars/user.jpg'
+            'avatar' => 'avatars/user.jpg',
+            'admin_request' => 'asdfasdfsadfsdaf'
         ]);
 
         App\User::create([
@@ -35,9 +36,10 @@ class UsersTableSeeder extends Seeder
 
             'name' => 'Jhon Wick',
             'password' => bcrypt('admin'),
-            'email' => 'jhon@jhon.com',
+            'email' => 'faridoon.y@gmail.com',
             'username' => str_slug('Jhon Wick'),
-            'avatar' => 'avatars/user1.jpg'
+            'avatar' => 'avatars/user1.jpg',
+            'admin_request' => 'asdfasdfsadfsdaf'
         ]);
 
         App\User::create([

@@ -137,6 +137,10 @@
   border-color:#ff5100;
 }
 
+.hidden{
+  display: none !important;
+}
+
 }
 
 @media (max-width: 768px) {

@@ -39,32 +39,47 @@
           <h5>{{ user.name }}</h5>
           <p>Senior Software at Netlinks</p>
         </td>
-        <td class="text-center">
-          <h5>Action</h5>
-          <p>
-           <button  class="btn btn-primary btn-sm btn-round w-180 mb-5" @click="approveRequest(user, true)" :disabled="approvalSending">
-             {{ user.loading ? 'Approving ...' : 'Approve'}}
-           </button>
-           <br>
-           <button class="btn btn-danger btn-sm btn-round w-180 mb-5" @click="rejectRequest(user)" :disabled="approvalSending">
-             {{ user.rejecting ? 'Rejecting...' : 'Reject'}}
-           </button>
-           <br>
-           <button @click="approveRequestLater(user)" :disabled="approvalSending" class="btn btn-warning btn-sm btn-round w-180">
-             {{ user.approving ? 'Approving Later...' : 'Approve Later'}}
-           </button>
-         </p>
-       </td>
-       <td>
         
-          <input type="checkbox" v-model="checkBoxes" :value="user.id" :id="user.id">
-          {{ checkBoxes }}
-       </td>
-     </tr>
+        
 
-   </tbody>
- </table>
+        <td>
+
+
+         <label class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" v-model="bacthUsers" :value="user.id" :id="user.id">
+          <span class="custom-control-indicator"></span>
+
+        </label>
+        
+        
+
+
+      </td>
+    </tr>
+
+  </tbody>
+
+
+</table>
+<div class="text-right buttons" v-if="bacthUsers.length > 0" data-aos-duration="500" data-aos-delay="300" data-aos-offset="100" data-aos="fade-up" >
+ <button  class="btn btn-primary btn-sm btn-round w-180 mb-5" @click="approveRequest(bacthUsers, true)" :disabled="approvalSending">
+   Approve
+ </button>
+
+ <button class="btn btn-danger btn-sm btn-round w-180 mb-5" @click="rejectRequest(users)" :disabled="approvalSending">
+   Reject 
+ </button>
+ <button @click="approveRequestLater(users)" :disabled="approvalSending" class="btn btn-warning btn-sm btn-round w-180">
+   Approve Later
+ </button>
 </div>
+
+
+
+
+</div>
+
+
 </form>
 </div>
 </div>
@@ -134,8 +149,6 @@
 </form>
 </div>
 </div>
-<div class="tab-pane fade" id="tab-4">
-</div>
 </div>
 </div>
 </div>
@@ -154,15 +167,15 @@ export default {
     toBeApprovedUsers:[],
     loading: false,
     currentTab: 'pending',
-    checkBoxes:[],
+    bacthUsers:[],
   }
 },
 
 
 mounted() {
+
  this.getPendingRequests();
-
-
+ 
 },
 
 
@@ -171,21 +184,21 @@ methods: {
 
 
  //Getting Users that are approved
-getApprovedUsers(tab){
-    if (tab == this.currentTab) {
-      return;
-    }
+ getApprovedUsers(tab){
+  if (tab == this.currentTab) {
+    return;
+  }
 
-    this.currentTab = tab;
-    axios.get('/users-approved')
-    .then(resp => {
-     this.approvedUsers = resp.data;
+  this.currentTab = tab;
+  axios.get('/users-approved')
+  .then(resp => {
+   this.approvedUsers = resp.data;
 
 
-   })
-    .catch(error => {
-     console.error(error);
-   })
+ })
+  .catch(error => {
+   console.error(error);
+ })
 
 
 },
@@ -194,20 +207,20 @@ getApprovedUsers(tab){
 //Getting Users that needs to be approved later
 getTobeApprovedUsers(tab){
 
-    if (tab == this.currentTab) {
-      return;
-    }
+  if (tab == this.currentTab) {
+    return;
+  }
 
-    this.currentTab = tab;
-    axios.get('/users-to-be-approved')
-    .then(resp => {
-     this.toBeApprovedUsers = resp.data;
+  this.currentTab = tab;
+  axios.get('/users-to-be-approved')
+  .then(resp => {
+   this.toBeApprovedUsers = resp.data;
 
 
-   })
-    .catch(error => {
-     console.error(error);
-   })
+ })
+  .catch(error => {
+   console.error(error);
+ })
 
 },
 
@@ -216,20 +229,20 @@ getTobeApprovedUsers(tab){
 
 // get Users that needs to be approved now
 getPendingRequests(tab){
-    if (tab == this.currentTab) {
-      return;
-    }
+  if (tab == this.currentTab) {
+    return;
+  }
 
-    this.currentTab = tab;
-    axios.get('/users')
-    .then(res => {
-     this.users = res.data;
+  this.currentTab = tab;
+  axios.get('/users')
+  .then(res => {
+   this.users = res.data;
 
 
-   })
-    .catch(error => {
-     console.error(error);
-   })
+ })
+  .catch(error => {
+   console.error(error);
+ })
   
 },
 
@@ -238,41 +251,52 @@ getPendingRequests(tab){
 // Approve Users as Administrator
 approveRequest(user, pending){
 
-  this.loading = true
-  user.loading = true;
+  $('.buttons').css('display','show');
 
-  console.log(user.id);
+  this.loading = true
+
 
   var formData = new FormData();
 
-  formData.append("user_id", user.id);
+  if (user.id) {
+    this.bacthUsers.push(user.id);
+  }
+
+  formData.append("users", this.bacthUsers);
 
   axios.post('/admin/approve-request', formData, {
 
 
   }).then(res => {
 
-   this.loading = false;
+    $('.buttons').css('display','none');
 
-   if (pending) {
-    const index = this.users.indexOf(user);
+    this.loading = false;
 
-     if (index > -1) {
-       this.users.splice(index, 1);
-     }
-     return;
-   }
+    if (pending) {
 
-   const index = this.toBeApprovedUsers.indexOf(user);
+      this.bacthUsers.forEach(userId => {
+        let user = this.users.find(user => user.id == userId);
+        const index = this.users.indexOf(user);
 
-   if (index > -1) {
+        if (index > -1) {
+         this.users.splice(index, 1);
+       }
+     });
+      return;
+    }
+
+    const index = this.toBeApprovedUsers.indexOf(user);
+
+    if (index > -1) {
      this.toBeApprovedUsers.splice(index, 1);
    }
 
+
+
  }).catch(error => {
 
-  console.log('errororrr');
-  user.loading = false;
+  console.log(error);
 
  });
 
@@ -284,71 +308,71 @@ approveRequest(user, pending){
 // Rejects the Users Requests
 rejectRequest(user){
 
-   this.loading = true
-   user.rejecting = true;
-   
-   console.log(user.id);
-   
-   var formData = new FormData();
-   
-   formData.append("user_id", user.id);
-   
-   axios.post('/admin/reject-request', formData, {
+ this.loading = true
+ user.rejecting = true;
+
+ console.log(user.id);
+
+ var formData = new FormData();
+
+ formData.append("user_id", user.id);
+
+ axios.post('/admin/reject-request', formData, {
 
 
-   }).then(res => {
+ }).then(res => {
 
-     this.loading = false;
+   this.loading = false;
 
-     const index = this.users.indexOf(user);
+   const index = this.users.indexOf(user);
 
-     if (index > -1) {
-       this.users.splice(index, 1);
-     }
+   if (index > -1) {
+     this.users.splice(index, 1);
+   }
 
-   }).catch(error => {
+ }).catch(error => {
 
-    console.log('errororrr');
-    user.rejecting = false;
+  console.log('errororrr');
+  user.rejecting = false;
 
-   });
-   
-   
+});
+
+
 },
 
 // Revoke Requests Back
 revokeRequestBack(user){
 
-   this.loading = true
-   user.revoking = true;
-   
-   console.log(user.id);
-   
-   var formData = new FormData();
-   
-   formData.append("user_id", user.id);
-   
-   axios.post('/admin/revoke-request', formData, {
+ this.loading = true
+ user.revoking = true;
+
+ console.log(user.id);
+
+ var formData = new FormData();
+
+ formData.append("user_id", user.id);
+
+ axios.post('/admin/revoke-request', formData, {
 
 
-   }).then(res => {
+ }).then(res => {
 
-     this.loading = false;
+   this.loading = false;
 
-     const index = this.approvedUsers.indexOf(user);
+   const index = this.approvedUsers.indexOf(user);
 
-     if (index > -1) {
-       this.approvedUsers.splice(index, 1);
-     }
+   if (index > -1) {
+     this.approvedUsers.splice(index, 1);
+   }
 
-   }).catch(error => {
+ }).catch(error => {
 
-    console.log('errororrr');
-    user.revoking = false;
+  console.log('errororrr');
+  user.revoking = false;
 
-   });
-   
-   
+});
+
+
 },
 
 
@@ -384,7 +408,7 @@ approveRequestLater(user){
   console.log('errororrr');
   user.approving = false;
 
- });
+});
 
 
 },

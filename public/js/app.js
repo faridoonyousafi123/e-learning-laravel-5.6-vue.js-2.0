@@ -2099,6 +2099,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2109,7 +2122,7 @@ __webpack_require__.r(__webpack_exports__);
       toBeApprovedUsers: [],
       loading: false,
       currentTab: 'pending',
-      checkBoxes: []
+      bacthUsers: []
     };
   },
   mounted: function mounted() {
@@ -2165,20 +2178,31 @@ __webpack_require__.r(__webpack_exports__);
     approveRequest: function approveRequest(user, pending) {
       var _this4 = this;
 
+      $('.buttons').css('display', 'show');
       this.loading = true;
-      user.loading = true;
-      console.log(user.id);
       var formData = new FormData();
-      formData.append("user_id", user.id);
+
+      if (user.id) {
+        this.bacthUsers.push(user.id);
+      }
+
+      formData.append("users", this.bacthUsers);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
+        $('.buttons').css('display', 'none');
         _this4.loading = false;
 
         if (pending) {
-          var _index = _this4.users.indexOf(user);
+          _this4.bacthUsers.forEach(function (userId) {
+            var user = _this4.users.find(function (user) {
+              return user.id == userId;
+            });
 
-          if (_index > -1) {
-            _this4.users.splice(_index, 1);
-          }
+            var index = _this4.users.indexOf(user);
+
+            if (index > -1) {
+              _this4.users.splice(index, 1);
+            }
+          });
 
           return;
         }
@@ -2189,8 +2213,7 @@ __webpack_require__.r(__webpack_exports__);
           _this4.toBeApprovedUsers.splice(index, 1);
         }
       }).catch(function (error) {
-        console.log('errororrr');
-        user.loading = false;
+        console.log(error);
       });
     },
     // Rejects the Users Requests
@@ -37903,155 +37926,75 @@ var render = function() {
                                         ])
                                       ]),
                                       _vm._v(" "),
-                                      _c("td", { staticClass: "text-center" }, [
-                                        _c("h5", [_vm._v("Action")]),
-                                        _vm._v(" "),
-                                        _c("p", [
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-primary btn-sm btn-round w-180 mb-5",
-                                              attrs: {
-                                                disabled: _vm.approvalSending
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.approveRequest(user, true)
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n             " +
-                                                  _vm._s(
-                                                    user.loading
-                                                      ? "Approving ..."
-                                                      : "Approve"
-                                                  ) +
-                                                  "\n           "
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-danger btn-sm btn-round w-180 mb-5",
-                                              attrs: {
-                                                disabled: _vm.approvalSending
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.rejectRequest(user)
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n             " +
-                                                  _vm._s(
-                                                    user.rejecting
-                                                      ? "Rejecting..."
-                                                      : "Reject"
-                                                  ) +
-                                                  "\n           "
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c("br"),
-                                          _vm._v(" "),
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-warning btn-sm btn-round w-180",
-                                              attrs: {
-                                                disabled: _vm.approvalSending
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.approveRequestLater(user)
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n             " +
-                                                  _vm._s(
-                                                    user.approving
-                                                      ? "Approving Later..."
-                                                      : "Approve Later"
-                                                  ) +
-                                                  "\n           "
-                                              )
-                                            ]
-                                          )
-                                        ])
-                                      ]),
-                                      _vm._v(" "),
                                       _c("td", [
-                                        _c("input", {
-                                          directives: [
-                                            {
-                                              name: "model",
-                                              rawName: "v-model",
-                                              value: _vm.checkBoxes,
-                                              expression: "checkBoxes"
-                                            }
-                                          ],
-                                          attrs: {
-                                            type: "checkbox",
-                                            id: user.id
+                                        _c(
+                                          "label",
+                                          {
+                                            staticClass:
+                                              "custom-control custom-checkbox"
                                           },
-                                          domProps: {
-                                            value: user.id,
-                                            checked: Array.isArray(
-                                              _vm.checkBoxes
-                                            )
-                                              ? _vm._i(
-                                                  _vm.checkBoxes,
-                                                  user.id
-                                                ) > -1
-                                              : _vm.checkBoxes
-                                          },
-                                          on: {
-                                            change: function($event) {
-                                              var $$a = _vm.checkBoxes,
-                                                $$el = $event.target,
-                                                $$c = $$el.checked
-                                                  ? true
-                                                  : false
-                                              if (Array.isArray($$a)) {
-                                                var $$v = user.id,
-                                                  $$i = _vm._i($$a, $$v)
-                                                if ($$el.checked) {
-                                                  $$i < 0 &&
-                                                    (_vm.checkBoxes = $$a.concat(
-                                                      [$$v]
-                                                    ))
-                                                } else {
-                                                  $$i > -1 &&
-                                                    (_vm.checkBoxes = $$a
-                                                      .slice(0, $$i)
-                                                      .concat(
-                                                        $$a.slice($$i + 1)
-                                                      ))
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.bacthUsers,
+                                                  expression: "bacthUsers"
                                                 }
-                                              } else {
-                                                _vm.checkBoxes = $$c
+                                              ],
+                                              staticClass:
+                                                "custom-control-input",
+                                              attrs: {
+                                                type: "checkbox",
+                                                id: user.id
+                                              },
+                                              domProps: {
+                                                value: user.id,
+                                                checked: Array.isArray(
+                                                  _vm.bacthUsers
+                                                )
+                                                  ? _vm._i(
+                                                      _vm.bacthUsers,
+                                                      user.id
+                                                    ) > -1
+                                                  : _vm.bacthUsers
+                                              },
+                                              on: {
+                                                change: function($event) {
+                                                  var $$a = _vm.bacthUsers,
+                                                    $$el = $event.target,
+                                                    $$c = $$el.checked
+                                                      ? true
+                                                      : false
+                                                  if (Array.isArray($$a)) {
+                                                    var $$v = user.id,
+                                                      $$i = _vm._i($$a, $$v)
+                                                    if ($$el.checked) {
+                                                      $$i < 0 &&
+                                                        (_vm.bacthUsers = $$a.concat(
+                                                          [$$v]
+                                                        ))
+                                                    } else {
+                                                      $$i > -1 &&
+                                                        (_vm.bacthUsers = $$a
+                                                          .slice(0, $$i)
+                                                          .concat(
+                                                            $$a.slice($$i + 1)
+                                                          ))
+                                                    }
+                                                  } else {
+                                                    _vm.bacthUsers = $$c
+                                                  }
+                                                }
                                               }
-                                            }
-                                          }
-                                        }),
-                                        _vm._v(
-                                          "\n          " +
-                                            _vm._s(_vm.checkBoxes) +
-                                            "\n       "
+                                            }),
+                                            _vm._v(" "),
+                                            _c("span", {
+                                              staticClass:
+                                                "custom-control-indicator"
+                                            })
+                                          ]
                                         )
                                       ])
                                     ]
@@ -38059,7 +38002,77 @@ var render = function() {
                                 }),
                                 0
                               )
-                            ])
+                            ]),
+                            _vm._v(" "),
+                            _vm.bacthUsers.length > 0
+                              ? _c(
+                                  "div",
+                                  {
+                                    staticClass: "text-right buttons",
+                                    attrs: {
+                                      "data-aos-duration": "500",
+                                      "data-aos-delay": "300",
+                                      "data-aos-offset": "100",
+                                      "data-aos": "fade-up"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-primary btn-sm btn-round w-180 mb-5",
+                                        attrs: {
+                                          disabled: _vm.approvalSending
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.approveRequest(
+                                              _vm.bacthUsers,
+                                              true
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("\n   Approve\n ")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-danger btn-sm btn-round w-180 mb-5",
+                                        attrs: {
+                                          disabled: _vm.approvalSending
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.rejectRequest(_vm.users)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("\n   Reject \n ")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-warning btn-sm btn-round w-180",
+                                        attrs: {
+                                          disabled: _vm.approvalSending
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.approveRequestLater(_vm.users)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("\n   Approve Later\n ")]
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
                           ]
                         )
                       ]
@@ -38312,12 +38325,7 @@ var render = function() {
                     )
                   ])
                 ]
-              ),
-              _vm._v(" "),
-              _c("div", {
-                staticClass: "tab-pane fade",
-                attrs: { id: "tab-4" }
-              })
+              )
             ])
           ]
         )
