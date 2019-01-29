@@ -2094,6 +2094,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2103,7 +2108,8 @@ __webpack_require__.r(__webpack_exports__);
       approvedUsers: [],
       toBeApprovedUsers: [],
       loading: false,
-      currentTab: 'pending'
+      currentTab: 'pending',
+      checkBoxes: []
     };
   },
   mounted: function mounted() {
@@ -37824,408 +37830,497 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-12 col-md-8  no-scroll" }, [
-          _c("div", { staticClass: "tab-content text-center" }, [
-            _c(
-              "div",
-              {
-                staticClass: "tab-pane fade show active",
-                attrs: { id: "tab-1" }
-              },
-              [
-                _c("div", { staticClass: "container" }, [
-                  _c(
-                    "form",
-                    {
-                      staticClass: "row gap-y",
-                      on: {
-                        submit: function($event) {
-                          $event.preventDefault()
+        _c(
+          "div",
+          {
+            staticClass: "col-12 col-md-8  no-scroll",
+            attrs: {
+              "data-aos-duration": "1000",
+              "data-aos-delay": "300",
+              "data-aos-offset": "100",
+              "data-aos": "zoom-in"
+            }
+          },
+          [
+            _c("div", { staticClass: "tab-content text-center" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "tab-pane fade show active",
+                  attrs: { id: "tab-1" }
+                },
+                [
+                  _c("div", { staticClass: "container" }, [
+                    _c(
+                      "form",
+                      {
+                        staticClass: "row gap-y",
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                          }
                         }
-                      }
-                    },
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "col-lg-12 col-lg-8 col-md-6" },
-                        [
-                          _c("table", { staticClass: "table table-cart" }, [
-                            _c(
-                              "tbody",
-                              { attrs: { valign: "middle" } },
-                              _vm._l(_vm.users, function(user) {
-                                return _c(
-                                  "tr",
-                                  { key: _vm.users.indexOf(user) },
-                                  [
-                                    _c("td", [
-                                      _c(
-                                        "a",
-                                        { attrs: { href: "shop-single.html" } },
-                                        [
-                                          _c("img", {
-                                            staticStyle: {
-                                              "border-radius": "50%"
-                                            },
-                                            attrs: {
-                                              src: "/" + user.avatar,
-                                              alt: "..."
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _c("h5", [_vm._v(_vm._s(user.name))]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v("Senior Software at Netlinks")
-                                      ])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { staticClass: "text-center" }, [
-                                      _c("h5", [_vm._v("Action")]),
-                                      _vm._v(" "),
-                                      _c("p", [
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "col-lg-12 col-lg-8 col-md-6" },
+                          [
+                            _c("table", { staticClass: "table table-cart" }, [
+                              _c(
+                                "tbody",
+                                { attrs: { valign: "middle" } },
+                                _vm._l(_vm.users, function(user) {
+                                  return _c(
+                                    "tr",
+                                    { key: _vm.users.indexOf(user) },
+                                    [
+                                      _c("td", [
                                         _c(
-                                          "button",
+                                          "a",
                                           {
-                                            staticClass:
-                                              "btn btn-primary btn-sm btn-round w-180 mb-5",
-                                            attrs: {
-                                              disabled: _vm.approvalSending
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.approveRequest(user, true)
-                                              }
-                                            }
+                                            attrs: { href: "shop-single.html" }
                                           },
                                           [
-                                            _vm._v(
-                                              "\n             " +
-                                                _vm._s(
-                                                  user.loading
-                                                    ? "Approving ..."
-                                                    : "Approve"
-                                                ) +
-                                                "\n           "
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("br"),
-                                        _vm._v(" "),
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-danger btn-sm btn-round w-180 mb-5",
-                                            attrs: {
-                                              disabled: _vm.approvalSending
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.rejectRequest(user)
+                                            _c("img", {
+                                              staticStyle: {
+                                                "border-radius": "50%"
+                                              },
+                                              attrs: {
+                                                src: "/" + user.avatar,
+                                                alt: "..."
                                               }
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n             " +
-                                                _vm._s(
-                                                  user.rejecting
-                                                    ? "Rejecting..."
-                                                    : "Reject"
-                                                ) +
-                                                "\n           "
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("br"),
-                                        _vm._v(" "),
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-warning btn-sm btn-round w-180",
-                                            attrs: {
-                                              disabled: _vm.approvalSending
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.approveRequestLater(user)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n             " +
-                                                _vm._s(
-                                                  user.approving
-                                                    ? "Approving Later..."
-                                                    : "Approve Later"
-                                                ) +
-                                                "\n           "
-                                            )
+                                            })
                                           ]
                                         )
-                                      ])
-                                    ])
-                                  ]
-                                )
-                              }),
-                              0
-                            )
-                          ])
-                        ]
-                      )
-                    ]
-                  )
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "tab-pane fade", attrs: { id: "tab-2" } },
-              [
-                _c("div", { staticClass: "container" }, [
-                  _c(
-                    "form",
-                    {
-                      staticClass: "row gap-y",
-                      on: {
-                        submit: function($event) {
-                          $event.preventDefault()
-                        }
-                      }
-                    },
-                    [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "col-lg-12 col-lg-8 col-md-6  no-scroll"
-                        },
-                        [
-                          _c("table", { staticClass: "table table-cart" }, [
-                            _c(
-                              "tbody",
-                              { attrs: { valign: "middle" } },
-                              _vm._l(_vm.approvedUsers, function(user) {
-                                return _c(
-                                  "tr",
-                                  { key: _vm.approvedUsers.indexOf(user) },
-                                  [
-                                    _c("td", [
-                                      _c(
-                                        "a",
-                                        { attrs: { href: "shop-single.html" } },
-                                        [
-                                          _c("img", {
-                                            staticStyle: {
-                                              "border-radius": "50%"
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("h5", [_vm._v(_vm._s(user.name))]),
+                                        _vm._v(" "),
+                                        _c("p", [
+                                          _vm._v("Senior Software at Netlinks")
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", { staticClass: "text-center" }, [
+                                        _c("h5", [_vm._v("Action")]),
+                                        _vm._v(" "),
+                                        _c("p", [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-primary btn-sm btn-round w-180 mb-5",
+                                              attrs: {
+                                                disabled: _vm.approvalSending
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.approveRequest(user, true)
+                                                }
+                                              }
                                             },
-                                            attrs: {
-                                              src: "/" + user.avatar,
-                                              alt: "..."
+                                            [
+                                              _vm._v(
+                                                "\n             " +
+                                                  _vm._s(
+                                                    user.loading
+                                                      ? "Approving ..."
+                                                      : "Approve"
+                                                  ) +
+                                                  "\n           "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("br"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-danger btn-sm btn-round w-180 mb-5",
+                                              attrs: {
+                                                disabled: _vm.approvalSending
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.rejectRequest(user)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n             " +
+                                                  _vm._s(
+                                                    user.rejecting
+                                                      ? "Rejecting..."
+                                                      : "Reject"
+                                                  ) +
+                                                  "\n           "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("br"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-warning btn-sm btn-round w-180",
+                                              attrs: {
+                                                disabled: _vm.approvalSending
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.approveRequestLater(user)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n             " +
+                                                  _vm._s(
+                                                    user.approving
+                                                      ? "Approving Later..."
+                                                      : "Approve Later"
+                                                  ) +
+                                                  "\n           "
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("input", {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value: _vm.checkBoxes,
+                                              expression: "checkBoxes"
                                             }
-                                          })
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _c("h5", [_vm._v(_vm._s(user.name))]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v("Senior Software at Netlinks")
-                                      ])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { staticClass: "text-center" }, [
-                                      _c("h5", [_vm._v("Action")]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-danger btn-sm btn-round w-180 mb-5",
-                                            attrs: {
-                                              disabled: _vm.approvalSending
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.revokeRequestBack(user)
+                                          ],
+                                          attrs: {
+                                            type: "checkbox",
+                                            id: user.id
+                                          },
+                                          domProps: {
+                                            value: user.id,
+                                            checked: Array.isArray(
+                                              _vm.checkBoxes
+                                            )
+                                              ? _vm._i(
+                                                  _vm.checkBoxes,
+                                                  user.id
+                                                ) > -1
+                                              : _vm.checkBoxes
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$a = _vm.checkBoxes,
+                                                $$el = $event.target,
+                                                $$c = $$el.checked
+                                                  ? true
+                                                  : false
+                                              if (Array.isArray($$a)) {
+                                                var $$v = user.id,
+                                                  $$i = _vm._i($$a, $$v)
+                                                if ($$el.checked) {
+                                                  $$i < 0 &&
+                                                    (_vm.checkBoxes = $$a.concat(
+                                                      [$$v]
+                                                    ))
+                                                } else {
+                                                  $$i > -1 &&
+                                                    (_vm.checkBoxes = $$a
+                                                      .slice(0, $$i)
+                                                      .concat(
+                                                        $$a.slice($$i + 1)
+                                                      ))
+                                                }
+                                              } else {
+                                                _vm.checkBoxes = $$c
                                               }
                                             }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n           " +
-                                                _vm._s(
-                                                  user.revoking
-                                                    ? "Revoking Request ..."
-                                                    : "Revoke"
-                                                ) +
-                                                "\n         "
-                                            )
-                                          ]
+                                          }
+                                        }),
+                                        _vm._v(
+                                          "\n          " +
+                                            _vm._s(_vm.checkBoxes) +
+                                            "\n       "
                                         )
                                       ])
-                                    ])
-                                  ]
-                                )
-                              }),
-                              0
-                            )
-                          ])
-                        ]
-                      )
-                    ]
-                  )
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "tab-pane fade", attrs: { id: "tab-3" } },
-              [
-                _c("div", { staticClass: "container" }, [
-                  _c(
-                    "form",
-                    {
-                      staticClass: "row gap-y",
-                      on: {
-                        submit: function($event) {
-                          $event.preventDefault()
+                                    ]
+                                  )
+                                }),
+                                0
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "tab-pane fade", attrs: { id: "tab-2" } },
+                [
+                  _c("div", { staticClass: "container" }, [
+                    _c(
+                      "form",
+                      {
+                        staticClass: "row gap-y",
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                          }
                         }
-                      }
-                    },
-                    [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "col-lg-12 col-lg-8 col-md-6  no-scroll"
-                        },
-                        [
-                          _c("table", { staticClass: "table table-cart" }, [
-                            _c(
-                              "tbody",
-                              { attrs: { valign: "middle" } },
-                              _vm._l(_vm.toBeApprovedUsers, function(user) {
-                                return _c(
-                                  "tr",
-                                  { key: _vm.toBeApprovedUsers.indexOf(user) },
-                                  [
-                                    _c("td", [
-                                      _c(
-                                        "a",
-                                        { attrs: { href: "shop-single.html" } },
-                                        [
-                                          _c("img", {
-                                            staticStyle: {
-                                              "border-radius": "50%"
-                                            },
-                                            attrs: {
-                                              src: "/" + user.avatar,
-                                              alt: "..."
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _c("h5", [_vm._v(_vm._s(user.name))]),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _vm._v("Senior Software at Netlinks")
-                                      ])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { staticClass: "text-center" }, [
-                                      _c("h5", [_vm._v("Action")]),
-                                      _vm._v(" "),
-                                      _c("p", [
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "col-lg-12 col-lg-8 col-md-6  no-scroll"
+                          },
+                          [
+                            _c("table", { staticClass: "table table-cart" }, [
+                              _c(
+                                "tbody",
+                                { attrs: { valign: "middle" } },
+                                _vm._l(_vm.approvedUsers, function(user) {
+                                  return _c(
+                                    "tr",
+                                    { key: _vm.approvedUsers.indexOf(user) },
+                                    [
+                                      _c("td", [
                                         _c(
-                                          "button",
+                                          "a",
                                           {
-                                            staticClass:
-                                              "btn btn-primary btn-sm btn-round w-180 mb-5",
-                                            attrs: {
-                                              disabled: _vm.approvalSending
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.approveRequest(user, false)
-                                              }
-                                            }
+                                            attrs: { href: "shop-single.html" }
                                           },
                                           [
-                                            _vm._v(
-                                              "\n           " +
-                                                _vm._s(
-                                                  user.loading
-                                                    ? "Approving ..."
-                                                    : "Approve"
-                                                ) +
-                                                "\n         "
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("br"),
-                                        _vm._v(" "),
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass:
-                                              "btn btn-danger btn-sm btn-round w-180 mb-5",
-                                            attrs: {
-                                              disabled: _vm.approvalSending
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                _vm.rejectRequest(user)
+                                            _c("img", {
+                                              staticStyle: {
+                                                "border-radius": "50%"
+                                              },
+                                              attrs: {
+                                                src: "/" + user.avatar,
+                                                alt: "..."
                                               }
-                                            }
-                                          },
-                                          [
-                                            _vm._v(
-                                              "\n           " +
-                                                _vm._s(
-                                                  user.rejecting
-                                                    ? "Rejecting..."
-                                                    : "Reject"
-                                                ) +
-                                                "\n         "
-                                            )
+                                            })
                                           ]
                                         )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("h5", [_vm._v(_vm._s(user.name))]),
+                                        _vm._v(" "),
+                                        _c("p", [
+                                          _vm._v("Senior Software at Netlinks")
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", { staticClass: "text-center" }, [
+                                        _c("h5", [_vm._v("Action")]),
+                                        _vm._v(" "),
+                                        _c("p", [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-danger btn-sm btn-round w-180 mb-5",
+                                              attrs: {
+                                                disabled: _vm.approvalSending
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.revokeRequestBack(user)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n           " +
+                                                  _vm._s(
+                                                    user.revoking
+                                                      ? "Revoking Request ..."
+                                                      : "Revoke"
+                                                  ) +
+                                                  "\n         "
+                                              )
+                                            ]
+                                          )
+                                        ])
                                       ])
-                                    ])
-                                  ]
-                                )
-                              }),
-                              0
-                            )
-                          ])
-                        ]
-                      )
-                    ]
-                  )
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "tab-pane fade", attrs: { id: "tab-4" } })
-          ])
-        ])
+                                    ]
+                                  )
+                                }),
+                                0
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "tab-pane fade", attrs: { id: "tab-3" } },
+                [
+                  _c("div", { staticClass: "container" }, [
+                    _c(
+                      "form",
+                      {
+                        staticClass: "row gap-y",
+                        on: {
+                          submit: function($event) {
+                            $event.preventDefault()
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "col-lg-12 col-lg-8 col-md-6  no-scroll"
+                          },
+                          [
+                            _c("table", { staticClass: "table table-cart" }, [
+                              _c(
+                                "tbody",
+                                { attrs: { valign: "middle" } },
+                                _vm._l(_vm.toBeApprovedUsers, function(user) {
+                                  return _c(
+                                    "tr",
+                                    {
+                                      key: _vm.toBeApprovedUsers.indexOf(user)
+                                    },
+                                    [
+                                      _c("td", [
+                                        _c(
+                                          "a",
+                                          {
+                                            attrs: { href: "shop-single.html" }
+                                          },
+                                          [
+                                            _c("img", {
+                                              staticStyle: {
+                                                "border-radius": "50%"
+                                              },
+                                              attrs: {
+                                                src: "/" + user.avatar,
+                                                alt: "..."
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c("h5", [_vm._v(_vm._s(user.name))]),
+                                        _vm._v(" "),
+                                        _c("p", [
+                                          _vm._v("Senior Software at Netlinks")
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", { staticClass: "text-center" }, [
+                                        _c("h5", [_vm._v("Action")]),
+                                        _vm._v(" "),
+                                        _c("p", [
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-primary btn-sm btn-round w-180 mb-5",
+                                              attrs: {
+                                                disabled: _vm.approvalSending
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.approveRequest(
+                                                    user,
+                                                    false
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n           " +
+                                                  _vm._s(
+                                                    user.loading
+                                                      ? "Approving ..."
+                                                      : "Approve"
+                                                  ) +
+                                                  "\n         "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("br"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "button",
+                                            {
+                                              staticClass:
+                                                "btn btn-danger btn-sm btn-round w-180 mb-5",
+                                              attrs: {
+                                                disabled: _vm.approvalSending
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.rejectRequest(user)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n           " +
+                                                  _vm._s(
+                                                    user.rejecting
+                                                      ? "Rejecting..."
+                                                      : "Reject"
+                                                  ) +
+                                                  "\n         "
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ])
+                                    ]
+                                  )
+                                }),
+                                0
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", {
+                staticClass: "tab-pane fade",
+                attrs: { id: "tab-4" }
+              })
+            ])
+          ]
+        )
       ])
     ])
   ])

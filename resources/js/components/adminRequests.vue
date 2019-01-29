@@ -21,7 +21,7 @@
 </li>
 </ul>
 </div>
-<div class="col-12 col-md-8  no-scroll">
+<div class="col-12 col-md-8  no-scroll" data-aos-duration="1000" data-aos-delay="300" data-aos-offset="100" data-aos="zoom-in">
  <div class="tab-content text-center">
   <div class="tab-pane fade show active" id="tab-1">
    <div class="container">
@@ -54,6 +54,11 @@
              {{ user.approving ? 'Approving Later...' : 'Approve Later'}}
            </button>
          </p>
+       </td>
+       <td>
+        
+          <input type="checkbox" v-model="checkBoxes" :value="user.id" :id="user.id">
+          {{ checkBoxes }}
        </td>
      </tr>
 
@@ -148,7 +153,8 @@ export default {
     approvedUsers:[],
     toBeApprovedUsers:[],
     loading: false,
-    currentTab: 'pending'
+    currentTab: 'pending',
+    checkBoxes:[],
   }
 },
 
@@ -385,6 +391,7 @@ approveRequestLater(user){
 
 
 
+
 },
 
 
@@ -394,8 +401,7 @@ computed: {
   approvalSending(){
 
     return this.loading
-  }
-
+  },
 
 }
 
