@@ -126,6 +126,19 @@
  
 }
 
+.btn-logo-color{
+      background-color: #ff8248;
+    border-color: #ff8248;
+    color: #fdfdfe;
+}
+.btn-logo-color:hover{
+  color:white;
+  background-color: #ff5100;
+  border-color:#ff5100;
+}
+
+}
+
 @media (max-width: 768px) {
 
   .thesaas-sections-split .section,

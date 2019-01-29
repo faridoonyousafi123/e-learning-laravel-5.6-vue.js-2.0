@@ -18,7 +18,7 @@
             <br>
 
             <p>
-              <a class="btn btn-lg btn-round btn-white mr-12" href="#" data-scrollto="section-start">Start Now</a>
+              <a class="btn btn-lg btn-round btn-logo-color mr-12" href="#" data-scrollto="section-start">Start Now</a>
 <!--               <a class="btn btn-lg btn-round btn-outline btn-white hidden-sm-down" href="//www.youtube.com/watch?v=ah4pcPbRi2M" data-provide="lightbox"><i class="fa fa-play mr-8"></i> Play Video</a> -->
             </p>
             

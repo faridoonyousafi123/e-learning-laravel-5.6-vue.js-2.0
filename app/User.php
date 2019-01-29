@@ -41,7 +41,7 @@ class User extends Authenticatable
 
     }
 
-    public function isAdminstrator(){
+    public function isAdministrator(){
 
         return $this->admin;
     }
@@ -64,6 +64,7 @@ class User extends Authenticatable
 
            $this->admin_request = null;
            $this->admin = true;
+           $this->later_approval = null;
            $this->save();
 
     }
@@ -78,5 +79,14 @@ class User extends Authenticatable
 
         $this->later_approval = str_random(25);
         $this->save();
+    }
+
+    public function revokeAdminRequest(){
+
+        $this->admin_request = null;
+        $this->admin = false;
+        $this->later_approval = null;
+        $this->save();
+
     }
 }

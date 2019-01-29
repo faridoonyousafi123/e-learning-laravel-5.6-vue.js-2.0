@@ -76,4 +76,10 @@ class administratorRequest extends FormRequest
         $user->approveRequestLater();
 
     }
+
+    public function revokeUserRequestBack(){
+
+        $user = User::find($this->user_id);
+        $user->revokeAdminRequest();
+    }
 }

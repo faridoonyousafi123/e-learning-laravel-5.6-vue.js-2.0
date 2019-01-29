@@ -2093,6 +2093,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2208,9 +2209,31 @@ __webpack_require__.r(__webpack_exports__);
         user.rejecting = false;
       });
     },
+    // Revoke Requests Back
+    revokeRequestBack: function revokeRequestBack(user) {
+      var _this6 = this;
+
+      this.loading = true;
+      user.revoking = true;
+      console.log(user.id);
+      var formData = new FormData();
+      formData.append("user_id", user.id);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/revoke-request', formData, {}).then(function (res) {
+        _this6.loading = false;
+
+        var index = _this6.approvedUsers.indexOf(user);
+
+        if (index > -1) {
+          _this6.approvedUsers.splice(index, 1);
+        }
+      }).catch(function (error) {
+        console.log('errororrr');
+        user.revoking = false;
+      });
+    },
     // Approve the Requests later
     approveRequestLater: function approveRequestLater(user) {
-      var _this6 = this;
+      var _this7 = this;
 
       this.loading = true;
       user.approving = true;
@@ -2218,12 +2241,12 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/later-request', formData, {}).then(function (res) {
-        _this6.loading = false;
+        _this7.loading = false;
 
-        var index = _this6.users.indexOf(user);
+        var index = _this7.users.indexOf(user);
 
         if (index > -1) {
-          _this6.users.splice(index, 1);
+          _this7.users.splice(index, 1);
         }
       }).catch(function (error) {
         console.log('errororrr');
@@ -38022,7 +38045,38 @@ var render = function() {
                                       ])
                                     ]),
                                     _vm._v(" "),
-                                    _vm._m(0, true)
+                                    _c("td", { staticClass: "text-center" }, [
+                                      _c("h5", [_vm._v("Action")]),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-danger btn-sm btn-round w-180 mb-5",
+                                            attrs: {
+                                              disabled: _vm.approvalSending
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.revokeRequestBack(user)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n           " +
+                                                _vm._s(
+                                                  user.revoking
+                                                    ? "Revoking Request ..."
+                                                    : "Revoke"
+                                                ) +
+                                                "\n         "
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    ])
                                   ]
                                 )
                               }),
@@ -38176,24 +38230,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "text-center" }, [
-      _c("h5", [_vm._v("Action")]),
-      _vm._v(" "),
-      _c("p", [
-        _c(
-          "button",
-          { staticClass: "btn btn-danger btn-sm btn-round w-180 mb-5" },
-          [_vm._v("\n           Revoke\n         ")]
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

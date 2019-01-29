@@ -81,5 +81,16 @@ class AdministratorController extends Controller
         ]);
     }
 
+    public function revokeRequestBack(administratorRequest $request){
+
+    	return $request->revokeUserRequestBack();
+
+    	return response()->json([
+
+            'status' => 'ok',
+        ]);
+
+    }
+
 
 }

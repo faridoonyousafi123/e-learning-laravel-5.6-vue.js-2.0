@@ -19,7 +19,7 @@ class Administrator
 
         if(auth()->check()){
 
-            if(auth()->user()->isAdminstrator()){
+            if(auth()->user()->isAdministrator()){
 
                  return $next($request);
             }else{

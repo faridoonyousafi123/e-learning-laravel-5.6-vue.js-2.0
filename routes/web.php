@@ -105,7 +105,7 @@ Route::group(['prefix'=>'admin','middleware'=> 'checkuser'], function(){
 	'uses' => 'AdministratorController@showAdminRequests',
 	'as' => 'requests.show'
 
-	]);
+	])->middleware('admin');
 
 	Route::post('/approve-request',[
 
@@ -125,6 +125,13 @@ Route::group(['prefix'=>'admin','middleware'=> 'checkuser'], function(){
 
 	'uses' => 'AdministratorController@approveRequestLater',
 	'as' => 'user.approveLater'
+
+	]);
+
+	Route::post('/revoke-request',[
+
+	'uses' => 'AdministratorController@revokeRequestBack',
+	'as' => 'user.revokeRequest'
 
 	]);
 

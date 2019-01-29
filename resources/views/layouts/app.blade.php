@@ -48,7 +48,14 @@
             @if(auth()->check())
                     
                    <li class="nav-item">Hey {{auth()->user()->name}}</li> 
-                   <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">Logout</a></li>
+                   
+                   @if(auth()->user()->isAdministrator())
+
+                    <li class="nav-item"><a class="nav-link" href="{{ route('requests.show') }}">Administration</a></li>
+
+                   @endif
+<li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">Logout</a></li>
+
 
             @else
 

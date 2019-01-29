@@ -56,6 +56,7 @@
          </p>
        </td>
      </tr>
+
    </tbody>
  </table>
 </div>
@@ -81,8 +82,8 @@
       <td class="text-center">
         <h5>Action</h5>
         <p>
-         <button class="btn btn-danger btn-sm btn-round w-180 mb-5">
-           Revoke
+         <button class="btn btn-danger btn-sm btn-round w-180 mb-5" @click="revokeRequestBack(user)" :disabled="approvalSending">
+           {{ user.revoking ? 'Revoking Request ...' : 'Revoke'}}
          </button>
        </p>
      </td>
@@ -303,6 +304,41 @@ rejectRequest(user){
 
     console.log('errororrr');
     user.rejecting = false;
+
+   });
+   
+   
+},
+
+// Revoke Requests Back
+revokeRequestBack(user){
+
+   this.loading = true
+   user.revoking = true;
+   
+   console.log(user.id);
+   
+   var formData = new FormData();
+   
+   formData.append("user_id", user.id);
+   
+   axios.post('/admin/revoke-request', formData, {
+
+
+   }).then(res => {
+
+     this.loading = false;
+
+     const index = this.approvedUsers.indexOf(user);
+
+     if (index > -1) {
+       this.approvedUsers.splice(index, 1);
+     }
+
+   }).catch(error => {
+
+    console.log('errororrr');
+    user.revoking = false;
 
    });
    
