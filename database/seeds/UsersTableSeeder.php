@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
                 
             'name' => 'Kati Frantz',
             'password' => bcrypt('admin'),
-            'email' => 'faridoon.yousafi7@gmail.com',
+            'email' => 'faridoon.yousafi7@g.com',
             'username' => str_slug('Kati Frantz'),
             'avatar' => 'avatars/user.jpg',
             'admin_request' => 'asdfasdfsadfsdaf'
@@ -36,7 +36,7 @@ class UsersTableSeeder extends Seeder
 
             'name' => 'Jhon Wick',
             'password' => bcrypt('admin'),
-            'email' => 'faridoon.y@gmail.com',
+            'email' => 'faridoon.y@g.com',
             'username' => str_slug('Jhon Wick'),
             'avatar' => 'avatars/user1.jpg',
             'admin_request' => 'asdfasdfsadfsdaf'

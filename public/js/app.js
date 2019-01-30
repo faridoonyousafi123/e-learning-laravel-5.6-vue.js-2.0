@@ -2112,6 +2112,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2178,7 +2179,6 @@ __webpack_require__.r(__webpack_exports__);
     approveRequest: function approveRequest(user, pending) {
       var _this4 = this;
 
-      $('.buttons').css('display', 'show');
       this.loading = true;
       var formData = new FormData();
 
@@ -2188,7 +2188,6 @@ __webpack_require__.r(__webpack_exports__);
 
       formData.append("users", this.bacthUsers);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
-        $('.buttons').css('display', 'none');
         _this4.loading = false;
 
         if (pending) {
@@ -2201,6 +2200,10 @@ __webpack_require__.r(__webpack_exports__);
 
             if (index > -1) {
               _this4.users.splice(index, 1);
+
+              if (_this4.users.length < 1) {
+                $('.buttons').css('display', 'none');
+              }
             }
           });
 
@@ -38034,7 +38037,17 @@ var render = function() {
                                           }
                                         }
                                       },
-                                      [_vm._v("\n   Approve\n ")]
+                                      [
+                                        _vm._v(
+                                          "\n   " +
+                                            _vm._s(
+                                              this.loading
+                                                ? "Approving ..."
+                                                : "Approve"
+                                            ) +
+                                            "\n "
+                                        )
+                                      ]
                                     ),
                                     _vm._v(" "),
                                     _c(

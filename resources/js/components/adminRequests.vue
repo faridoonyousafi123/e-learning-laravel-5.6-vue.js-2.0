@@ -61,9 +61,9 @@
 
 
 </table>
-<div class="text-right buttons" v-if="bacthUsers.length > 0" data-aos-duration="500" data-aos-delay="300" data-aos-offset="100" data-aos="fade-up" >
+<div class="text-right buttons" v-if="bacthUsers.length > 0" data-aos-duration="500" data-aos-delay="300" data-aos-offset="100" data-aos="fade-up">
  <button  class="btn btn-primary btn-sm btn-round w-180 mb-5" @click="approveRequest(bacthUsers, true)" :disabled="approvalSending">
-   Approve
+   {{ this.loading ? 'Approving ...' : 'Approve'}}
  </button>
 
  <button class="btn btn-danger btn-sm btn-round w-180 mb-5" @click="rejectRequest(users)" :disabled="approvalSending">
@@ -73,6 +73,7 @@
    Approve Later
  </button>
 </div>
+
 
 
 
@@ -175,7 +176,7 @@ export default {
 mounted() {
 
  this.getPendingRequests();
- 
+
 },
 
 
@@ -195,10 +196,10 @@ methods: {
    this.approvedUsers = resp.data;
 
 
- })
+  })
   .catch(error => {
    console.error(error);
- })
+  })
 
 
 },
@@ -251,7 +252,7 @@ getPendingRequests(tab){
 // Approve Users as Administrator
 approveRequest(user, pending){
 
-  $('.buttons').css('display','show');
+ 
 
   this.loading = true
 
@@ -269,8 +270,8 @@ approveRequest(user, pending){
 
   }).then(res => {
 
-    $('.buttons').css('display','none');
-
+    
+  
     this.loading = false;
 
     if (pending) {
@@ -281,10 +282,20 @@ approveRequest(user, pending){
 
         if (index > -1) {
          this.users.splice(index, 1);
-       }
-     });
+
+         if(this.users.length < 1){
+           $('.buttons').css('display', 'none');
+         }
+       } 
+
+      });
       return;
+
+
+
     }
+
+
 
     const index = this.toBeApprovedUsers.indexOf(user);
 
@@ -374,8 +385,6 @@ revokeRequestBack(user){
 
 
 },
-
-
 
 
 // Approve the Requests later

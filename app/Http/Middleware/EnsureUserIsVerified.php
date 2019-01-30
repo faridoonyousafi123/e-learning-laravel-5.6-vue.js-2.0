@@ -18,10 +18,15 @@ class EnsureUserIsVerified
     public function handle($request, Closure $next)
     {
         try {
-            if(!Auth::user()->confirm_token == null){
+            if(auth()->check()){
+                if(!Auth::user()->confirm_token == null){
             
             return redirect('/confirmemail');
         }
+    }else{
+        return redirect('/');
+    }
+            
             
         } catch (Exception $e) {
             
