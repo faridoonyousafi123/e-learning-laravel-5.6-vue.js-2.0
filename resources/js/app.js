@@ -24,6 +24,10 @@ Vue.component('vue-login', require('./components/Login.vue').default);
 Vue.component('vue-createseries', require('./components/createSeries.vue').default);
 Vue.component('vue-adminrequests', require('./components/adminRequests.vue').default);
 
+import { VLazyImagePlugin } from "v-lazy-image";
+
+Vue.use(VLazyImagePlugin);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

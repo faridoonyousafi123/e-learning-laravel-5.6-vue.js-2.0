@@ -17,18 +17,33 @@
  
 </ul>
 </div>
+
 <div class="col-12 col-md-8  no-scroll" data-aos-duration="500" data-aos-delay="200" data-aos-offset="100" data-aos="zoom-in">
+
  <div class="tab-content text-center">
   <div class="tab-pane fade show active" id="tab-1">
    <div class="container">
+    <div v-if="this.loading" class="loader-ring mt-100"></div>
     <form class="row gap-y" v-on:submit.prevent>
-     <div class="col-lg-12 col-lg-8 col-md-6">
+
+       
+     <div class="col-lg-12 col-lg-8 col-md-6 tabledata">
+     
       <table class="table table-cart">
        <tbody valign="middle">
         <tr v-for="user in users" :key="users.indexOf(user)">
          <td>
+
           <a href="shop-single.html">
-            <img style="border-radius:50%;" v-bind:src="'/' + user.avatar" alt="...">
+    
+             <v-lazy-image 
+            
+             :src="'/' + user.avatar"
+
+            
+
+             />
+
           </a>
         </td>
         <td>
@@ -42,8 +57,10 @@
           </label>
         </td>
       </tr>
+
     </tbody>
   </table>
+
   <div class="text-right buttons" v-if="bacthUsers.length > 0" data-aos-duration="500" data-aos-delay="300" data-aos-offset="100" data-aos="fade-up">
    <button  class="btn btn-primary btn-sm btn-round w-180 mb-5" @click="approveRequest(bacthUsers, true)" :disabled="approvalSending">
      {{ this.loading ? 'Approving ...' : 'Approve'}}
@@ -96,6 +113,7 @@
 </div>
 </div>
 </div>
+
 </section>
 </template>
 <script>
@@ -118,6 +136,8 @@ export default {
  mounted() {
 
   this.getPendingRequests();
+
+  
 
 },
 
@@ -182,6 +202,8 @@ methods: {
 
      this.loading = true
 
+     $('.tabledata').css('display','none');
+
      var formData = new FormData();
 
      if (user.id) {
@@ -191,12 +213,13 @@ methods: {
      formData.append("users", this.bacthUsers);
 
      axios.post('/admin/approve-request', formData, {
-
+  
 
      }).then(res => {
 
        this.loading = false;
-
+          
+         $('.tabledata').css('display','block');
        return this.getCurrentTab(currentTab);
 
 
@@ -314,10 +337,12 @@ methods: {
       }
  }
 
+ 
 
 
 
 },
+
 
 
 
@@ -333,3 +358,14 @@ computed: {
 }
 
 </script>
+
+<style scoped>
+.v-lazy-image {
+  border-radius:50%;
+  filter: blur(10px);
+  transition: filter 0.5s;
+}
+.v-lazy-image-loaded {
+  filter: blur(0);
+}
+</style>
