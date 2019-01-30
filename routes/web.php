@@ -55,12 +55,6 @@ Route::get('/users-approved',[
 
 ]);
 
-Route::get('/users-to-be-approved',[
-
-	'uses' => 'AdministratorController@sendtoBeApprovedUsers',
-	'as' => 'show.toBeApprovedUsers'
-
-]);
 
 
 
@@ -121,12 +115,6 @@ Route::group(['prefix'=>'admin','middleware'=> 'checkuser'], function(){
 
 	]);
 
-	Route::post('/later-request',[
-
-	'uses' => 'AdministratorController@approveRequestLater',
-	'as' => 'user.approveLater'
-
-	]);
 
 	Route::post('/revoke-request',[
 

@@ -47,11 +47,11 @@ class administratorRequest extends FormRequest
         $usersRequests = explode(',' , $this->users);
         
         foreach ($usersRequests as $user) {
-            
+
             $user = User::find($user);  
             $user->makeAdmin();
 
-            
+
         }
         return $this;
         
@@ -75,9 +75,9 @@ class administratorRequest extends FormRequest
 
       }
 
-      
-      
-      
+
+
+
   }
 
   public function sendRejectionMail(){
@@ -86,12 +86,6 @@ class administratorRequest extends FormRequest
     Mail::to($user)->send(new adminRequestRejection($user));
 }
 
-public function approveUserAsAdminLater(){
-
-    $user = User::find($this->user_id);
-    $user->approveRequestLater();
-
-}
 
 public function revokeUserRequestBack(){
 

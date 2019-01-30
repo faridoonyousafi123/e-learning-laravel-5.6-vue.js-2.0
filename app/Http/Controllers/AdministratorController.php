@@ -29,7 +29,7 @@ class AdministratorController extends Controller
 
     public function sendUsers(){
 
-    	$users = User::whereNotNull('admin_request')->where('later_approval', null)->get();
+    	$users = User::whereNotNull('admin_request')->get();
     	return response()->json($users);
     }
 
@@ -66,24 +66,8 @@ class AdministratorController extends Controller
         ]);
     }
 
-    public function sendtoBeApprovedUsers(){
-
-    	$users = User::whereNotNull('later_approval')->whereNotNull('admin_request')->get();
-    	return response()->json($users);
-
-
-    }
-
-    public function approveRequestLater(administratorRequest $request){
-
-    	return $request->approveUserAsAdminLater();
-
-    	return response()->json([
-
-            'status' => 'ok',
-        ]);
-    }
-
+  
+  
     public function revokeRequestBack(administratorRequest $request){
 
     	return $request->revokeUserRequestBack();

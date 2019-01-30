@@ -14,14 +14,10 @@
       <h6>Approved</h6>
     </a>
   </li>
-  <li class="nav-item">
-   <a @click="getTobeApprovedUsers('toBeApproved')" class="nav-link" data-toggle="tab" href="#tab-3">
-    <h6>To be Approved</h6>
-  </a>
-</li>
+ 
 </ul>
 </div>
-<div class="col-12 col-md-8  no-scroll" data-aos-duration="1000" data-aos-delay="300" data-aos-offset="100" data-aos="zoom-in">
+<div class="col-12 col-md-8  no-scroll" data-aos-duration="500" data-aos-delay="200" data-aos-offset="100" data-aos="zoom-in">
  <div class="tab-content text-center">
   <div class="tab-pane fade show active" id="tab-1">
    <div class="container">
@@ -39,48 +35,24 @@
           <h5>{{ user.name }}</h5>
           <p>Senior Software at Netlinks</p>
         </td>
-        
-        
-
         <td>
-
-
-         <label class="custom-control custom-checkbox">
-          <input class="custom-control-input" type="checkbox" v-model="bacthUsers" :value="user.id" :id="user.id">
-          <span class="custom-control-indicator"></span>
-
-        </label>
-        
-        
-
-
-      </td>
-    </tr>
-
-  </tbody>
-
-
-</table>
-<div class="text-right buttons" v-if="bacthUsers.length > 0" data-aos-duration="500" data-aos-delay="300" data-aos-offset="100" data-aos="fade-up">
- <button  class="btn btn-primary btn-sm btn-round w-180 mb-5" @click="approveRequest(bacthUsers, true)" :disabled="approvalSending">
-   {{ this.loading ? 'Approving ...' : 'Approve'}}
- </button>
-
- <button class="btn btn-danger btn-sm btn-round w-180 mb-5" @click="rejectRequest(users)" :disabled="approvalSending">
-   Reject 
- </button>
- <button @click="approveRequestLater(users)" :disabled="approvalSending" class="btn btn-warning btn-sm btn-round w-180">
-   Approve Later
- </button>
+          <label class="custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" v-model="bacthUsers" :value="user.id" :id="user.id">
+            <span class="custom-control-indicator"></span>
+          </label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-right buttons" v-if="bacthUsers.length > 0" data-aos-duration="500" data-aos-delay="300" data-aos-offset="100" data-aos="fade-up">
+   <button  class="btn btn-primary btn-sm btn-round w-180 mb-5" @click="approveRequest(bacthUsers, true)" :disabled="approvalSending">
+     {{ this.loading ? 'Approving ...' : 'Approve'}}
+   </button>
+   <button class="btn btn-danger btn-sm btn-round w-180 mb-5" @click="rejectRequest(users)" :disabled="approvalSending">
+     Reject 
+   </button>
+  </div>
 </div>
-
-
-
-
-
-</div>
-
-
 </form>
 </div>
 </div>
@@ -115,36 +87,6 @@
 </form>
 </div>
 </div>
-<div class="tab-pane fade" id="tab-3">
- <div class="container">
-  <form class="row gap-y" v-on:submit.prevent>
-   <div class="col-lg-12 col-lg-8 col-md-6  no-scroll">
-    <table class="table table-cart">
-     <tbody valign="middle">
-      <tr v-for="user in toBeApprovedUsers" :key="toBeApprovedUsers.indexOf(user)">
-       <td>
-        <a href="shop-single.html">
-          <img style="border-radius:50%;" v-bind:src="'/' + user.avatar" alt="...">
-        </a>
-      </td>
-      <td>
-        <h5>{{ user.name }}</h5>
-        <p>Senior Software at Netlinks</p>
-      </td>
-      <td class="text-center">
-        <h5>Action</h5>
-        <p>
-         <button  class="btn btn-primary btn-sm btn-round w-180 mb-5" @click="approveRequest(user, false)" :disabled="approvalSending">
-           {{ user.loading ? 'Approving ...' : 'Approve'}}
-         </button>
-         <br>
-         <button class="btn btn-danger btn-sm btn-round w-180 mb-5" @click="rejectRequest(user)" :disabled="approvalSending">
-           {{ user.rejecting ? 'Rejecting...' : 'Reject'}}
-         </button>
-       </p>
-     </td>
-   </tr>
- </tbody>
 </table>
 </div>
 </form>
@@ -159,23 +101,23 @@
 <script>
 import axios from 'axios'
 export default {
- data() {
+  data() {
 
-  return{
-    csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-    users: [],
-    approvedUsers:[],
-    toBeApprovedUsers:[],
-    loading: false,
-    currentTab: 'pending',
-    bacthUsers:[],
-  }
-},
+   return{
+     csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+     users: [],
+     approvedUsers:[],
+    
+     loading: false,
+     currentTab: 'pending',
+     bacthUsers:[],
+   }
+ },
 
 
-mounted() {
+ mounted() {
 
- this.getPendingRequests();
+  this.getPendingRequests();
 
 },
 
@@ -183,244 +125,194 @@ mounted() {
 
 methods: {
 
+        /* Functions that get data from API's  */
 
- //Getting Users that are approved
- getApprovedUsers(tab){
-  if (tab == this.currentTab) {
-    return;
-  }
+    //Getting Users that are approved
+    getApprovedUsers(tab){
+       
+       if (tab == this.currentTab) {
+         return;
+       }
 
-  this.currentTab = tab;
-  axios.get('/users-approved')
-  .then(resp => {
-   this.approvedUsers = resp.data;
-
-
-  })
-  .catch(error => {
-   console.error(error);
-  })
+       this.currentTab = tab;
+       axios.get('/users-approved')
+       .then(resp => {
+        this.approvedUsers = resp.data;
 
 
-},
+       }).catch(error => {
+
+        console.error(error);
+    })
+
+    },
+   
+   
+
+   
+   
+   
+   
+   // get Users that needs to be approved now
+   getPendingRequests(tab){
+     if (tab == this.currentTab) {
+       return;
+     }
 
 
-//Getting Users that needs to be approved later
-getTobeApprovedUsers(tab){
-
-  if (tab == this.currentTab) {
-    return;
-  }
-
-  this.currentTab = tab;
-  axios.get('/users-to-be-approved')
-  .then(resp => {
-   this.toBeApprovedUsers = resp.data;
+     this.currentTab = tab;
+     axios.get('/users')
+     .then(res => {
+      this.users = res.data;
 
 
- })
-  .catch(error => {
-   console.error(error);
- })
+    })
+     .catch(error => {
+      console.error(error);
+    })
+     
+   },
+   
 
-},
+   /* Functions that set data to Database  */
+   
+   
+   // Approve Users as Administrator
+   approveRequest(user, currentTab){
 
+     this.loading = true
 
+     var formData = new FormData();
 
+     if (user.id) {
+       this.bacthUsers.push(user.id);
+     }
 
-// get Users that needs to be approved now
-getPendingRequests(tab){
-  if (tab == this.currentTab) {
-    return;
-  }
+     formData.append("users", this.bacthUsers);
 
-  this.currentTab = tab;
-  axios.get('/users')
-  .then(res => {
-   this.users = res.data;
-
-
- })
-  .catch(error => {
-   console.error(error);
- })
-  
-},
+     axios.post('/admin/approve-request', formData, {
 
 
+     }).then(res => {
 
-// Approve Users as Administrator
-approveRequest(user, pending){
+       this.loading = false;
 
- 
-
-  this.loading = true
+       return this.getCurrentTab(currentTab);
 
 
-  var formData = new FormData();
+    }).catch(error => {
 
-  if (user.id) {
-    this.bacthUsers.push(user.id);
-  }
+     console.log(error);
 
-  formData.append("users", this.bacthUsers);
+   });
 
-  axios.post('/admin/approve-request', formData, {
-
-
-  }).then(res => {
-
-    
-  
-    this.loading = false;
-
-    if (pending) {
-
-      this.bacthUsers.forEach(userId => {
-        let user = this.users.find(user => user.id == userId);
-        const index = this.users.indexOf(user);
-
-        if (index > -1) {
-         this.users.splice(index, 1);
-
-         if(this.users.length < 1){
-           $('.buttons').css('display', 'none');
-         }
-       } 
-
-      });
-      return;
+  },
 
 
 
-    }
+
+   // Rejects the Users Requests
+   rejectRequest(user){
+
+    this.loading = true
+    user.rejecting = true;
+
+    console.log(user.id);
+
+    var formData = new FormData();
+
+    formData.append("user_id", user.id);
+
+    axios.post('/admin/reject-request', formData, {
 
 
+    }).then(res => {
 
-    const index = this.toBeApprovedUsers.indexOf(user);
+      this.loading = false;
 
-    if (index > -1) {
-     this.toBeApprovedUsers.splice(index, 1);
+      const index = this.users.indexOf(user);
+
+      if (index > -1) {
+        this.users.splice(index, 1);
+      }
+
+    }).catch(error => {
+
+     console.log('errororrr');
+     user.rejecting = false;
+
+   });
+
+
+  },
+
+   // Revoke Requests Back
+   revokeRequestBack(user){
+
+    this.loading = true
+    user.revoking = true;
+
+    console.log(user.id);
+
+    var formData = new FormData();
+
+    formData.append("user_id", user.id);
+
+    axios.post('/admin/revoke-request', formData, {
+
+
+    }).then(res => {
+
+      this.loading = false;
+
+      const index = this.approvedUsers.indexOf(user);
+
+      if (index > -1) {
+        this.approvedUsers.splice(index, 1);
+      }
+
+    }).catch(error => {
+
+     console.log('errororrr');
+     user.revoking = false;
+
+   });
+
+
+  },
+
+
+   /* UI Utilities Functions  */
+
+ // getting current tab to stop
+  getCurrentTab(currentTab){
+    if (currentTab) {
+
+     this.bacthUsers.forEach(userId => {
+       let user = this.users.find(user => user.id == userId);
+       const index = this.users.indexOf(user);
+
+      this.removeTheUserFromTable(user);
+
+    });
+
+     return;
+
    }
+ },
 
+ removeTheUserFromTable(user){
+  const index = this.users.indexOf(user);
+       
+       if (index > -1) {
+        this.users.splice(index, 1);
 
+        if(this.users.length < 1){
+          $('.buttons').css('display', 'none');
+        }
 
- }).catch(error => {
-
-  console.log(error);
-
- });
-
-},
-
-
-
-
-// Rejects the Users Requests
-rejectRequest(user){
-
- this.loading = true
- user.rejecting = true;
-
- console.log(user.id);
-
- var formData = new FormData();
-
- formData.append("user_id", user.id);
-
- axios.post('/admin/reject-request', formData, {
-
-
- }).then(res => {
-
-   this.loading = false;
-
-   const index = this.users.indexOf(user);
-
-   if (index > -1) {
-     this.users.splice(index, 1);
-   }
-
- }).catch(error => {
-
-  console.log('errororrr');
-  user.rejecting = false;
-
-});
-
-
-},
-
-// Revoke Requests Back
-revokeRequestBack(user){
-
- this.loading = true
- user.revoking = true;
-
- console.log(user.id);
-
- var formData = new FormData();
-
- formData.append("user_id", user.id);
-
- axios.post('/admin/revoke-request', formData, {
-
-
- }).then(res => {
-
-   this.loading = false;
-
-   const index = this.approvedUsers.indexOf(user);
-
-   if (index > -1) {
-     this.approvedUsers.splice(index, 1);
-   }
-
- }).catch(error => {
-
-  console.log('errororrr');
-  user.revoking = false;
-
-});
-
-
-},
-
-
-// Approve the Requests later
-approveRequestLater(user){
-
- this.loading = true
- user.approving = true;
-
- console.log(user.id);
-
- var formData = new FormData();
-
- formData.append("user_id", user.id);
-
- axios.post('/admin/later-request', formData, {
-
-
- }).then(res => {
-
-   this.loading = false;
-
-   const index = this.users.indexOf(user);
-
-   if (index > -1) {
-     this.users.splice(index, 1);
-   }
-
- }).catch(error => {
-
-  console.log('errororrr');
-  user.approving = false;
-
-});
-
-
-},
+      }
+ }
 
 
 
@@ -431,10 +323,10 @@ approveRequestLater(user){
 
 computed: {
 
-  approvalSending(){
+ approvalSending(){
 
-    return this.loading
-  },
+   return this.loading
+ },
 
 }
 
