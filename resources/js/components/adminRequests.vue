@@ -236,9 +236,10 @@ axios.post('/admin/approve-request', formData, {
 
  $('.tabledata').css('display','block');
  $('.buttons').css('display','block');
+ $('button').attr('disabled', true);
 
  return this.getCurrentTab(currentTab);
- this.aa();
+ 
 
 }).catch(error => {
 

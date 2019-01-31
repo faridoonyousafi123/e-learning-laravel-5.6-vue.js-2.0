@@ -43,14 +43,18 @@ class AdministratorController extends Controller
 
     public function approveRequest(administratorRequest $request){
 
-
-  	return $request->approveUserAsAdmin()
-    			->sendApprovalMail();
-    				
-    	return response()->json([
+    		try {
+    			return $request->approveUserAsAdmin();    				
+    			return response()->json([
 
             'status' => 'ok',
         ]);
+    		} finally {
+
+    			$request->sendApprovalMail();
+
+    		}
+  	
    		
     	
     }
