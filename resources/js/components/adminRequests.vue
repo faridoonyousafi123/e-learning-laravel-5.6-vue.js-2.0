@@ -160,6 +160,8 @@ methods: {
        return;
      }
 
+
+
      this.currentTab = tab;
      axios.get('/users-approved')
      .then(resp => {
@@ -234,8 +236,9 @@ axios.post('/admin/approve-request', formData, {
 
  $('.tabledata').css('display','block');
  $('.buttons').css('display','block');
- return this.getCurrentTab(currentTab);
 
+ return this.getCurrentTab(currentTab);
+ this.aa();
 
 }).catch(error => {
 

@@ -2148,6 +2148,8 @@ __webpack_require__.r(__webpack_exports__);
         $('.tabledata').css('display', 'block');
         $('.buttons').css('display', 'block');
         return _this3.getCurrentTab(currentTab);
+
+        _this3.aa();
       }).catch(function (error) {
         console.log(error);
       });
