@@ -3,7 +3,7 @@
 @section('header')
  
     <!-- Header -->
-     <header class="header header-inverse bg-fixed" style="background: #141E30; background: -webkit-linear-gradient(to right, #243B55, #141E30); background: linear-gradient(to right, #243B55, #141E30);">
+     <header class="header header-inverse bg-fixed header-admin" style="background: #141E30; background: -webkit-linear-gradient(to right, #243B55, #141E30); background: linear-gradient(to right, #243B55, #141E30);">
       <div class="container text-center">
 
         <div class="row">

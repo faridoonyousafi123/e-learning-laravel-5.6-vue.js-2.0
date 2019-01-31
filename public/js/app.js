@@ -2073,6 +2073,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2080,6 +2086,7 @@ __webpack_require__.r(__webpack_exports__);
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       users: [],
       approvedUsers: [],
+      show: false,
       loading: false,
       currentTab: 'pending',
       bacthUsers: []
@@ -2128,6 +2135,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.loading = true;
       $('.tabledata').css('display', 'none');
+      $('.buttons').css('display', 'none');
       var formData = new FormData();
 
       if (user.id) {
@@ -2138,6 +2146,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
         _this3.loading = false;
         $('.tabledata').css('display', 'block');
+        $('.buttons').css('display', 'block');
         return _this3.getCurrentTab(currentTab);
       }).catch(function (error) {
         console.log(error);
@@ -2216,11 +2225,18 @@ __webpack_require__.r(__webpack_exports__);
           $('.buttons').css('display', 'none');
         }
       }
+    },
+    aa: function aa() {
+      if ($("input:checkbox:checked").length > 0) {
+        $('button').attr('disabled', false);
+      } else {
+        $('button').attr('disabled', true);
+      }
     }
   },
   computed: {
     approvalSending: function approvalSending() {
-      return this.loading;
+      return this.loading || !this.show;
     }
   }
 });
@@ -38516,7 +38532,7 @@ var render = function() {
         _c(
           "div",
           {
-            staticClass: "col-12 col-md-8  no-scroll",
+            staticClass: "col-12 col-md-8 no-scroll",
             attrs: {
               "data-aos-duration": "500",
               "data-aos-delay": "200",
@@ -38535,7 +38551,13 @@ var render = function() {
                 [
                   _c("div", { staticClass: "container" }, [
                     this.loading
-                      ? _c("div", { staticClass: "loader-ring mt-100" })
+                      ? _c("div", { staticClass: "loading-spinner mt-100" }, [
+                          _c("div", { staticClass: "dot dotOne" }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "dot dotTwo" }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "dot dotThree" })
+                        ])
                       : _vm._e(),
                     _vm._v(" "),
                     _c(
@@ -38552,7 +38574,9 @@ var render = function() {
                         _c(
                           "div",
                           {
-                            staticClass: "col-lg-12 col-lg-8 col-md-6 tabledata"
+                            staticClass:
+                              "col-lg-12 col-md-10 col-sm-12 no-scroll tabledata",
+                            staticStyle: { height: "436px", overflow: "auto" }
                           },
                           [
                             _c("table", { staticClass: "table table-cart" }, [
@@ -38605,7 +38629,7 @@ var render = function() {
                                                 }
                                               ],
                                               staticClass:
-                                                "custom-control-input",
+                                                "checkbox custom-control-input",
                                               attrs: {
                                                 type: "checkbox",
                                                 id: user.id
@@ -38622,6 +38646,9 @@ var render = function() {
                                                   : _vm.bacthUsers
                                               },
                                               on: {
+                                                click: function($event) {
+                                                  _vm.aa()
+                                                },
                                                 change: function($event) {
                                                   var $$a = _vm.bacthUsers,
                                                     $$el = $event.target,
@@ -38663,73 +38690,48 @@ var render = function() {
                                 }),
                                 0
                               )
-                            ]),
-                            _vm._v(" "),
-                            _vm.bacthUsers.length > 0
-                              ? _c(
-                                  "div",
-                                  {
-                                    staticClass: "text-right buttons",
-                                    attrs: {
-                                      "data-aos-duration": "500",
-                                      "data-aos-delay": "300",
-                                      "data-aos-offset": "100",
-                                      "data-aos": "fade-up"
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass:
-                                          "btn btn-primary btn-sm btn-round w-180 mb-5",
-                                        attrs: {
-                                          disabled: _vm.approvalSending
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            _vm.approveRequest(
-                                              _vm.bacthUsers,
-                                              true
-                                            )
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n     " +
-                                            _vm._s(
-                                              this.loading
-                                                ? "Approving ..."
-                                                : "Approve"
-                                            ) +
-                                            "\n   "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass:
-                                          "btn btn-danger btn-sm btn-round w-180 mb-5",
-                                        attrs: {
-                                          disabled: _vm.approvalSending
-                                        },
-                                        on: {
-                                          click: function($event) {
-                                            _vm.rejectRequest(_vm.users)
-                                          }
-                                        }
-                                      },
-                                      [_vm._v("\n     Reject \n   ")]
-                                    )
-                                  ]
-                                )
-                              : _vm._e()
+                            ])
                           ]
                         )
                       ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "text-right mt-50 buttons" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "btn btn-primary btn-sm btn-round w-180 mb-5",
+                        attrs: { disabled: _vm.approvalSending },
+                        on: {
+                          click: function($event) {
+                            _vm.approveRequest(_vm.bacthUsers, true)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n   " +
+                            _vm._s(this.loading ? "Approving ..." : "Approve") +
+                            "\n "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "btn btn-danger btn-sm btn-round w-180 mb-5",
+                        attrs: { disabled: _vm.approvalSending },
+                        on: {
+                          click: function($event) {
+                            _vm.rejectRequest(_vm.users)
+                          }
+                        }
+                      },
+                      [_vm._v("\n   Reject \n ")]
                     )
                   ])
                 ]
@@ -38755,7 +38757,7 @@ var render = function() {
                           "div",
                           {
                             staticClass:
-                              "col-lg-12 col-lg-8 col-md-6  no-scroll"
+                              "col-lg-12 col-md-10 col-sm-12 no-scroll"
                           },
                           [
                             _c("table", { staticClass: "table table-cart" }, [
