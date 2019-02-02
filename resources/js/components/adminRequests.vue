@@ -23,11 +23,11 @@
  <div class="tab-content text-center">
   <div class="tab-pane fade show active" id="tab-1">
    <div class="container">
-  <div v-if="this.loading" class="loading-spinner mt-100">
-  <div class="dot dotOne"></div>
-  <div class="dot dotTwo"></div>
-  <div class="dot dotThree"></div>
-</div>
+    <div v-if="this.loading" class="loading-spinner mt-100">
+      <div class="dot dotOne"></div>
+      <div class="dot dotTwo"></div>
+      <div class="dot dotThree"></div>
+    </div>
     <form class="row gap-y" v-on:submit.prevent>
 
 
@@ -56,7 +56,7 @@
       </td>
       <td>
         <label class="custom-control custom-checkbox">
-          <input class="checkbox custom-control-input" type="checkbox" v-model="bacthUsers" :value="user.id" :id="user.id" @click="aa()">
+          <input class="checkbox custom-control-input" type="checkbox" v-model="batchUsers" :value="user.id" :id="user.id" @click="aa()">
           <span class="custom-control-indicator"></span>
         </label>
       </td>
@@ -71,7 +71,7 @@
 </form>
 </div>
 <div class="text-right mt-50 buttons">
- <button  class="btn btn-primary btn-sm btn-round w-180 mb-5" @click="approveRequest(bacthUsers, true)" :disabled="approvalSending">
+ <button  class="btn btn-primary btn-sm btn-round w-180 mb-5"  @click="getCheckedUsers()"  :disabled="approvalSending" data-toggle="modal" data-target="#exampleModal">
    {{ this.loading ? 'Approving ...' : 'Approve'}}
  </button>
  <button class="btn btn-danger btn-sm btn-round w-180 mb-5" @click="rejectRequest(users)" :disabled="approvalSending">
@@ -109,12 +109,39 @@
 </div>
 </form>
 </div>
+
 </div>
 </table>
 </div>
 </form>
 </div>
 </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="text-left">
+          Are you sure to give Administration Permissions to the following Users
+          <ul>
+
+            <li  v-for="user in checkedUsers">{{user.name}} <span  @click="removeUserFromCheckedUsers(user)" class="fa fa-minus-circle ml-10" ></span> </li>  
+
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary" @click="approveRequest(batchUsers, true)" data-dismiss="modal">Yes</button>
+      </div>
+    </div>
+  </div>
 </div>
 </div>
 </div>
@@ -134,7 +161,9 @@ export default {
      show:false,
      loading: false,
      currentTab: 'pending',
-     bacthUsers:[],
+     batchUsers:[],
+     checkedUsers:[]
+
    }
  },
 
@@ -175,6 +204,12 @@ methods: {
 
   },
 
+  getCheckedUsers(){
+
+    let checkedUsersObjects = this.users.filter(user => this.batchUsers.includes(user.id));
+    let checkedUsersNames = checkedUsersObjects.map(user => user);
+    this.checkedUsers = checkedUsersNames
+  },
 
 
 
@@ -213,41 +248,35 @@ methods: {
      $('.tabledata').css('display','none');
      $('.buttons').css('display', 'none');
 
+     var formData = new FormData();
+
+     if (user.id) {
+       this.batchUsers.push(user.id);
+     }
+
+     formData.append("users", this.batchUsers);
+
+     axios.post('/admin/approve-request', formData, {
 
 
+     }).then(res => {
+       $('.modal').css('display','none');
+       this.loading = false;
+
+       $('.tabledata').css('display','block');
+       $('.buttons').css('display','block');
+       $('button').attr('disabled', true);
+
+       return this.getCurrentTab(currentTab);
 
 
+     }).catch(error => {
 
+       console.log(error);
 
-var formData = new FormData();
+     });
 
-if (user.id) {
- this.bacthUsers.push(user.id);
-}
-
-formData.append("users", this.bacthUsers);
-
-axios.post('/admin/approve-request', formData, {
-
-
-}).then(res => {
-
- this.loading = false;
-
- $('.tabledata').css('display','block');
- $('.buttons').css('display','block');
- $('button').attr('disabled', true);
-
- return this.getCurrentTab(currentTab);
- 
-
-}).catch(error => {
-
- console.log(error);
-
-});
-
-},
+   },
 
 
 
@@ -329,7 +358,7 @@ revokeRequestBack(user){
 getCurrentTab(currentTab){
   if (currentTab) {
 
-   this.bacthUsers.forEach(userId => {
+   this.batchUsers.forEach(userId => {
      let user = this.users.find(user => user.id == userId);
      const index = this.users.indexOf(user);
 
@@ -361,19 +390,47 @@ removeTheUserFromTable(user){
 aa(){
 
   if ($("input:checkbox:checked").length > 0)
-{
-     $('button').attr('disabled', false);
-}
-else
-{
-    $('button').attr('disabled', true);
-}
-
+  {
+   $('button').attr('disabled', false);
+ }
+ else
+ {
+  $('button').attr('disabled', true);
 }
 
+},
+
+removeUserFromCheckedUsers(user){
+
+  const index = this.checkedUsers.indexOf(user);
+
+  this.checkedUsers.splice(index, 1);
+  this.batchUsers.splice(index, 1);
+
+
+  if(this.checkedUsers.length < 1){
+
+
+    $('#exampleModal').fadeOut();
+    $('#exampleModal').modal('hide');
+
+    $('.modal-backdrop').css('display','none');
+
+
+
+
+
+  }
+
+
+
+
+
+}
 
 
 },
+
 
 
 

@@ -2079,6 +2079,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2089,7 +2116,8 @@ __webpack_require__.r(__webpack_exports__);
       show: false,
       loading: false,
       currentTab: 'pending',
-      bacthUsers: []
+      batchUsers: [],
+      checkedUsers: []
     };
   },
   mounted: function mounted() {
@@ -2112,9 +2140,20 @@ __webpack_require__.r(__webpack_exports__);
         console.error(error);
       });
     },
+    getCheckedUsers: function getCheckedUsers() {
+      var _this2 = this;
+
+      var checkedUsersObjects = this.users.filter(function (user) {
+        return _this2.batchUsers.includes(user.id);
+      });
+      var checkedUsersNames = checkedUsersObjects.map(function (user) {
+        return user;
+      });
+      this.checkedUsers = checkedUsersNames;
+    },
     // get Users that needs to be approved now
     getPendingRequests: function getPendingRequests(tab) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (tab == this.currentTab) {
         return;
@@ -2122,7 +2161,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.currentTab = tab;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users').then(function (res) {
-        _this2.users = res.data;
+        _this3.users = res.data;
       }).catch(function (error) {
         console.error(error);
       });
@@ -2131,7 +2170,7 @@ __webpack_require__.r(__webpack_exports__);
     /* Functions that set data to Database  */
     // Approve Users as Administrator
     approveRequest: function approveRequest(user, currentTab) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.loading = true;
       $('.tabledata').css('display', 'none');
@@ -2139,23 +2178,24 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
 
       if (user.id) {
-        this.bacthUsers.push(user.id);
+        this.batchUsers.push(user.id);
       }
 
-      formData.append("users", this.bacthUsers);
+      formData.append("users", this.batchUsers);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
-        _this3.loading = false;
+        $('.modal').css('display', 'none');
+        _this4.loading = false;
         $('.tabledata').css('display', 'block');
         $('.buttons').css('display', 'block');
         $('button').attr('disabled', true);
-        return _this3.getCurrentTab(currentTab);
+        return _this4.getCurrentTab(currentTab);
       }).catch(function (error) {
         console.log(error);
       });
     },
     // Rejects the Users Requests
     rejectRequest: function rejectRequest(user) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.loading = true;
       user.rejecting = true;
@@ -2163,12 +2203,12 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/reject-request', formData, {}).then(function (res) {
-        _this4.loading = false;
+        _this5.loading = false;
 
-        var index = _this4.users.indexOf(user);
+        var index = _this5.users.indexOf(user);
 
         if (index > -1) {
-          _this4.users.splice(index, 1);
+          _this5.users.splice(index, 1);
         }
       }).catch(function (error) {
         console.log('errororrr');
@@ -2177,7 +2217,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     // Revoke Requests Back
     revokeRequestBack: function revokeRequestBack(user) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.loading = true;
       user.revoking = true;
@@ -2185,12 +2225,12 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/revoke-request', formData, {}).then(function (res) {
-        _this5.loading = false;
+        _this6.loading = false;
 
-        var index = _this5.approvedUsers.indexOf(user);
+        var index = _this6.approvedUsers.indexOf(user);
 
         if (index > -1) {
-          _this5.approvedUsers.splice(index, 1);
+          _this6.approvedUsers.splice(index, 1);
         }
       }).catch(function (error) {
         console.log('errororrr');
@@ -2201,17 +2241,17 @@ __webpack_require__.r(__webpack_exports__);
     /* UI Utilities Functions  */
     // getting current tab to stop
     getCurrentTab: function getCurrentTab(currentTab) {
-      var _this6 = this;
+      var _this7 = this;
 
       if (currentTab) {
-        this.bacthUsers.forEach(function (userId) {
-          var user = _this6.users.find(function (user) {
+        this.batchUsers.forEach(function (userId) {
+          var user = _this7.users.find(function (user) {
             return user.id == userId;
           });
 
-          var index = _this6.users.indexOf(user);
+          var index = _this7.users.indexOf(user);
 
-          _this6.removeTheUserFromTable(user);
+          _this7.removeTheUserFromTable(user);
         });
         return;
       }
@@ -2232,6 +2272,17 @@ __webpack_require__.r(__webpack_exports__);
         $('button').attr('disabled', false);
       } else {
         $('button').attr('disabled', true);
+      }
+    },
+    removeUserFromCheckedUsers: function removeUserFromCheckedUsers(user) {
+      var index = this.checkedUsers.indexOf(user);
+      this.checkedUsers.splice(index, 1);
+      this.batchUsers.splice(index, 1);
+
+      if (this.checkedUsers.length < 1) {
+        $('#exampleModal').fadeOut();
+        $('#exampleModal').modal('hide');
+        $('.modal-backdrop').css('display', 'none');
       }
     }
   },
@@ -38625,8 +38676,8 @@ var render = function() {
                                                 {
                                                   name: "model",
                                                   rawName: "v-model",
-                                                  value: _vm.bacthUsers,
-                                                  expression: "bacthUsers"
+                                                  value: _vm.batchUsers,
+                                                  expression: "batchUsers"
                                                 }
                                               ],
                                               staticClass:
@@ -38638,20 +38689,20 @@ var render = function() {
                                               domProps: {
                                                 value: user.id,
                                                 checked: Array.isArray(
-                                                  _vm.bacthUsers
+                                                  _vm.batchUsers
                                                 )
                                                   ? _vm._i(
-                                                      _vm.bacthUsers,
+                                                      _vm.batchUsers,
                                                       user.id
                                                     ) > -1
-                                                  : _vm.bacthUsers
+                                                  : _vm.batchUsers
                                               },
                                               on: {
                                                 click: function($event) {
                                                   _vm.aa()
                                                 },
                                                 change: function($event) {
-                                                  var $$a = _vm.bacthUsers,
+                                                  var $$a = _vm.batchUsers,
                                                     $$el = $event.target,
                                                     $$c = $$el.checked
                                                       ? true
@@ -38661,19 +38712,19 @@ var render = function() {
                                                       $$i = _vm._i($$a, $$v)
                                                     if ($$el.checked) {
                                                       $$i < 0 &&
-                                                        (_vm.bacthUsers = $$a.concat(
+                                                        (_vm.batchUsers = $$a.concat(
                                                           [$$v]
                                                         ))
                                                     } else {
                                                       $$i > -1 &&
-                                                        (_vm.bacthUsers = $$a
+                                                        (_vm.batchUsers = $$a
                                                           .slice(0, $$i)
                                                           .concat(
                                                             $$a.slice($$i + 1)
                                                           ))
                                                     }
                                                   } else {
-                                                    _vm.bacthUsers = $$c
+                                                    _vm.batchUsers = $$c
                                                   }
                                                 }
                                               }
@@ -38704,10 +38755,14 @@ var render = function() {
                       {
                         staticClass:
                           "btn btn-primary btn-sm btn-round w-180 mb-5",
-                        attrs: { disabled: _vm.approvalSending },
+                        attrs: {
+                          disabled: _vm.approvalSending,
+                          "data-toggle": "modal",
+                          "data-target": "#exampleModal"
+                        },
                         on: {
                           click: function($event) {
-                            _vm.approveRequest(_vm.bacthUsers, true)
+                            _vm.getCheckedUsers()
                           }
                         }
                       },
@@ -38847,10 +38902,111 @@ var render = function() {
           ]
         )
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "exampleModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "text-left" }, [
+                  _vm._v(
+                    "\n          Are you sure to give Administration Permissions to the following Users\n          "
+                  ),
+                  _c(
+                    "ul",
+                    _vm._l(_vm.checkedUsers, function(user) {
+                      return _c("li", [
+                        _vm._v(_vm._s(user.name) + " "),
+                        _c("span", {
+                          staticClass: "fa fa-minus-circle ml-10",
+                          on: {
+                            click: function($event) {
+                              _vm.removeUserFromCheckedUsers(user)
+                            }
+                          }
+                        })
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("No")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        _vm.approveRequest(_vm.batchUsers, true)
+                      }
+                    }
+                  },
+                  [_vm._v("Yes")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Confirmation")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 

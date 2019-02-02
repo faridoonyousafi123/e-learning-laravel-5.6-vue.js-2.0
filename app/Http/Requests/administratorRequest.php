@@ -44,6 +44,8 @@ class administratorRequest extends FormRequest
 
     public function approveUserAsAdmin(){
 
+        dd($this->users);
+
         $usersRequests = explode(',' , $this->users);
         
         foreach ($usersRequests as $user) {

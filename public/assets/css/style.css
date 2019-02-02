@@ -256,6 +256,19 @@
 .loader-ring:after {
   animation-delay: 1.35s;
 }
+
+.fa-minus-circle{
+  color:#e4e7ea;
+}
+
+.fa-minus-circle:hover{
+
+  
+  color:red;
+  cursor: pointer;
+  transform: scale(1.027);
+  transition: transform 0.1s cubic-bezier(.25,.75,.35,1);
+}
 @keyframes loading {
   to {
     transform: rotateZ(360deg);
