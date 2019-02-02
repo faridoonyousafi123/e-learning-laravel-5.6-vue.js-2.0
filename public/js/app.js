@@ -2280,8 +2280,7 @@ __webpack_require__.r(__webpack_exports__);
       this.batchUsers.splice(index, 1);
 
       if (this.checkedUsers.length < 1) {
-        $('#exampleModal').fadeOut();
-        $('#exampleModal').modal('hide');
+        $('#exampleModal').toggle('modal');
         $('.modal-backdrop').css('display', 'none');
       }
     }

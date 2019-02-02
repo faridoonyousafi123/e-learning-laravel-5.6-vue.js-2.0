@@ -411,13 +411,10 @@ removeUserFromCheckedUsers(user){
   if(this.checkedUsers.length < 1){
 
 
-    $('#exampleModal').fadeOut();
-    $('#exampleModal').modal('hide');
+    
+    $('#exampleModal').toggle('modal');
 
     $('.modal-backdrop').css('display','none');
-
-
-
 
 
   }
