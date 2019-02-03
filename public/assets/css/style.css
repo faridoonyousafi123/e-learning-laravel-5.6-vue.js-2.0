@@ -260,7 +260,9 @@
 .fa-minus-circle{
   color:#e4e7ea;
 }
-
+.c-pointer{
+  cursor: pointer;
+}
 .fa-minus-circle:hover{
 
   

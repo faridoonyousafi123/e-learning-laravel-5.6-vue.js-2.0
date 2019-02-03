@@ -2106,6 +2106,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2173,8 +2181,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       this.loading = true;
-      $('.tabledata').css('display', 'none');
-      $('.buttons').css('display', 'none');
+      this.hideTableData();
       var formData = new FormData();
 
       if (user.id) {
@@ -2183,33 +2190,35 @@ __webpack_require__.r(__webpack_exports__);
 
       formData.append("users", this.batchUsers);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
-        $('.modal').css('display', 'none');
         _this4.loading = false;
-        $('.tabledata').css('display', 'block');
-        $('.buttons').css('display', 'block');
-        $('button').attr('disabled', true);
+
+        _this4.showTableData();
+
         return _this4.getCurrentTab(currentTab);
       }).catch(function (error) {
         console.log(error);
       });
     },
     // Rejects the Users Requests
-    rejectRequest: function rejectRequest(user) {
+    rejectRequest: function rejectRequest(user, currentTab) {
       var _this5 = this;
 
       this.loading = true;
       user.rejecting = true;
-      console.log(user.id);
+      this.hideTableData();
+
+      if (user.id) {
+        this.batchUsers.push(user.id);
+      }
+
       var formData = new FormData();
-      formData.append("user_id", user.id);
+      formData.append("users", this.batchUsers);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/reject-request', formData, {}).then(function (res) {
         _this5.loading = false;
 
-        var index = _this5.users.indexOf(user);
+        _this5.showTableData();
 
-        if (index > -1) {
-          _this5.users.splice(index, 1);
-        }
+        return _this5.getCurrentTab(currentTab);
       }).catch(function (error) {
         console.log('errororrr');
         user.rejecting = false;
@@ -2226,6 +2235,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/revoke-request', formData, {}).then(function (res) {
         _this6.loading = false;
+        user.revoking = false;
 
         var index = _this6.approvedUsers.indexOf(user);
 
@@ -2239,7 +2249,16 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     /* UI Utilities Functions  */
-    // getting current tab to stop
+    //hide TableData
+    hideTableData: function hideTableData() {
+      $('.tabledata').css('display', 'none');
+      $('.buttons').css('display', 'none');
+    },
+    showTableData: function showTableData() {
+      $('.tabledata').css('display', 'block');
+      $('.buttons').css('display', 'block');
+    },
+    // getting current tab to stop 
     getCurrentTab: function getCurrentTab(currentTab) {
       var _this7 = this;
 
@@ -2287,6 +2306,9 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     approvalSending: function approvalSending() {
       return this.loading || !this.show;
+    },
+    revokeSending: function revokeSending() {
+      return this.loading;
     }
   }
 });
@@ -6725,7 +6747,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.v-lazy-image[data-v-6e739278] {\r\n  border-radius:50%;\r\n  -webkit-filter: blur(10px);\r\n          filter: blur(10px);\r\n  transition: -webkit-filter 0.5s;\r\n  transition: filter 0.5s;\r\n  transition: filter 0.5s, -webkit-filter 0.5s;\n}\n.v-lazy-image-loaded[data-v-6e739278] {\r\n  -webkit-filter: blur(0);\r\n          filter: blur(0);\n}\r\n", ""]);
+exports.push([module.i, "\n.v-lazy-image[data-v-6e739278] {\nborder-radius:50%;\n-webkit-filter: blur(10px);\n        filter: blur(10px);\ntransition: -webkit-filter 0.5s;\ntransition: filter 0.5s;\ntransition: filter 0.5s, -webkit-filter 0.5s;\n}\n.v-lazy-image-loaded[data-v-6e739278] {\n-webkit-filter: blur(0);\n        filter: blur(0);\n}\n", ""]);
 
 // exports
 
@@ -38666,7 +38688,7 @@ var render = function() {
                                           "label",
                                           {
                                             staticClass:
-                                              "custom-control custom-checkbox"
+                                              "custom-control custom-checkbox c-pointer"
                                           },
                                           [
                                             _c("input", {
@@ -38679,7 +38701,7 @@ var render = function() {
                                                 }
                                               ],
                                               staticClass:
-                                                "checkbox custom-control-input",
+                                                "checkbox custom-control-input c-pointer",
                                               attrs: {
                                                 type: "checkbox",
                                                 id: user.id
@@ -38730,7 +38752,7 @@ var render = function() {
                                             _vm._v(" "),
                                             _c("span", {
                                               staticClass:
-                                                "custom-control-indicator"
+                                                "custom-control-indicator c-pointer"
                                             })
                                           ]
                                         )
@@ -38756,7 +38778,7 @@ var render = function() {
                         attrs: {
                           disabled: _vm.approvalSending,
                           "data-toggle": "modal",
-                          "data-target": "#exampleModal"
+                          "data-target": "#approveUsersModal"
                         },
                         on: {
                           click: function($event) {
@@ -38766,9 +38788,9 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n   " +
+                          "\n              " +
                             _vm._s(this.loading ? "Approving ..." : "Approve") +
-                            "\n "
+                            "\n              "
                         )
                       ]
                     ),
@@ -38778,14 +38800,18 @@ var render = function() {
                       {
                         staticClass:
                           "btn btn-danger btn-sm btn-round w-180 mb-5",
-                        attrs: { disabled: _vm.approvalSending },
+                        attrs: {
+                          disabled: _vm.approvalSending,
+                          "data-toggle": "modal",
+                          "data-target": "#rejectUsersModal"
+                        },
                         on: {
                           click: function($event) {
-                            _vm.rejectRequest(_vm.users)
+                            _vm.getCheckedUsers()
                           }
                         }
                       },
-                      [_vm._v("\n   Reject \n ")]
+                      [_vm._v("\n              Reject \n              ")]
                     )
                   ])
                 ]
@@ -38861,7 +38887,7 @@ var render = function() {
                                               staticClass:
                                                 "btn btn-danger btn-sm btn-round w-180 mb-5",
                                               attrs: {
-                                                disabled: _vm.approvalSending
+                                                disabled: _vm.revokeSending
                                               },
                                               on: {
                                                 click: function($event) {
@@ -38871,13 +38897,13 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n           " +
+                                                "\n                            " +
                                                   _vm._s(
                                                     user.revoking
                                                       ? "Revoking Request ..."
                                                       : "Revoke"
                                                   ) +
-                                                  "\n         "
+                                                  "\n                            "
                                               )
                                             ]
                                           )
@@ -38907,10 +38933,10 @@ var render = function() {
       {
         staticClass: "modal fade",
         attrs: {
-          id: "exampleModal",
+          id: "approveUsersModal",
           tabindex: "-1",
           role: "dialog",
-          "aria-labelledby": "exampleModalLabel",
+          "aria-labelledby": "approveUsersModalLabel",
           "aria-hidden": "true"
         }
       },
@@ -38925,7 +38951,7 @@ var render = function() {
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "text-left" }, [
                   _vm._v(
-                    "\n          Are you sure to give Administration Permissions to the following Users\n          "
+                    "\n            Are you sure to give Administration Permissions to the following Users\n            "
                   ),
                   _c(
                     "ul",
@@ -38975,6 +39001,81 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "rejectUsersModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "rejectUsersModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "text-left" }, [
+                  _vm._v(
+                    "\n            Are you sure to rejects to the following Users requests\n            "
+                  ),
+                  _c(
+                    "ul",
+                    _vm._l(_vm.checkedUsers, function(user) {
+                      return _c("li", [
+                        _vm._v(_vm._s(user.name) + " "),
+                        _c("span", {
+                          staticClass: "fa fa-minus-circle ml-10",
+                          on: {
+                            click: function($event) {
+                              _vm.removeUserFromCheckedUsers(user)
+                            }
+                          }
+                        })
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("No")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        _vm.rejectRequest(_vm.users, true)
+                      }
+                    }
+                  },
+                  [_vm._v("Yes")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -38986,7 +39087,32 @@ var staticRenderFns = [
     return _c("div", { staticClass: "modal-header" }, [
       _c(
         "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        { staticClass: "modal-title", attrs: { id: "approveUsersModalLabel" } },
+        [_vm._v("Confirmation")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "approveUsersModalLabel" } },
         [_vm._v("Confirmation")]
       ),
       _vm._v(" "),

@@ -44,7 +44,7 @@ class administratorRequest extends FormRequest
 
     public function approveUserAsAdmin(){
 
-        dd($this->users);
+     
 
         $usersRequests = explode(',' , $this->users);
         
@@ -61,8 +61,14 @@ class administratorRequest extends FormRequest
 
     public function rejectUserAsAdmin(){
 
-        $user = User::find($this->user_id);
+       $usersRequests = explode(',' , $this->users);
+
+        foreach ($usersRequests as $user) {
+
+        $user = User::find($user);  
         $user->rejectRequest();
+
+        }
 
         return $this;
     }
@@ -84,8 +90,13 @@ class administratorRequest extends FormRequest
 
   public function sendRejectionMail(){
 
-    $user = User::find($this->user_id);
+   $usersRequests = explode(',' , $this->users);
+
+        foreach ($usersRequests as $user) {
+          $user = User::find($user); 
     Mail::to($user)->send(new adminRequestRejection($user));
+
+  }
 }
 
 
