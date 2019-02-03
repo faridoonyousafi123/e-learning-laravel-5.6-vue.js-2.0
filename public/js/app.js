@@ -2267,7 +2267,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
-    aa: function aa() {
+    isAnyUserChecked: function isAnyUserChecked() {
       if ($("input:checkbox:checked").length > 0) {
         $('button').attr('disabled', false);
       } else {
@@ -2280,8 +2280,7 @@ __webpack_require__.r(__webpack_exports__);
       this.batchUsers.splice(index, 1);
 
       if (this.checkedUsers.length < 1) {
-        $('#exampleModal').toggle('modal');
-        $('.modal-backdrop').css('display', 'none');
+        $('.fa-minus-circle').attr('data-dismiss', 'modal');
       }
     }
   },
@@ -38698,7 +38697,7 @@ var render = function() {
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  _vm.aa()
+                                                  _vm.isAnyUserChecked()
                                                 },
                                                 change: function($event) {
                                                   var $$a = _vm.batchUsers,

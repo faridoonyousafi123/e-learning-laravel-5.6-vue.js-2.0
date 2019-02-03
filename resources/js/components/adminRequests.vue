@@ -56,7 +56,7 @@
       </td>
       <td>
         <label class="custom-control custom-checkbox">
-          <input class="checkbox custom-control-input" type="checkbox" v-model="batchUsers" :value="user.id" :id="user.id" @click="aa()">
+          <input class="checkbox custom-control-input" type="checkbox" v-model="batchUsers" :value="user.id" :id="user.id" @click="isAnyUserChecked()">
           <span class="custom-control-indicator"></span>
         </label>
       </td>
@@ -387,7 +387,7 @@ removeTheUserFromTable(user){
   }
 },
 
-aa(){
+isAnyUserChecked(){
 
   if ($("input:checkbox:checked").length > 0)
   {
@@ -411,11 +411,7 @@ removeUserFromCheckedUsers(user){
   if(this.checkedUsers.length < 1){
 
 
-    
-    $('#exampleModal').toggle('modal');
-
-    $('.modal-backdrop').css('display','none');
-
+    $('.fa-minus-circle').attr('data-dismiss','modal');
 
   }
 
