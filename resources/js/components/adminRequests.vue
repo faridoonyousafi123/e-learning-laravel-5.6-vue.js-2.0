@@ -118,7 +118,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-            <button type="button" class="btn btn-primary" @click="approveRequest(batchUsers, true)" data-dismiss="modal">Yes</button>
+            <button type="button" class="btn btn-primary" @click="processRequest(batchUsers, true, 'approve-request')" data-dismiss="modal">Yes</button>
           </div>
         </div>
       </div>
@@ -144,7 +144,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-            <button type="button" class="btn btn-primary" @click="rejectRequest(users, true)" data-dismiss="modal">Yes</button>
+            <button type="button" class="btn btn-primary" @click="processRequest(batchUsers, true, 'reject-request')" data-dismiss="modal">Yes</button>
           </div>
         </div>
       </div>
@@ -181,8 +181,6 @@
   
     this.getPendingRequests();
   
-    
-  
   },
   
   
@@ -198,8 +196,6 @@
          return;
        }
   
-  
-  
        this.currentTab = tab;
        axios.get('/users-approved')
        .then(resp => {
@@ -214,17 +210,13 @@
     },
   
     getCheckedUsers(){
+
   
       let checkedUsersObjects = this.users.filter(user => this.batchUsers.includes(user.id));
       let checkedUsersNames = checkedUsersObjects.map(user => user);
       this.checkedUsers = checkedUsersNames
     },
-  
-  
-  
-  
-  
-  
+
      // get Users that needs to be approved now
      getPendingRequests(tab){
        if (tab == this.currentTab) {
@@ -249,8 +241,7 @@
      /* Functions that set data to Database  */
      
      
-     // Approve Users as Administrator
-     approveRequest(user, currentTab){
+     processRequest(user, currentTab, requestType){
   
        this.loading = true
     
@@ -264,16 +255,18 @@
   
        formData.append("users", this.batchUsers);
   
-       axios.post('/admin/approve-request', formData, {
+       axios.post('/admin/' + requestType, formData, {
   
   
        }).then(res => {
-         
+     
          this.loading = false;
-  
          this.showTableData();
+             
+        return this.getCurrentTab(currentTab);
+         this.batchUsers = [];
          
-         return this.getCurrentTab(currentTab);
+         
   
   
        }).catch(error => {
@@ -283,48 +276,6 @@
        });
   
      },
-  
-  
-  
-  
-  // Rejects the Users Requests
-  rejectRequest(user, currentTab){
-  
-    this.loading = true
-    user.rejecting = true;
-
-    this.hideTableData();
-
-    if (user.id) {
-         this.batchUsers.push(user.id);
-       }
-
-    var formData = new FormData();
-  
-    formData.append("users", this.batchUsers);
-  
-    axios.post('/admin/reject-request', formData, {
-  
-  
-    }).then(res => {
-
-      
-      this.loading = false;
-
-      this.showTableData();
-  
-  
-       return this.getCurrentTab(currentTab);
-  
-    }).catch(error => {
-  
-     console.log('errororrr');
-     user.rejecting = false;
-  
-   });
-  
-  
-  },
   
   // Revoke Requests Back
   revokeRequestBack(user){
@@ -402,7 +353,7 @@
   
   removeTheUserFromTable(user){
     const index = this.users.indexOf(user);
-  
+    
     if (index > -1) {
       this.users.splice(index, 1);
   
@@ -428,16 +379,25 @@
   
   removeUserFromCheckedUsers(user){
   
+
+    console.log("Checked Users", this.checkedUsers.length);
     const index = this.checkedUsers.indexOf(user);
   
     this.checkedUsers.splice(index, 1);
+
+     console.log("Checked Users", this.checkedUsers.length);
+
+console.log("batchUsers", this.batchUsers.length);
     this.batchUsers.splice(index, 1);
   
-  
+   console.log("batchUsers", this.batchUsers.length);
     if(this.checkedUsers.length < 1){
   
   
       $('.fa-minus-circle').attr('data-dismiss','modal');
+
+      this.batchUsers = [];
+      this.checkedUsers = [];
   
     }
   

@@ -2176,8 +2176,7 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     /* Functions that set data to Database  */
-    // Approve Users as Administrator
-    approveRequest: function approveRequest(user, currentTab) {
+    processRequest: function processRequest(user, currentTab, requestType) {
       var _this4 = this;
 
       this.loading = true;
@@ -2189,44 +2188,20 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       formData.append("users", this.batchUsers);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/approve-request', formData, {}).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/' + requestType, formData, {}).then(function (res) {
         _this4.loading = false;
 
         _this4.showTableData();
 
         return _this4.getCurrentTab(currentTab);
+        _this4.batchUsers = [];
       }).catch(function (error) {
         console.log(error);
       });
     },
-    // Rejects the Users Requests
-    rejectRequest: function rejectRequest(user, currentTab) {
-      var _this5 = this;
-
-      this.loading = true;
-      user.rejecting = true;
-      this.hideTableData();
-
-      if (user.id) {
-        this.batchUsers.push(user.id);
-      }
-
-      var formData = new FormData();
-      formData.append("users", this.batchUsers);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/reject-request', formData, {}).then(function (res) {
-        _this5.loading = false;
-
-        _this5.showTableData();
-
-        return _this5.getCurrentTab(currentTab);
-      }).catch(function (error) {
-        console.log('errororrr');
-        user.rejecting = false;
-      });
-    },
     // Revoke Requests Back
     revokeRequestBack: function revokeRequestBack(user) {
-      var _this6 = this;
+      var _this5 = this;
 
       this.loading = true;
       user.revoking = true;
@@ -2234,13 +2209,13 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append("user_id", user.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/revoke-request', formData, {}).then(function (res) {
-        _this6.loading = false;
+        _this5.loading = false;
         user.revoking = false;
 
-        var index = _this6.approvedUsers.indexOf(user);
+        var index = _this5.approvedUsers.indexOf(user);
 
         if (index > -1) {
-          _this6.approvedUsers.splice(index, 1);
+          _this5.approvedUsers.splice(index, 1);
         }
       }).catch(function (error) {
         console.log('errororrr');
@@ -2260,17 +2235,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     // getting current tab to stop 
     getCurrentTab: function getCurrentTab(currentTab) {
-      var _this7 = this;
+      var _this6 = this;
 
       if (currentTab) {
         this.batchUsers.forEach(function (userId) {
-          var user = _this7.users.find(function (user) {
+          var user = _this6.users.find(function (user) {
             return user.id == userId;
           });
 
-          var index = _this7.users.indexOf(user);
+          var index = _this6.users.indexOf(user);
 
-          _this7.removeTheUserFromTable(user);
+          _this6.removeTheUserFromTable(user);
         });
         return;
       }
@@ -2294,12 +2269,18 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     removeUserFromCheckedUsers: function removeUserFromCheckedUsers(user) {
+      console.log("Checked Users", this.checkedUsers.length);
       var index = this.checkedUsers.indexOf(user);
       this.checkedUsers.splice(index, 1);
+      console.log("Checked Users", this.checkedUsers.length);
+      console.log("batchUsers", this.batchUsers.length);
       this.batchUsers.splice(index, 1);
+      console.log("batchUsers", this.batchUsers.length);
 
       if (this.checkedUsers.length < 1) {
         $('.fa-minus-circle').attr('data-dismiss', 'modal');
+        this.batchUsers = [];
+        this.checkedUsers = [];
       }
     }
   },
@@ -38990,7 +38971,11 @@ var render = function() {
                     attrs: { type: "button", "data-dismiss": "modal" },
                     on: {
                       click: function($event) {
-                        _vm.approveRequest(_vm.batchUsers, true)
+                        _vm.processRequest(
+                          _vm.batchUsers,
+                          true,
+                          "approve-request"
+                        )
                       }
                     }
                   },
@@ -39065,7 +39050,11 @@ var render = function() {
                     attrs: { type: "button", "data-dismiss": "modal" },
                     on: {
                       click: function($event) {
-                        _vm.rejectRequest(_vm.users, true)
+                        _vm.processRequest(
+                          _vm.batchUsers,
+                          true,
+                          "reject-request"
+                        )
                       }
                     }
                   },

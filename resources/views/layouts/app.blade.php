@@ -59,7 +59,7 @@
 
             @else
 
-            <li class="nav-item"><a class="nav-link" href="javascript:;" data-toggle="modal" data-target="#loginModal">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:;" data-toggle="modal" data-target="#loginModal">Login <span class="text-lowercase">or</span> Register</a></li>
            @endif
           </ul>
 
