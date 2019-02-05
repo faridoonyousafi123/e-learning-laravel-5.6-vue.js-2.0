@@ -2193,7 +2193,9 @@ __webpack_require__.r(__webpack_exports__);
 
         _this4.showTableData();
 
-        return _this4.getCurrentTab(currentTab);
+        _this4.getCurrentTab(currentTab);
+
+        _this4.checkedUsers = [];
         _this4.batchUsers = [];
       }).catch(function (error) {
         console.log(error);
@@ -2269,13 +2271,9 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     removeUserFromCheckedUsers: function removeUserFromCheckedUsers(user) {
-      console.log("Checked Users", this.checkedUsers.length);
       var index = this.checkedUsers.indexOf(user);
       this.checkedUsers.splice(index, 1);
-      console.log("Checked Users", this.checkedUsers.length);
-      console.log("batchUsers", this.batchUsers.length);
       this.batchUsers.splice(index, 1);
-      console.log("batchUsers", this.batchUsers.length);
 
       if (this.checkedUsers.length < 1) {
         $('.fa-minus-circle').attr('data-dismiss', 'modal');
@@ -6728,7 +6726,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.v-lazy-image[data-v-6e739278] {\nborder-radius:50%;\n-webkit-filter: blur(10px);\n        filter: blur(10px);\ntransition: -webkit-filter 0.5s;\ntransition: filter 0.5s;\ntransition: filter 0.5s, -webkit-filter 0.5s;\n}\n.v-lazy-image-loaded[data-v-6e739278] {\n-webkit-filter: blur(0);\n        filter: blur(0);\n}\n", ""]);
+exports.push([module.i, "\n.v-lazy-image[data-v-6e739278] {\r\n  border-radius:50%;\r\n  -webkit-filter: blur(10px);\r\n          filter: blur(10px);\r\n  transition: -webkit-filter 0.5s;\r\n  transition: filter 0.5s;\r\n  transition: filter 0.5s, -webkit-filter 0.5s;\n}\n.v-lazy-image-loaded[data-v-6e739278] {\r\n  -webkit-filter: blur(0);\r\n          filter: blur(0);\n}\r\n", ""]);
 
 // exports
 
@@ -38769,9 +38767,9 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n              " +
+                          "\n                  " +
                             _vm._s(this.loading ? "Approving ..." : "Approve") +
-                            "\n              "
+                            "\n                "
                         )
                       ]
                     ),
@@ -38792,7 +38790,7 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("\n              Reject \n              ")]
+                      [_vm._v("\n                  Reject \n                ")]
                     )
                   ])
                 ]
@@ -38878,13 +38876,13 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                            " +
+                                                "\n                                " +
                                                   _vm._s(
                                                     user.revoking
                                                       ? "Revoking Request ..."
                                                       : "Revoke"
                                                   ) +
-                                                  "\n                            "
+                                                  "\n                              "
                                               )
                                             ]
                                           )
@@ -38932,7 +38930,7 @@ var render = function() {
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "text-left" }, [
                   _vm._v(
-                    "\n            Are you sure to give Administration Permissions to the following Users\n            "
+                    "\n          Are you sure to give Administration Permissions to the following Users\n          "
                   ),
                   _c(
                     "ul",
@@ -39011,7 +39009,7 @@ var render = function() {
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "text-left" }, [
                   _vm._v(
-                    "\n            Are you sure to rejects to the following Users requests\n            "
+                    "\n          Are you sure to rejects to the following Users requests\n          "
                   ),
                   _c(
                     "ul",

@@ -14,7 +14,14 @@ class AdministratorController extends Controller
     
     public function index(){
 
-    	return view('admin.applyAdministrator')->with('user', Auth::user());
+        if(!auth()->user()->isAdministrator()){
+            return view('admin.applyAdministrator')->with('user', Auth::user());
+        }else{
+
+            return redirect()->back();
+        }
+
+    	
     }
 
     public function submitUserRequest(administratorRequest $request){
@@ -43,17 +50,17 @@ class AdministratorController extends Controller
 
     public function approveRequest(administratorRequest $request){
 
-    		try {
+    		
     			return $request->approveUserAsAdmin();    				
     			return response()->json([
 
             'status' => 'ok',
         ]);
-    		} finally {
+    		
 
-    			$request->sendApprovalMail();
+    			// $request->sendApprovalMail();
 
-    		}
+    		
   	
    		
     	
@@ -61,8 +68,8 @@ class AdministratorController extends Controller
 
     public function rejectRequest(administratorRequest $request){
 
-    	return $request->rejectUserAsAdmin()
-    			->sendRejectionMail();
+    	return $request->rejectUserAsAdmin();
+    			// ->sendRejectionMail();
 
     	return response()->json([
 

@@ -32,7 +32,7 @@ Route::get('/applyadmin',[
 	'uses' => 'AdministratorController@index',
 	'as' => 'apply.admin'
 
-]);
+])->middleware('auth');
 
 Route::post('/submitrequest',[
 

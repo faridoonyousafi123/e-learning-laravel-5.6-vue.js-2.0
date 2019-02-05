@@ -47,9 +47,9 @@ class UsersTableSeeder extends Seeder
             'name' => 'Adam Smith',
             'password' => bcrypt('admin'),
             'email' => 'adam@adam.com',
-            'admin' => 1,
             'username' => str_slug('Kati Frantz'),
-            'avatar' => 'avatars/user2.jpg'
+            'avatar' => 'avatars/user2.jpg',
+            'admin_request' => 'asdfasdfsadfsdaf'
         ]);
 
         App\User::create([
@@ -58,7 +58,8 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('admin'),
             'email' => 'siawash@siawash.com',
             'username' => str_slug('Siawash Kasra'),
-            'avatar' => 'avatars/user3.jpg'
+            'avatar' => 'avatars/user3.jpg',
+            'admin_request' => 'asdfasdfsadfsdaf'
         ]);
 
         App\User::create([
@@ -67,7 +68,8 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('admin'),
             'email' => 'brad@brad.com',
             'username' => str_slug('Brad Pitt'),
-            'avatar' => 'avatars/user4.jpg'
+            'avatar' => 'avatars/user4.jpg',
+            'admin_request' => 'asdfasdfsadfsdaf'
         ]);
     }
 }
