@@ -2205,7 +2205,7 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     /* Functions that set data to Database  */
-    processRequest: function processRequest(user, currentTab, requestType) {
+    processRequest: function processRequest(user, requestType) {
       var _this3 = this;
 
       this.loading = true;
