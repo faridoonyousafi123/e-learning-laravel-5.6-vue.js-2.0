@@ -2114,6 +2114,46 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2148,20 +2188,9 @@ __webpack_require__.r(__webpack_exports__);
         console.error(error);
       });
     },
-    getCheckedUsers: function getCheckedUsers() {
-      var _this2 = this;
-
-      var checkedUsersObjects = this.users.filter(function (user) {
-        return _this2.batchUsers.includes(user.id);
-      });
-      var checkedUsersNames = checkedUsersObjects.map(function (user) {
-        return user;
-      });
-      this.checkedUsers = checkedUsersNames;
-    },
     // get Users that needs to be approved now
     getPendingRequests: function getPendingRequests(tab) {
-      var _this3 = this;
+      var _this2 = this;
 
       if (tab == this.currentTab) {
         return;
@@ -2169,10 +2198,34 @@ __webpack_require__.r(__webpack_exports__);
 
       this.currentTab = tab;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users').then(function (res) {
-        _this3.users = res.data;
+        _this2.users = res.data;
       }).catch(function (error) {
         console.error(error);
       });
+    },
+    getCheckedUsers: function getCheckedUsers(userType) {
+      var _this3 = this;
+
+      if (userType == 'approvedUsers') {
+        var _checkedUsersObjects = this.approvedUsers.filter(function (user) {
+          return _this3.batchUsers.includes(user.id);
+        });
+
+        var _checkedUsersNames = _checkedUsersObjects.map(function (user) {
+          return user;
+        });
+
+        this.checkedUsers = _checkedUsersNames;
+        return;
+      }
+
+      var checkedUsersObjects = this.users.filter(function (user) {
+        return _this3.batchUsers.includes(user.id);
+      });
+      var checkedUsersNames = checkedUsersObjects.map(function (user) {
+        return user;
+      });
+      this.checkedUsers = checkedUsersNames;
     },
 
     /* Functions that set data to Database  */
@@ -2201,29 +2254,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    // Revoke Requests Back
-    revokeRequestBack: function revokeRequestBack(user) {
-      var _this5 = this;
-
-      this.loading = true;
-      user.revoking = true;
-      console.log(user.id);
-      var formData = new FormData();
-      formData.append("user_id", user.id);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/revoke-request', formData, {}).then(function (res) {
-        _this5.loading = false;
-        user.revoking = false;
-
-        var index = _this5.approvedUsers.indexOf(user);
-
-        if (index > -1) {
-          _this5.approvedUsers.splice(index, 1);
-        }
-      }).catch(function (error) {
-        console.log('errororrr');
-        user.revoking = false;
-      });
-    },
 
     /* UI Utilities Functions  */
     //hide TableData
@@ -2237,17 +2267,17 @@ __webpack_require__.r(__webpack_exports__);
     },
     // getting current tab to stop 
     getCurrentTab: function getCurrentTab(currentTab) {
-      var _this6 = this;
+      var _this5 = this;
 
       if (currentTab) {
         this.batchUsers.forEach(function (userId) {
-          var user = _this6.users.find(function (user) {
+          var user = _this5.users.find(function (user) {
             return user.id == userId;
           });
 
-          var index = _this6.users.indexOf(user);
+          var index = _this5.users.indexOf(user);
 
-          _this6.removeTheUserFromTable(user);
+          _this5.removeTheUserFromTable(user);
         });
         return;
       }
@@ -6726,7 +6756,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.v-lazy-image[data-v-6e739278] {\r\n  border-radius:50%;\r\n  -webkit-filter: blur(10px);\r\n          filter: blur(10px);\r\n  transition: -webkit-filter 0.5s;\r\n  transition: filter 0.5s;\r\n  transition: filter 0.5s, -webkit-filter 0.5s;\n}\n.v-lazy-image-loaded[data-v-6e739278] {\r\n  -webkit-filter: blur(0);\r\n          filter: blur(0);\n}\r\n", ""]);
+exports.push([module.i, "\n.v-lazy-image[data-v-6e739278] {\r\n border-radius:50%;\r\n -webkit-filter: blur(10px);\r\n         filter: blur(10px);\r\n transition: -webkit-filter 0.5s;\r\n transition: filter 0.5s;\r\n transition: filter 0.5s, -webkit-filter 0.5s;\n}\n.v-lazy-image-loaded[data-v-6e739278] {\r\n -webkit-filter: blur(0);\r\n         filter: blur(0);\n}\r\n", ""]);
 
 // exports
 
@@ -38761,15 +38791,15 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            _vm.getCheckedUsers()
+                            _vm.getCheckedUsers("users")
                           }
                         }
                       },
                       [
                         _vm._v(
-                          "\n                  " +
+                          "\n    " +
                             _vm._s(this.loading ? "Approving ..." : "Approve") +
-                            "\n                "
+                            "\n  "
                         )
                       ]
                     ),
@@ -38786,11 +38816,11 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            _vm.getCheckedUsers()
+                            _vm.getCheckedUsers("users")
                           }
                         }
                       },
-                      [_vm._v("\n                  Reject \n                ")]
+                      [_vm._v("\n    Reject \n  ")]
                     )
                   ])
                 ]
@@ -38801,6 +38831,16 @@ var render = function() {
                 { staticClass: "tab-pane fade", attrs: { id: "tab-2" } },
                 [
                   _c("div", { staticClass: "container" }, [
+                    this.loading
+                      ? _c("div", { staticClass: "loading-spinner mt-100" }, [
+                          _c("div", { staticClass: "dot dotOne" }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "dot dotTwo" }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "dot dotThree" })
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
                     _c(
                       "form",
                       {
@@ -38816,7 +38856,8 @@ var render = function() {
                           "div",
                           {
                             staticClass:
-                              "col-lg-12 col-md-10 col-sm-12 no-scroll"
+                              "col-lg-12 col-md-10 col-sm-12 no-scroll tabledata",
+                            staticStyle: { height: "436px", overflow: "auto" }
                           },
                           [
                             _c("table", { staticClass: "table table-cart" }, [
@@ -38835,16 +38876,11 @@ var render = function() {
                                             attrs: { href: "shop-single.html" }
                                           },
                                           [
-                                            _c("img", {
-                                              staticStyle: {
-                                                "border-radius": "50%"
-                                              },
-                                              attrs: {
-                                                src: "/" + user.avatar,
-                                                alt: "..."
-                                              }
+                                            _c("v-lazy-image", {
+                                              attrs: { src: "/" + user.avatar }
                                             })
-                                          ]
+                                          ],
+                                          1
                                         )
                                       ]),
                                       _vm._v(" "),
@@ -38856,37 +38892,79 @@ var render = function() {
                                         ])
                                       ]),
                                       _vm._v(" "),
-                                      _c("td", { staticClass: "text-center" }, [
-                                        _c("h5", [_vm._v("Action")]),
-                                        _vm._v(" "),
-                                        _c("p", [
-                                          _c(
-                                            "button",
-                                            {
+                                      _c("td", [
+                                        _c(
+                                          "label",
+                                          {
+                                            staticClass:
+                                              "custom-control custom-checkbox c-pointer"
+                                          },
+                                          [
+                                            _c("input", {
+                                              directives: [
+                                                {
+                                                  name: "model",
+                                                  rawName: "v-model",
+                                                  value: _vm.batchUsers,
+                                                  expression: "batchUsers"
+                                                }
+                                              ],
                                               staticClass:
-                                                "btn btn-danger btn-sm btn-round w-180 mb-5",
+                                                "checkbox custom-control-input c-pointer",
                                               attrs: {
-                                                disabled: _vm.revokeSending
+                                                type: "checkbox",
+                                                id: user.id
+                                              },
+                                              domProps: {
+                                                value: user.id,
+                                                checked: Array.isArray(
+                                                  _vm.batchUsers
+                                                )
+                                                  ? _vm._i(
+                                                      _vm.batchUsers,
+                                                      user.id
+                                                    ) > -1
+                                                  : _vm.batchUsers
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  _vm.revokeRequestBack(user)
+                                                  _vm.isAnyUserChecked()
+                                                },
+                                                change: function($event) {
+                                                  var $$a = _vm.batchUsers,
+                                                    $$el = $event.target,
+                                                    $$c = $$el.checked
+                                                      ? true
+                                                      : false
+                                                  if (Array.isArray($$a)) {
+                                                    var $$v = user.id,
+                                                      $$i = _vm._i($$a, $$v)
+                                                    if ($$el.checked) {
+                                                      $$i < 0 &&
+                                                        (_vm.batchUsers = $$a.concat(
+                                                          [$$v]
+                                                        ))
+                                                    } else {
+                                                      $$i > -1 &&
+                                                        (_vm.batchUsers = $$a
+                                                          .slice(0, $$i)
+                                                          .concat(
+                                                            $$a.slice($$i + 1)
+                                                          ))
+                                                    }
+                                                  } else {
+                                                    _vm.batchUsers = $$c
+                                                  }
                                                 }
                                               }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\n                                " +
-                                                  _vm._s(
-                                                    user.revoking
-                                                      ? "Revoking Request ..."
-                                                      : "Revoke"
-                                                  ) +
-                                                  "\n                              "
-                                              )
-                                            ]
-                                          )
-                                        ])
+                                            }),
+                                            _vm._v(" "),
+                                            _c("span", {
+                                              staticClass:
+                                                "custom-control-indicator c-pointer"
+                                            })
+                                          ]
+                                        )
                                       ])
                                     ]
                                   )
@@ -38897,6 +38975,27 @@ var render = function() {
                           ]
                         )
                       ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "text-right mt-50" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "btn btn-danger btn-sm btn-round w-180 mb-5",
+                        attrs: {
+                          disabled: _vm.approvalSending,
+                          "data-toggle": "modal",
+                          "data-target": "#revokeUsersModal"
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.getCheckedUsers("approvedUsers")
+                          }
+                        }
+                      },
+                      [_vm._v("\n    Revoke\n  ")]
                     )
                   ])
                 ]
@@ -38930,12 +39029,12 @@ var render = function() {
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "text-left" }, [
                   _vm._v(
-                    "\n          Are you sure to give Administration Permissions to the following Users\n          "
+                    "\n     Are you sure to give Administration Permissions to the following Users\n     "
                   ),
                   _c(
                     "ul",
                     _vm._l(_vm.checkedUsers, function(user) {
-                      return _c("li", [
+                      return _c("li", { staticClass: "list" }, [
                         _vm._v(_vm._s(user.name) + " "),
                         _c("span", {
                           staticClass: "fa fa-minus-circle ml-10",
@@ -39009,7 +39108,7 @@ var render = function() {
               _c("div", { staticClass: "modal-body" }, [
                 _c("div", { staticClass: "text-left" }, [
                   _vm._v(
-                    "\n          Are you sure to rejects to the following Users requests\n          "
+                    "\n     Are you sure to rejects to the following Users requests\n     "
                   ),
                   _c(
                     "ul",
@@ -39063,6 +39162,85 @@ var render = function() {
           ]
         )
       ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "revokeUsersModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "revokeUsersModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", { staticClass: "text-left" }, [
+                  _vm._v(
+                    "\n     Are you sure to revoke Administration access from the following users:\n     "
+                  ),
+                  _c(
+                    "ul",
+                    _vm._l(_vm.checkedUsers, function(user) {
+                      return _c("li", [
+                        _vm._v(_vm._s(user.name) + " "),
+                        _c("span", {
+                          staticClass: "fa fa-minus-circle ml-10",
+                          on: {
+                            click: function($event) {
+                              _vm.removeUserFromCheckedUsers(user)
+                            }
+                          }
+                        })
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("No")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: {
+                      click: function($event) {
+                        _vm.processRequest(
+                          _vm.batchUsers,
+                          true,
+                          "revoke-request"
+                        )
+                      }
+                    }
+                  },
+                  [_vm._v("Yes")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
     )
   ])
 }
@@ -39100,6 +39278,31 @@ var staticRenderFns = [
       _c(
         "h5",
         { staticClass: "modal-title", attrs: { id: "approveUsersModalLabel" } },
+        [_vm._v("Confirmation")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "revokeUsersModalLabel" } },
         [_vm._v("Confirmation")]
       ),
       _vm._v(" "),

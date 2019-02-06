@@ -52,6 +52,7 @@
                    @if(auth()->user()->isAdministrator())
 
                     <li class="nav-item"><a class="nav-link" href="{{ route('requests.show') }}">Administration</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('series.create') }}">Create  Series</a></li>
 
                    @endif
 <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">Logout</a></li>
