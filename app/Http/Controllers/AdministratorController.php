@@ -58,18 +58,15 @@ class AdministratorController extends Controller
         ]);
     		
 
-    			// $request->sendApprovalMail();
+    			$request->sendApprovalMail();
 
-    		
-  	
-   		
     	
     }
 
     public function rejectRequest(administratorRequest $request){
 
-    	return $request->rejectUserAsAdmin();
-    			// ->sendRejectionMail();
+    	return $request->rejectUserAsAdmin()
+    			->sendRejectionMail();
 
     	return response()->json([
 

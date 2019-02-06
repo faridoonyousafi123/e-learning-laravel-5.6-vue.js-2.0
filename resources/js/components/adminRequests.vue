@@ -5,12 +5,12 @@
     <div class="col-12 col-md-4">
      <ul class="nav nav-vertical">
       <li class="nav-item">
-       <a @click="getPendingRequests('pending')" class="nav-link active" data-toggle="tab" href="#tab-1">
+       <a @click="getUsers('pending', 0)" class="nav-link active" data-toggle="tab" href="#tab-1">
         <h6>Pending</h6>
       </a>
     </li>
     <li class="nav-item">
-     <a @click="getApprovedUsers('approved')" class="nav-link" data-toggle="tab" href="#tab-2">
+     <a @click="getUsers('approved', 1)" class="nav-link" data-toggle="tab" href="#tab-2">
       <h6>Approved</h6>
     </a>
   </li>
@@ -26,7 +26,7 @@
      <div class="dot dotThree"></div>
    </div>
    <form class="row gap-y" v-on:submit.prevent>
-     <div class="col-lg-12 col-md-10 col-sm-12 no-scroll tabledata" style="height:436px; overflow:auto;">
+     <div v-if="!loading" class="col-lg-12 col-md-10 col-sm-12 no-scroll" style="height:436px; overflow:auto;">
       <table class="table table-cart">
        <tbody valign="middle">
         <tr v-for="user in users" :key="users.indexOf(user)">
@@ -43,7 +43,7 @@
       </td>
       <td>
         <label class="custom-control custom-checkbox c-pointer">
-          <input class="checkbox custom-control-input c-pointer" type="checkbox" v-model="batchUsers" :value="user.id" :id="user.id" @click="isAnyUserChecked()">
+          <input class="checkbox custom-control-input c-pointer" type="checkbox" v-model="batchUsers" :value="user.id" :id="user.id">
           <span class="custom-control-indicator c-pointer"></span>
         </label>
       </td>
@@ -53,11 +53,11 @@
 </div>
 </form>
 </div>
-<div class="text-right mt-50 buttons">
-  <button  class="btn btn-primary btn-sm btn-round w-180 mb-5"  @click="getCheckedUsers('users')"  :disabled="approvalSending" data-toggle="modal" data-target="#approveUsersModal">
+<div v-if="!loading && users.length > 0" class="text-right mt-50">
+  <button  class="btn btn-primary btn-sm btn-round w-180 mb-5"  @click="getCheckedUsers()"  :disabled="!isAnyUserChecked" data-toggle="modal" data-target="#approveUsersModal">
     {{ this.loading ? 'Approving ...' : 'Approve'}}
   </button>
-  <button class="btn btn-danger btn-sm btn-round w-180 mb-5" @click="getCheckedUsers('users')" :disabled="approvalSending" data-toggle="modal" data-target="#rejectUsersModal">
+  <button class="btn btn-danger btn-sm btn-round w-180 mb-5" @click="getCheckedUsers()" :disabled="!isAnyUserChecked" data-toggle="modal" data-target="#rejectUsersModal">
     Reject 
   </button>
 </div>
@@ -65,16 +65,16 @@
 <div class="tab-pane fade" id="tab-2">
 
   <div class="container">
-    <div v-if="this.loading" class="loading-spinner mt-100">
+    <div v-if="loading" class="loading-spinner mt-100">
      <div class="dot dotOne"></div>
      <div class="dot dotTwo"></div>
      <div class="dot dotThree"></div>
    </div>
    <form class="row gap-y" v-on:submit.prevent>
-     <div class="col-lg-12 col-md-10 col-sm-12 no-scroll tabledata" style="height:436px; overflow:auto;">
+     <div v-if="!loading" class="col-lg-12 col-md-10 col-sm-12 no-scroll" style="height:436px; overflow:auto;">
       <table class="table table-cart">
        <tbody valign="middle">
-        <tr v-for="user in approvedUsers" :key="approvedUsers.indexOf(user)">
+        <tr v-for="user in users" :key="users.indexOf(user)">
          <td>
           <a href="shop-single.html">
            <v-lazy-image 
@@ -88,7 +88,7 @@
       </td>
       <td>
         <label class="custom-control custom-checkbox c-pointer">
-          <input class="checkbox custom-control-input c-pointer" type="checkbox" v-model="batchUsers" :value="user.id" :id="user.id" @click="isAnyUserChecked()">
+          <input class="checkbox custom-control-input c-pointer" type="checkbox" v-model="batchUsers" :value="user.id" :id="user.id">
           <span class="custom-control-indicator c-pointer"></span>
         </label>
       </td>
@@ -98,8 +98,8 @@
 </div>
 </form>
 </div>
-<div v-if="" class="text-right mt-50">
-  <button  class="btn btn-danger btn-sm btn-round w-180 mb-5"  @click="getCheckedUsers('approvedUsers')"  :disabled="approvalSending" data-toggle="modal" data-target="#revokeUsersModal">
+<div v-if="!loading && users.length > 0" class="text-right mt-50">
+  <button class="btn btn-danger btn-sm btn-round w-180 mb-5"  @click="getCheckedUsers()"  :disabled="!isAnyUserChecked" data-toggle="modal" data-target="#revokeUsersModal">
     Revoke
   </button>
 
@@ -203,23 +203,18 @@ export default {
  data() {
 
   return{
-    csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
     users: [],
-    approvedUsers:[],
-    show:false,
     loading: false,
     currentTab: 'pending',
     batchUsers:[],
     checkedUsers:[]
-
-
   }
 },
 
 
 mounted() {
 
- this.getPendingRequests();
+ this.getUsers('', 0);
 
 },
 
@@ -230,17 +225,22 @@ methods: {
  /* Functions that get data from API's  */
 
          //Getting Users that are approved
-         getApprovedUsers(tab){
+         getUsers(tab, status){
+          let url = '/users';
 
           if (tab == this.currentTab) {
             return;
           }
 
-          this.currentTab = tab;
-          axios.get('/users-approved')
-          .then(resp => {
-           this.approvedUsers = resp.data;
+          // status 1 for approved users
+          if (status == 1) {
+            url = '/users-approved';
+          }
 
+          this.currentTab = tab;
+          axios.get(url)
+          .then(resp => {
+           this.users = resp.data;
 
          }).catch(error => {
 
@@ -249,41 +249,11 @@ methods: {
 
        },
 
+       getCheckedUsers(){
 
-
-        // get Users that needs to be approved now
-        getPendingRequests(tab){
-          if (tab == this.currentTab) {
-            return;
-          }
-
-          this.currentTab = tab;
-          axios.get('/users')
-          .then(res => {
-           this.users = res.data;
-
-         })
-          .catch(error => {
-           console.error(error);
-         })
-          
-        },
-
-        getCheckedUsers(userType){
-
-         if(userType == 'approvedUsers'){
-          let checkedUsersObjects = this.approvedUsers.filter(user => this.batchUsers.includes(user.id));
+          let checkedUsersObjects = this.users.filter(user => this.batchUsers.includes(user.id));
           let checkedUsersNames = checkedUsersObjects.map(user => user);
-          this.checkedUsers = checkedUsersNames
-
-          return;
-        }
-
-        let checkedUsersObjects = this.users.filter(user => this.batchUsers.includes(user.id));
-
-
-        let checkedUsersNames = checkedUsersObjects.map(user => user);
-        this.checkedUsers = checkedUsersNames
+          this.checkedUsers = checkedUsersNames;
       },
 
 
@@ -293,8 +263,6 @@ methods: {
       processRequest(user, currentTab, requestType){
 
         this.loading = true
-
-        this.hideTableData();
 
         var formData = new FormData();
 
@@ -310,22 +278,15 @@ methods: {
         }).then(res => {
 
           this.loading = false;
-          this.showTableData();
 
-          this.getCurrentTab(currentTab);
+          this.removeTheUserFromTable();
 
 
           this.checkedUsers = [];
           this.batchUsers = [];
 
-
-
-
-
         }).catch(error => {
-
-          console.log(error);
-
+          this.loading = false;
         });
 
       },
@@ -334,115 +295,61 @@ methods: {
 
       /* UI Utilities Functions  */
 
-     //hide TableData
-     
-     hideTableData(){
 
-      $('.tabledata').css('display','none');
-      $('.buttons').css('display', 'none');
-    },
 
-    showTableData(){
 
-     $('.tabledata').css('display','block');
-     $('.buttons').css('display','block');
-   },
-   
-   
-     // getting current tab to stop 
-     getCurrentTab(currentTab){
-       if (currentTab) {
+    removeTheUserFromTable(){
+      this.batchUsers.forEach(userId => {
+        let user = this.users.find(user => user.id == userId);
+        const index = this.users.indexOf(user);
+        if (index > -1) {
+          this.users.splice(index, 1);
+        }
 
-        this.batchUsers.forEach(userId => {
-          let user = this.users.find(user => user.id == userId);
-          const index = this.users.indexOf(user);
-          this.removeTheUserFromTable(user);
+      });
 
-        });
 
-        return;
-
-      }
     },
 
 
+    removeUserFromCheckedUsers(user){
+
+     var index = this.checkedUsers.indexOf(user);
 
 
-    removeTheUserFromTable(user){
+     this.checkedUsers.splice(index, 1);
 
-     const index = this.users.indexOf(user);
+     this.batchUsers.splice(index, 1);
 
-     if (index > -1) {
-       this.users.splice(index, 1);
+     if(this.checkedUsers.length < 1){
 
-       if(this.users.length < 1){
-         $('.buttons').css('display', 'none');
-       }
+
+       $('.fa-minus-circle').attr('data-dismiss','modal');
+
+       this.batchUsers = [];
+       this.checkedUsers = [];
 
      }
-   },
-   
-   isAnyUserChecked(){
 
-     if ($("input:checkbox:checked").length > 0)
-     {
-      $('button').attr('disabled', false);
-    }
-    else
-    {
-     $('button').attr('disabled', true);
+
+
+
+
    }
-   
+
+
  },
 
- removeUserFromCheckedUsers(user){
-
-
-
-   var index = this.checkedUsers.indexOf(user);
-   
-   
-   this.checkedUsers.splice(index, 1);
-   
-   this.batchUsers.splice(index, 1);
-   
-   if(this.checkedUsers.length < 1){
-
-
-     $('.fa-minus-circle').attr('data-dismiss','modal');
-
-     this.batchUsers = [];
-     this.checkedUsers = [];
-
-   }
 
 
 
 
+ computed: {
+  isAnyUserChecked(){
 
- }
+   return this.batchUsers.length > 0;
 
-
-},
-
-
-
-
-
-computed: {
-
-  approvalSending(){
-
-    return this.loading || !this.show 
-  },
-
-  revokeSending(){
-
-   return this.loading;
- }
-
-
-
+ },
 }
 
 }

@@ -2158,10 +2158,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       users: [],
-      approvedUsers: [],
-      show: false,
       loading: false,
       currentTab: 'pending',
       batchUsers: [],
@@ -2169,58 +2166,37 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getPendingRequests();
+    this.getUsers('', 0);
   },
   methods: {
     /* Functions that get data from API's  */
     //Getting Users that are approved
-    getApprovedUsers: function getApprovedUsers(tab) {
+    getUsers: function getUsers(tab, status) {
       var _this = this;
 
+      var url = '/users';
+
       if (tab == this.currentTab) {
         return;
+      } // status 1 for approved users
+
+
+      if (status == 1) {
+        url = '/users-approved';
       }
 
       this.currentTab = tab;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users-approved').then(function (resp) {
-        _this.approvedUsers = resp.data;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url).then(function (resp) {
+        _this.users = resp.data;
       }).catch(function (error) {
         console.error(error);
       });
     },
-    // get Users that needs to be approved now
-    getPendingRequests: function getPendingRequests(tab) {
+    getCheckedUsers: function getCheckedUsers() {
       var _this2 = this;
 
-      if (tab == this.currentTab) {
-        return;
-      }
-
-      this.currentTab = tab;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/users').then(function (res) {
-        _this2.users = res.data;
-      }).catch(function (error) {
-        console.error(error);
-      });
-    },
-    getCheckedUsers: function getCheckedUsers(userType) {
-      var _this3 = this;
-
-      if (userType == 'approvedUsers') {
-        var _checkedUsersObjects = this.approvedUsers.filter(function (user) {
-          return _this3.batchUsers.includes(user.id);
-        });
-
-        var _checkedUsersNames = _checkedUsersObjects.map(function (user) {
-          return user;
-        });
-
-        this.checkedUsers = _checkedUsersNames;
-        return;
-      }
-
       var checkedUsersObjects = this.users.filter(function (user) {
-        return _this3.batchUsers.includes(user.id);
+        return _this2.batchUsers.includes(user.id);
       });
       var checkedUsersNames = checkedUsersObjects.map(function (user) {
         return user;
@@ -2230,10 +2206,9 @@ __webpack_require__.r(__webpack_exports__);
 
     /* Functions that set data to Database  */
     processRequest: function processRequest(user, currentTab, requestType) {
-      var _this4 = this;
+      var _this3 = this;
 
       this.loading = true;
-      this.hideTableData();
       var formData = new FormData();
 
       if (user.id) {
@@ -2242,63 +2217,32 @@ __webpack_require__.r(__webpack_exports__);
 
       formData.append("users", this.batchUsers);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/admin/' + requestType, formData, {}).then(function (res) {
-        _this4.loading = false;
+        _this3.loading = false;
 
-        _this4.showTableData();
+        _this3.removeTheUserFromTable();
 
-        _this4.getCurrentTab(currentTab);
-
-        _this4.checkedUsers = [];
-        _this4.batchUsers = [];
+        _this3.checkedUsers = [];
+        _this3.batchUsers = [];
       }).catch(function (error) {
-        console.log(error);
+        _this3.loading = false;
       });
     },
 
     /* UI Utilities Functions  */
-    //hide TableData
-    hideTableData: function hideTableData() {
-      $('.tabledata').css('display', 'none');
-      $('.buttons').css('display', 'none');
-    },
-    showTableData: function showTableData() {
-      $('.tabledata').css('display', 'block');
-      $('.buttons').css('display', 'block');
-    },
-    // getting current tab to stop 
-    getCurrentTab: function getCurrentTab(currentTab) {
-      var _this5 = this;
+    removeTheUserFromTable: function removeTheUserFromTable() {
+      var _this4 = this;
 
-      if (currentTab) {
-        this.batchUsers.forEach(function (userId) {
-          var user = _this5.users.find(function (user) {
-            return user.id == userId;
-          });
-
-          var index = _this5.users.indexOf(user);
-
-          _this5.removeTheUserFromTable(user);
+      this.batchUsers.forEach(function (userId) {
+        var user = _this4.users.find(function (user) {
+          return user.id == userId;
         });
-        return;
-      }
-    },
-    removeTheUserFromTable: function removeTheUserFromTable(user) {
-      var index = this.users.indexOf(user);
 
-      if (index > -1) {
-        this.users.splice(index, 1);
+        var index = _this4.users.indexOf(user);
 
-        if (this.users.length < 1) {
-          $('.buttons').css('display', 'none');
+        if (index > -1) {
+          _this4.users.splice(index, 1);
         }
-      }
-    },
-    isAnyUserChecked: function isAnyUserChecked() {
-      if ($("input:checkbox:checked").length > 0) {
-        $('button').attr('disabled', false);
-      } else {
-        $('button').attr('disabled', true);
-      }
+      });
     },
     removeUserFromCheckedUsers: function removeUserFromCheckedUsers(user) {
       var index = this.checkedUsers.indexOf(user);
@@ -2313,11 +2257,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    approvalSending: function approvalSending() {
-      return this.loading || !this.show;
-    },
-    revokeSending: function revokeSending() {
-      return this.loading;
+    isAnyUserChecked: function isAnyUserChecked() {
+      return this.batchUsers.length > 0;
     }
   }
 });
@@ -38584,7 +38525,7 @@ var render = function() {
                   attrs: { "data-toggle": "tab", href: "#tab-1" },
                   on: {
                     click: function($event) {
-                      _vm.getPendingRequests("pending")
+                      _vm.getUsers("pending", 0)
                     }
                   }
                 },
@@ -38600,7 +38541,7 @@ var render = function() {
                   attrs: { "data-toggle": "tab", href: "#tab-2" },
                   on: {
                     click: function($event) {
-                      _vm.getApprovedUsers("approved")
+                      _vm.getUsers("approved", 1)
                     }
                   }
                 },
@@ -38652,177 +38593,203 @@ var render = function() {
                         }
                       },
                       [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "col-lg-12 col-md-10 col-sm-12 no-scroll tabledata",
-                            staticStyle: { height: "436px", overflow: "auto" }
-                          },
-                          [
-                            _c("table", { staticClass: "table table-cart" }, [
-                              _c(
-                                "tbody",
-                                { attrs: { valign: "middle" } },
-                                _vm._l(_vm.users, function(user) {
-                                  return _c(
-                                    "tr",
-                                    { key: _vm.users.indexOf(user) },
-                                    [
-                                      _c("td", [
-                                        _c(
-                                          "a",
-                                          {
-                                            attrs: { href: "shop-single.html" }
-                                          },
+                        !_vm.loading
+                          ? _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "col-lg-12 col-md-10 col-sm-12 no-scroll",
+                                staticStyle: {
+                                  height: "436px",
+                                  overflow: "auto"
+                                }
+                              },
+                              [
+                                _c(
+                                  "table",
+                                  { staticClass: "table table-cart" },
+                                  [
+                                    _c(
+                                      "tbody",
+                                      { attrs: { valign: "middle" } },
+                                      _vm._l(_vm.users, function(user) {
+                                        return _c(
+                                          "tr",
+                                          { key: _vm.users.indexOf(user) },
                                           [
-                                            _c("v-lazy-image", {
-                                              attrs: { src: "/" + user.avatar }
-                                            })
-                                          ],
-                                          1
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _c("h5", [_vm._v(_vm._s(user.name))]),
-                                        _vm._v(" "),
-                                        _c("p", [
-                                          _vm._v("Senior Software at Netlinks")
-                                        ])
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _c(
-                                          "label",
-                                          {
-                                            staticClass:
-                                              "custom-control custom-checkbox c-pointer"
-                                          },
-                                          [
-                                            _c("input", {
-                                              directives: [
+                                            _c("td", [
+                                              _c(
+                                                "a",
                                                 {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value: _vm.batchUsers,
-                                                  expression: "batchUsers"
-                                                }
-                                              ],
-                                              staticClass:
-                                                "checkbox custom-control-input c-pointer",
-                                              attrs: {
-                                                type: "checkbox",
-                                                id: user.id
-                                              },
-                                              domProps: {
-                                                value: user.id,
-                                                checked: Array.isArray(
-                                                  _vm.batchUsers
-                                                )
-                                                  ? _vm._i(
-                                                      _vm.batchUsers,
-                                                      user.id
-                                                    ) > -1
-                                                  : _vm.batchUsers
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.isAnyUserChecked()
-                                                },
-                                                change: function($event) {
-                                                  var $$a = _vm.batchUsers,
-                                                    $$el = $event.target,
-                                                    $$c = $$el.checked
-                                                      ? true
-                                                      : false
-                                                  if (Array.isArray($$a)) {
-                                                    var $$v = user.id,
-                                                      $$i = _vm._i($$a, $$v)
-                                                    if ($$el.checked) {
-                                                      $$i < 0 &&
-                                                        (_vm.batchUsers = $$a.concat(
-                                                          [$$v]
-                                                        ))
-                                                    } else {
-                                                      $$i > -1 &&
-                                                        (_vm.batchUsers = $$a
-                                                          .slice(0, $$i)
-                                                          .concat(
-                                                            $$a.slice($$i + 1)
-                                                          ))
-                                                    }
-                                                  } else {
-                                                    _vm.batchUsers = $$c
+                                                  attrs: {
+                                                    href: "shop-single.html"
                                                   }
-                                                }
-                                              }
-                                            }),
+                                                },
+                                                [
+                                                  _c("v-lazy-image", {
+                                                    attrs: {
+                                                      src: "/" + user.avatar
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            ]),
                                             _vm._v(" "),
-                                            _c("span", {
-                                              staticClass:
-                                                "custom-control-indicator c-pointer"
-                                            })
+                                            _c("td", [
+                                              _c("h5", [
+                                                _vm._v(_vm._s(user.name))
+                                              ]),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "Senior Software at Netlinks"
+                                                )
+                                              ])
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c(
+                                                "label",
+                                                {
+                                                  staticClass:
+                                                    "custom-control custom-checkbox c-pointer"
+                                                },
+                                                [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: _vm.batchUsers,
+                                                        expression: "batchUsers"
+                                                      }
+                                                    ],
+                                                    staticClass:
+                                                      "checkbox custom-control-input c-pointer",
+                                                    attrs: {
+                                                      type: "checkbox",
+                                                      id: user.id
+                                                    },
+                                                    domProps: {
+                                                      value: user.id,
+                                                      checked: Array.isArray(
+                                                        _vm.batchUsers
+                                                      )
+                                                        ? _vm._i(
+                                                            _vm.batchUsers,
+                                                            user.id
+                                                          ) > -1
+                                                        : _vm.batchUsers
+                                                    },
+                                                    on: {
+                                                      change: function($event) {
+                                                        var $$a =
+                                                            _vm.batchUsers,
+                                                          $$el = $event.target,
+                                                          $$c = $$el.checked
+                                                            ? true
+                                                            : false
+                                                        if (
+                                                          Array.isArray($$a)
+                                                        ) {
+                                                          var $$v = user.id,
+                                                            $$i = _vm._i(
+                                                              $$a,
+                                                              $$v
+                                                            )
+                                                          if ($$el.checked) {
+                                                            $$i < 0 &&
+                                                              (_vm.batchUsers = $$a.concat(
+                                                                [$$v]
+                                                              ))
+                                                          } else {
+                                                            $$i > -1 &&
+                                                              (_vm.batchUsers = $$a
+                                                                .slice(0, $$i)
+                                                                .concat(
+                                                                  $$a.slice(
+                                                                    $$i + 1
+                                                                  )
+                                                                ))
+                                                          }
+                                                        } else {
+                                                          _vm.batchUsers = $$c
+                                                        }
+                                                      }
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("span", {
+                                                    staticClass:
+                                                      "custom-control-indicator c-pointer"
+                                                  })
+                                                ]
+                                              )
+                                            ])
                                           ]
                                         )
-                                      ])
-                                    ]
-                                  )
-                                }),
-                                0
-                              )
-                            ])
-                          ]
-                        )
+                                      }),
+                                      0
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          : _vm._e()
                       ]
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "text-right mt-50 buttons" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "btn btn-primary btn-sm btn-round w-180 mb-5",
-                        attrs: {
-                          disabled: _vm.approvalSending,
-                          "data-toggle": "modal",
-                          "data-target": "#approveUsersModal"
-                        },
-                        on: {
-                          click: function($event) {
-                            _vm.getCheckedUsers("users")
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n    " +
-                            _vm._s(this.loading ? "Approving ..." : "Approve") +
-                            "\n  "
+                  !_vm.loading && _vm.users.length > 0
+                    ? _c("div", { staticClass: "text-right mt-50" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-primary btn-sm btn-round w-180 mb-5",
+                            attrs: {
+                              disabled: !_vm.isAnyUserChecked,
+                              "data-toggle": "modal",
+                              "data-target": "#approveUsersModal"
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.getCheckedUsers()
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n    " +
+                                _vm._s(
+                                  this.loading ? "Approving ..." : "Approve"
+                                ) +
+                                "\n  "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-danger btn-sm btn-round w-180 mb-5",
+                            attrs: {
+                              disabled: !_vm.isAnyUserChecked,
+                              "data-toggle": "modal",
+                              "data-target": "#rejectUsersModal"
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.getCheckedUsers()
+                              }
+                            }
+                          },
+                          [_vm._v("\n    Reject \n  ")]
                         )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "btn btn-danger btn-sm btn-round w-180 mb-5",
-                        attrs: {
-                          disabled: _vm.approvalSending,
-                          "data-toggle": "modal",
-                          "data-target": "#rejectUsersModal"
-                        },
-                        on: {
-                          click: function($event) {
-                            _vm.getCheckedUsers("users")
-                          }
-                        }
-                      },
-                      [_vm._v("\n    Reject \n  ")]
-                    )
-                  ])
+                      ])
+                    : _vm._e()
                 ]
               ),
               _vm._v(" "),
@@ -38831,7 +38798,7 @@ var render = function() {
                 { staticClass: "tab-pane fade", attrs: { id: "tab-2" } },
                 [
                   _c("div", { staticClass: "container" }, [
-                    this.loading
+                    _vm.loading
                       ? _c("div", { staticClass: "loading-spinner mt-100" }, [
                           _c("div", { staticClass: "dot dotOne" }),
                           _vm._v(" "),
@@ -38852,152 +38819,176 @@ var render = function() {
                         }
                       },
                       [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "col-lg-12 col-md-10 col-sm-12 no-scroll tabledata",
-                            staticStyle: { height: "436px", overflow: "auto" }
-                          },
-                          [
-                            _c("table", { staticClass: "table table-cart" }, [
-                              _c(
-                                "tbody",
-                                { attrs: { valign: "middle" } },
-                                _vm._l(_vm.approvedUsers, function(user) {
-                                  return _c(
-                                    "tr",
-                                    { key: _vm.approvedUsers.indexOf(user) },
-                                    [
-                                      _c("td", [
-                                        _c(
-                                          "a",
-                                          {
-                                            attrs: { href: "shop-single.html" }
-                                          },
+                        !_vm.loading
+                          ? _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "col-lg-12 col-md-10 col-sm-12 no-scroll",
+                                staticStyle: {
+                                  height: "436px",
+                                  overflow: "auto"
+                                }
+                              },
+                              [
+                                _c(
+                                  "table",
+                                  { staticClass: "table table-cart" },
+                                  [
+                                    _c(
+                                      "tbody",
+                                      { attrs: { valign: "middle" } },
+                                      _vm._l(_vm.users, function(user) {
+                                        return _c(
+                                          "tr",
+                                          { key: _vm.users.indexOf(user) },
                                           [
-                                            _c("v-lazy-image", {
-                                              attrs: { src: "/" + user.avatar }
-                                            })
-                                          ],
-                                          1
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _c("h5", [_vm._v(_vm._s(user.name))]),
-                                        _vm._v(" "),
-                                        _c("p", [
-                                          _vm._v("Senior Software at Netlinks")
-                                        ])
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _c(
-                                          "label",
-                                          {
-                                            staticClass:
-                                              "custom-control custom-checkbox c-pointer"
-                                          },
-                                          [
-                                            _c("input", {
-                                              directives: [
+                                            _c("td", [
+                                              _c(
+                                                "a",
                                                 {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value: _vm.batchUsers,
-                                                  expression: "batchUsers"
-                                                }
-                                              ],
-                                              staticClass:
-                                                "checkbox custom-control-input c-pointer",
-                                              attrs: {
-                                                type: "checkbox",
-                                                id: user.id
-                                              },
-                                              domProps: {
-                                                value: user.id,
-                                                checked: Array.isArray(
-                                                  _vm.batchUsers
-                                                )
-                                                  ? _vm._i(
-                                                      _vm.batchUsers,
-                                                      user.id
-                                                    ) > -1
-                                                  : _vm.batchUsers
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.isAnyUserChecked()
-                                                },
-                                                change: function($event) {
-                                                  var $$a = _vm.batchUsers,
-                                                    $$el = $event.target,
-                                                    $$c = $$el.checked
-                                                      ? true
-                                                      : false
-                                                  if (Array.isArray($$a)) {
-                                                    var $$v = user.id,
-                                                      $$i = _vm._i($$a, $$v)
-                                                    if ($$el.checked) {
-                                                      $$i < 0 &&
-                                                        (_vm.batchUsers = $$a.concat(
-                                                          [$$v]
-                                                        ))
-                                                    } else {
-                                                      $$i > -1 &&
-                                                        (_vm.batchUsers = $$a
-                                                          .slice(0, $$i)
-                                                          .concat(
-                                                            $$a.slice($$i + 1)
-                                                          ))
-                                                    }
-                                                  } else {
-                                                    _vm.batchUsers = $$c
+                                                  attrs: {
+                                                    href: "shop-single.html"
                                                   }
-                                                }
-                                              }
-                                            }),
+                                                },
+                                                [
+                                                  _c("v-lazy-image", {
+                                                    attrs: {
+                                                      src: "/" + user.avatar
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            ]),
                                             _vm._v(" "),
-                                            _c("span", {
-                                              staticClass:
-                                                "custom-control-indicator c-pointer"
-                                            })
+                                            _c("td", [
+                                              _c("h5", [
+                                                _vm._v(_vm._s(user.name))
+                                              ]),
+                                              _vm._v(" "),
+                                              _c("p", [
+                                                _vm._v(
+                                                  "Senior Software at Netlinks"
+                                                )
+                                              ])
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c(
+                                                "label",
+                                                {
+                                                  staticClass:
+                                                    "custom-control custom-checkbox c-pointer"
+                                                },
+                                                [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: _vm.batchUsers,
+                                                        expression: "batchUsers"
+                                                      }
+                                                    ],
+                                                    staticClass:
+                                                      "checkbox custom-control-input c-pointer",
+                                                    attrs: {
+                                                      type: "checkbox",
+                                                      id: user.id
+                                                    },
+                                                    domProps: {
+                                                      value: user.id,
+                                                      checked: Array.isArray(
+                                                        _vm.batchUsers
+                                                      )
+                                                        ? _vm._i(
+                                                            _vm.batchUsers,
+                                                            user.id
+                                                          ) > -1
+                                                        : _vm.batchUsers
+                                                    },
+                                                    on: {
+                                                      change: function($event) {
+                                                        var $$a =
+                                                            _vm.batchUsers,
+                                                          $$el = $event.target,
+                                                          $$c = $$el.checked
+                                                            ? true
+                                                            : false
+                                                        if (
+                                                          Array.isArray($$a)
+                                                        ) {
+                                                          var $$v = user.id,
+                                                            $$i = _vm._i(
+                                                              $$a,
+                                                              $$v
+                                                            )
+                                                          if ($$el.checked) {
+                                                            $$i < 0 &&
+                                                              (_vm.batchUsers = $$a.concat(
+                                                                [$$v]
+                                                              ))
+                                                          } else {
+                                                            $$i > -1 &&
+                                                              (_vm.batchUsers = $$a
+                                                                .slice(0, $$i)
+                                                                .concat(
+                                                                  $$a.slice(
+                                                                    $$i + 1
+                                                                  )
+                                                                ))
+                                                          }
+                                                        } else {
+                                                          _vm.batchUsers = $$c
+                                                        }
+                                                      }
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("span", {
+                                                    staticClass:
+                                                      "custom-control-indicator c-pointer"
+                                                  })
+                                                ]
+                                              )
+                                            ])
                                           ]
                                         )
-                                      ])
-                                    ]
-                                  )
-                                }),
-                                0
-                              )
-                            ])
-                          ]
-                        )
+                                      }),
+                                      0
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          : _vm._e()
                       ]
                     )
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "text-right mt-50" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "btn btn-danger btn-sm btn-round w-180 mb-5",
-                        attrs: {
-                          disabled: _vm.approvalSending,
-                          "data-toggle": "modal",
-                          "data-target": "#revokeUsersModal"
-                        },
-                        on: {
-                          click: function($event) {
-                            _vm.getCheckedUsers("approvedUsers")
-                          }
-                        }
-                      },
-                      [_vm._v("\n    Revoke\n  ")]
-                    )
-                  ])
+                  !_vm.loading && _vm.users.length > 0
+                    ? _c("div", { staticClass: "text-right mt-50" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-danger btn-sm btn-round w-180 mb-5",
+                            attrs: {
+                              disabled: !_vm.isAnyUserChecked,
+                              "data-toggle": "modal",
+                              "data-target": "#revokeUsersModal"
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.getCheckedUsers()
+                              }
+                            }
+                          },
+                          [_vm._v("\n    Revoke\n  ")]
+                        )
+                      ])
+                    : _vm._e()
                 ]
               )
             ])
