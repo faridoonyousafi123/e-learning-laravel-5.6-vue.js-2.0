@@ -44,7 +44,7 @@
                                        <span class="custom-control-indicator"></span>
                                        <span class="custom-control-description">Remember me</span>
                                        </label>
-                                       <a class="text-muted hover-primary fs-13" href="#">Forgot password?</a>
+                                       <a class="text-muted hover-primary fs-13" data-toggle="tab" href="#passwordreset">Forgot password?</a>
                                     </div>
                                     <div class="form-group">
                                        <button class="btn btn-bold btn-block btn-primary" @click="attemptLogin()" :disabled="!isValidLoginForm" type="button">Login</button>
@@ -83,6 +83,29 @@
                                  <hr class="w-30">
                               </form>
                            </div>
+
+                           <div class="tab-pane fade" id="passwordreset">
+                              <form class="form-type-material">
+                       
+                        
+                            
+
+                            <div class="form-group">
+                                <input id="email" type="email" v-model="reset_email" placeholder="Email Address" class="form-control" name="email" required>
+
+                            </div>
+                        
+
+                 
+                                <button @click="sendPasswordResetLink()" type="button" class="btn btn-primary" :disabled="!isValidPasswordResetForm"> 
+                                    Send Password Reset Link
+                                </button>
+                         
+                       
+                    </form>
+                           </div>
+
+
                         </div>
                      </div>
                   </div>
@@ -91,6 +114,8 @@
          </div>
       </div>
    </div>
+
+   
 </template>
 
 <script>
@@ -109,7 +134,9 @@
            r_password: '',
            r_name: '',
            r_errors: [],
-           r_loading: false
+           r_loading: false,
+           reset_email:'',
+           p_loading:false
    
            }
            
@@ -189,6 +216,28 @@
               
 
             })
+           },
+
+           sendPasswordResetLink(){
+
+                this.p_loading = true
+
+                axios.post('/password/email', {
+
+              email: this.reset_email
+
+            }).then(res => {
+
+              
+              console.log("email sent");
+
+            }).catch(error => {
+
+
+            })
+
+
+
            }
    
    
@@ -206,6 +255,11 @@
            isValidRegisterForm(){
 
                 return this.isValidEmail(this.r_email) && this.r_password && !this.r_loading
+           },
+
+           isValidPasswordResetForm(){
+
+              return this.isValidEmail(this.reset_email) && !this.p_loading
            }
    
    

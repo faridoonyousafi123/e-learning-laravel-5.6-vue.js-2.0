@@ -1860,6 +1860,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1874,7 +1899,9 @@ __webpack_require__.r(__webpack_exports__);
       r_password: '',
       r_name: '',
       r_errors: [],
-      r_loading: false
+      r_loading: false,
+      reset_email: '',
+      p_loading: false
     };
   },
   methods: {
@@ -1930,6 +1957,14 @@ __webpack_require__.r(__webpack_exports__);
           _this2.r_errors.push("Something went wrong, Please refresh and try again");
         }
       });
+    },
+    sendPasswordResetLink: function sendPasswordResetLink() {
+      this.p_loading = true;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/password/email', {
+        email: this.reset_email
+      }).then(function (res) {
+        console.log("email sent");
+      }).catch(function (error) {});
     }
   },
   computed: {
@@ -1938,6 +1973,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     isValidRegisterForm: function isValidRegisterForm() {
       return this.isValidEmail(this.r_email) && this.r_password && !this.r_loading;
+    },
+    isValidPasswordResetForm: function isValidPasswordResetForm() {
+      return this.isValidEmail(this.reset_email) && !this.p_loading;
     }
   }
 });
@@ -2205,7 +2243,7 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     /* Functions that set data to Database  */
-    processRequest: function processRequest(user, requestType) {
+    processRequest: function processRequest(user, currentTab, requestType) {
       var _this3 = this;
 
       this.loading = true;
@@ -38211,7 +38249,10 @@ var render = function() {
                                       {
                                         staticClass:
                                           "text-muted hover-primary fs-13",
-                                        attrs: { href: "#" }
+                                        attrs: {
+                                          "data-toggle": "tab",
+                                          href: "#passwordreset"
+                                        }
                                       },
                                       [_vm._v("Forgot password?")]
                                     )
@@ -38387,6 +38428,68 @@ var render = function() {
                             _vm._m(2),
                             _vm._v(" "),
                             _c("hr", { staticClass: "w-30" })
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "tab-pane fade",
+                          attrs: { id: "passwordreset" }
+                        },
+                        [
+                          _c("form", { staticClass: "form-type-material" }, [
+                            _c("div", { staticClass: "form-group" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.reset_email,
+                                    expression: "reset_email"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  id: "email",
+                                  type: "email",
+                                  placeholder: "Email Address",
+                                  name: "email",
+                                  required: ""
+                                },
+                                domProps: { value: _vm.reset_email },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.reset_email = $event.target.value
+                                  }
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-primary",
+                                attrs: {
+                                  type: "button",
+                                  disabled: !_vm.isValidPasswordResetForm
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.sendPasswordResetLink()
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  " \n                                 Send Password Reset Link\n                             "
+                                )
+                              ]
+                            )
                           ])
                         ]
                       )

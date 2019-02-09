@@ -260,7 +260,7 @@ methods: {
       /* Functions that set data to Database  */
 
 
-      processRequest(user, requestType){
+      processRequest(user,currentTab, requestType){
 
         this.loading = true
 
