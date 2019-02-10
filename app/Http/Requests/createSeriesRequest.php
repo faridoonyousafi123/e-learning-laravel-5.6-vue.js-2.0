@@ -35,7 +35,7 @@ class createSeriesRequest extends FormRequest
     public function storeSeries(){
 
         $title = $this->series_title;
-        Series::create([
+        $series = Series::create([
 
             'title' => $title,
             'slug' => str_slug($title),
@@ -44,6 +44,7 @@ class createSeriesRequest extends FormRequest
         ]);
 
          session()->flash('success', 'Series created successfully.');
+         return redirect()->route('singleSeries.show', $series->slug);
     }
 
    public function uploadSeriesImage() 

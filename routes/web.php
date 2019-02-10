@@ -55,6 +55,23 @@ Route::get('/users-approved',[
 
 ]);
 
+Route::get('/series/{slug}', [
+
+	'uses' => 'SeriesController@showSingleSeries',
+	'as' => 'singleSeries.show'
+
+]);
+
+Route::get('/series', [
+
+
+	'uses' => 'SeriesController@index',
+	'as' => 'series.all'
+
+
+]);
+
+
 
 
 
