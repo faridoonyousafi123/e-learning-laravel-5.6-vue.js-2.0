@@ -23,6 +23,7 @@ window.Vue = require('vue');
 Vue.component('vue-login', require('./components/Login.vue').default);
 Vue.component('vue-createseries', require('./components/createSeries.vue').default);
 Vue.component('vue-adminrequests', require('./components/adminRequests.vue').default);
+Vue.component('vue-series', require('./components/Series.vue').default);
 
 import { VLazyImagePlugin } from "v-lazy-image";
 

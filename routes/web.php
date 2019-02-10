@@ -48,6 +48,15 @@ Route::get('/users',[
 
 ]);
 
+Route::get('/get-series',[
+
+	'uses' => 'SeriesController@sendAllSeries',
+	'as' => 'send.series'
+
+]);
+
+
+
 Route::get('/users-approved',[
 
 	'uses' => 'AdministratorController@sendApprovedUsers',

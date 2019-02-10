@@ -15,6 +15,8 @@
 
             <hr class="w-50 ">
 
+          
+
             <a class="btn btn-xl btn-round btn-white w-200" href="#" data-scrollto="section-apply">Apply Now</a>
 
           </div>

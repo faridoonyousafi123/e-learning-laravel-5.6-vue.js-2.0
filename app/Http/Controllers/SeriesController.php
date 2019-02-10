@@ -26,6 +26,12 @@ class SeriesController extends Controller
        return view('admin.series.singleSeries')->withSeries($series);
     }
 
+    public function sendAllSeries(){
+
+        return response()->json(Series::all());
+
+
+    }
 
     /**
      * Show the form for creating a new resource.
