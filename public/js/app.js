@@ -1885,6 +1885,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1901,7 +1905,8 @@ __webpack_require__.r(__webpack_exports__);
       r_errors: [],
       r_loading: false,
       reset_email: '',
-      p_loading: false
+      p_loading: false,
+      successMessage: []
     };
   },
   methods: {
@@ -1959,11 +1964,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     sendPasswordResetLink: function sendPasswordResetLink() {
+      var _this3 = this;
+
       this.p_loading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/password/email', {
         email: this.reset_email
       }).then(function (res) {
-        console.log("email sent");
+        _this3.successMessage.push('Password reset link has been sent to your email.');
       }).catch(function (error) {});
     }
   },
@@ -38439,6 +38446,24 @@ var render = function() {
                           attrs: { id: "passwordreset" }
                         },
                         [
+                          _vm._l(_vm.successMessage, function(success) {
+                            return _c(
+                              "div",
+                              {
+                                key: _vm.successMessage.indexOf(success),
+                                staticClass: "alert alert-success",
+                                attrs: { role: "alert" }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                         " +
+                                    _vm._s(success) +
+                                    "\n                          "
+                                )
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
                           _c("form", { staticClass: "form-type-material" }, [
                             _c("div", { staticClass: "form-group" }, [
                               _c("input", {
@@ -38491,7 +38516,8 @@ var render = function() {
                               ]
                             )
                           ])
-                        ]
+                        ],
+                        2
                       )
                     ])
                   ])

@@ -85,6 +85,10 @@
                            </div>
 
                            <div class="tab-pane fade" id="passwordreset">
+
+                             <div v-for="success in successMessage" :key="successMessage.indexOf(success)" class="alert alert-success" role="alert">
+                            {{ success }}
+                             </div>
                               <form class="form-type-material">
                        
                         
@@ -136,7 +140,8 @@
            r_errors: [],
            r_loading: false,
            reset_email:'',
-           p_loading:false
+           p_loading:false,
+           successMessage: []
    
            }
            
@@ -229,7 +234,7 @@
             }).then(res => {
 
               
-              console.log("email sent");
+              this.successMessage.push('Password reset link has been sent to your email.')
 
             }).catch(error => {
 
