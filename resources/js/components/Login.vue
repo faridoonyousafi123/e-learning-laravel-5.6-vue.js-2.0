@@ -27,6 +27,7 @@
                            <div class="tab-pane fade show active" id="home-1">
                               <div class="card mb-0" style="max-width: 100%">
                                  <br><br>
+                                         <div v-if="this.loading" class="spinner"></div> 
                                  <form>
                                     <div class="alert alert-danger" v-if="errors.length > 0">
                                        <span v-for="error in errors" :key="errors.indexOf(error)"> {{ error }}</span>
@@ -35,7 +36,7 @@
                                        <input type="text" class="form-control" placeholder="Email" v-model="email" required>
                                     </div>
                                     <div class="form-group">
-                                       <input type="password" class="form-control" placeholder="Password" v-model="password" required>
+                                       <input type="password" v-on:keyup.enter="attemptLogin()" class="form-control" placeholder="Password" v-model="password" required>
                                         
                                     </div>
                                     <div class="form-group flexbox py-10">
@@ -49,10 +50,13 @@
                                     <div class="form-group">
                                        <button class="btn btn-bold btn-block btn-primary" @click="attemptLogin()" :disabled="!isValidLoginForm" type="button">Login</button>
                                     </div>
+
                                  </form>
+
                               </div>
                            </div>
                            <div class="tab-pane fade" id="profile-1">
+                            <div v-if="this.r_loading" class="spinner"></div> 
                               <form class="form-type-material">
 
                                 <input type="hidden" name="_token" :value="csrf">
@@ -67,7 +71,7 @@
                                     <input type="email" v-model="r_email" name="email" class="form-control" required placeholder="Email address">
                                  </div>
                                  <div class="form-group">
-                                    <input name="password" v-model="r_password" type="password" class="form-control" required placeholder="Password">
+                                    <input name="password" v-on:keyup.enter="attemptRegister()" v-model="r_password" type="password" class="form-control" required placeholder="Password">
                                  </div>
                                 
                                 

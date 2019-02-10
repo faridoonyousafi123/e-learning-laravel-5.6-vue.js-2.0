@@ -1889,6 +1889,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -38106,6 +38110,10 @@ var render = function() {
                               _c("br"),
                               _c("br"),
                               _vm._v(" "),
+                              this.loading
+                                ? _c("div", { staticClass: "spinner" })
+                                : _vm._e(),
+                              _vm._v(" "),
                               _c("form", [
                                 _vm.errors.length > 0
                                   ? _c(
@@ -38168,6 +38176,21 @@ var render = function() {
                                     },
                                     domProps: { value: _vm.password },
                                     on: {
+                                      keyup: function($event) {
+                                        if (
+                                          !("button" in $event) &&
+                                          _vm._k(
+                                            $event.keyCode,
+                                            "enter",
+                                            13,
+                                            $event.key,
+                                            "Enter"
+                                          )
+                                        ) {
+                                          return null
+                                        }
+                                        _vm.attemptLogin()
+                                      },
                                       input: function($event) {
                                         if ($event.target.composing) {
                                           return
@@ -38298,6 +38321,10 @@ var render = function() {
                           attrs: { id: "profile-1" }
                         },
                         [
+                          this.r_loading
+                            ? _c("div", { staticClass: "spinner" })
+                            : _vm._e(),
+                          _vm._v(" "),
                           _c("form", { staticClass: "form-type-material" }, [
                             _c("input", {
                               attrs: { type: "hidden", name: "_token" },
@@ -38398,6 +38425,21 @@ var render = function() {
                                 },
                                 domProps: { value: _vm.r_password },
                                 on: {
+                                  keyup: function($event) {
+                                    if (
+                                      !("button" in $event) &&
+                                      _vm._k(
+                                        $event.keyCode,
+                                        "enter",
+                                        13,
+                                        $event.key,
+                                        "Enter"
+                                      )
+                                    ) {
+                                      return null
+                                    }
+                                    _vm.attemptRegister()
+                                  },
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return
