@@ -45,6 +45,7 @@
           <ul class="topbar-nav nav">
            
             <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
+               <li class="nav-item"><a class="nav-link" href="{{ route('series.all') }}">All Series</a></li>
             @if(auth()->check())
                     
                    <li class="nav-item">Hey {{auth()->user()->name}}</li> 
@@ -55,6 +56,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('series.create') }}">Create  Series</a></li>
 
                    @endif
+
 <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">Logout</a></li>
 
 
@@ -62,6 +64,8 @@
 
             <li class="nav-item"><a class="nav-link" href="javascript:;" data-toggle="modal" data-target="#loginModal">Login <span class="text-lowercase">or</span> Register</a></li>
            @endif
+
+
           </ul>
 
         </div>
@@ -99,5 +103,6 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('assets/js/imageUpload.js') }}"></script>
 
+    
 </body>
 </html>

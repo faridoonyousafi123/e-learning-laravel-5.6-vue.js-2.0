@@ -2036,6 +2036,145 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -38800,53 +38939,71 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", { staticClass: "section" }, [
+  return _c("section", { staticClass: "section overflow-hidden" }, [
     _c("div", { staticClass: "container" }, [
-      _c(
-        "div",
-        { staticClass: "row gap-y text-center" },
-        _vm._l(_vm.allSeries, function(series) {
-          return _c(
-            "div",
-            {
-              key: _vm.allSeries.indexOf(series),
-              staticClass: "col-12 col-md-4"
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "pricing-1" },
-                [
-                  _c("p", { staticClass: "plan-name" }, [_vm._v("Single")]),
+      _c("div", { attrs: { "data-provide": "shuffle" } }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "divider" }, [_vm._v("Series")]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "row gap-y gap-2",
+            attrs: { "data-shuffle": "list", id: "section-series" }
+          },
+          _vm._l(_vm.allSeries, function(series) {
+            return _c(
+              "div",
+              {
+                key: _vm.allSeries.indexOf(series),
+                staticClass: "col-6 col-lg-3",
+                attrs: {
+                  "data-shuffle": "item",
+                  "data-groups": "web_development"
+                }
+              },
+              [
+                _c("div", { staticClass: "cardf" }, [
+                  _c("a", { attrs: { href: "#" } }, [
+                    _c(
+                      "div",
+                      { staticClass: "cardf__image" },
+                      [
+                        _c("v-lazy-image", {
+                          attrs: { src: "storage/" + series.image_url }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "cardf__details mt-15" }, [
+                      _c("strong", { staticClass: "details__name" }, [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(series.title) +
+                            "\n            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "details__instructor" }, [
+                        _vm._v(
+                          "\n                Jerad Hill,\n                Photography, Web Designer, Online Marketer, Husband, Father\n            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(1, true)
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("v-lazy-image", {
-                    attrs: { src: "storage/" + series.image_url }
-                  }),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("small", [_vm._v("30 days free trial")]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("small", [_vm._v("Basic support")]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("small", [_vm._v("1 GB attachment")]),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _vm._m(0, true)
-                ],
-                1
-              )
-            ]
-          )
-        }),
-        0
-      )
+                  _vm._m(2, true)
+                ])
+              ]
+            )
+          }),
+          0
+        )
+      ])
     ])
   ])
 }
@@ -38855,9 +39012,346 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "text-center py-3" }, [
-      _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
-        _vm._v("Get started")
+    return _c(
+      "div",
+      {
+        staticClass: "text-center gap-multiline-items-2",
+        attrs: { "data-shuffle": "filter" }
+      },
+      [
+        _c("div", { staticClass: "row gap-y" }, [
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-md-6 col-lg-3",
+              attrs: {
+                "data-shuffle": "button",
+                "data-scrollto": "section-series"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card card-bordered card-hover-shadow text-center"
+                },
+                [
+                  _c("a", { staticClass: "card-block", attrs: { href: "#" } }, [
+                    _c("p", [
+                      _c("i", { staticClass: "icon-grid fs-50 text-muted" })
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("All Series")
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-md-6 col-lg-3",
+              attrs: {
+                "data-shuffle": "button",
+                "data-group": "web_development",
+                "data-scrollto": "section-series"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card card-bordered card-hover-shadow text-center"
+                },
+                [
+                  _c("a", { staticClass: "card-block", attrs: { href: "#" } }, [
+                    _c("p", [
+                      _c("i", { staticClass: "icon-browser fs-50 text-muted" })
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Web Developement")
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-md-6 col-lg-3",
+              attrs: {
+                "data-shuffle": "button",
+                "data-group": "web_development",
+                "data-scrollto": "section-series"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card card-bordered card-hover-shadow text-center"
+                },
+                [
+                  _c("a", { staticClass: "card-block", attrs: { href: "#" } }, [
+                    _c("p", [
+                      _c("i", { staticClass: "icon-layers fs-50 text-muted" })
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Databases")
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-md-6 col-lg-3",
+              attrs: {
+                "data-shuffle": "button",
+                "data-group": "web_development",
+                "data-scrollto": "section-series"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card card-bordered card-hover-shadow text-center"
+                },
+                [
+                  _c("a", { staticClass: "card-block", attrs: { href: "#" } }, [
+                    _c("p", [
+                      _c("i", {
+                        staticClass: "icon-briefcase fs-50 text-muted"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Business")
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-md-6 col-lg-3",
+              attrs: {
+                "data-shuffle": "button",
+                "data-group": "web_development",
+                "data-scrollto": "section-series"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card card-bordered card-hover-shadow text-center"
+                },
+                [
+                  _c("a", { staticClass: "card-block", attrs: { href: "#" } }, [
+                    _c("p", [
+                      _c("i", {
+                        staticClass: "icon-clipboard fs-50 text-muted"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Office Productivity")
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-md-6 col-lg-3",
+              attrs: {
+                "data-shuffle": "button",
+                "data-group": "web_development",
+                "data-scrollto": "section-series"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card card-bordered card-hover-shadow text-center"
+                },
+                [
+                  _c("a", { staticClass: "card-block", attrs: { href: "#" } }, [
+                    _c("p", [
+                      _c("i", { staticClass: "icon-tools fs-50 text-muted" })
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "card-title" }, [_vm._v("Design")])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-md-6 col-lg-3",
+              attrs: {
+                "data-shuffle": "button",
+                "data-group": "web_development",
+                "data-scrollto": "section-series"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card card-bordered card-hover-shadow text-center"
+                },
+                [
+                  _c("a", { staticClass: "card-block", attrs: { href: "#" } }, [
+                    _c("p", [
+                      _c("i", { staticClass: "icon-camera fs-50 text-muted" })
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Photography")
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-md-6 col-lg-3",
+              attrs: {
+                "data-shuffle": "button",
+                "data-group": "web_development",
+                "data-scrollto": "section-series"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card card-bordered card-hover-shadow text-center"
+                },
+                [
+                  _c("a", { staticClass: "card-block", attrs: { href: "#" } }, [
+                    _c("p", [
+                      _c("i", { staticClass: "icon-heart fs-50 text-muted" })
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Health & Fitness")
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "col-12 col-md-6 col-lg-3",
+              attrs: {
+                "data-shuffle": "button",
+                "data-group": "web_development",
+                "data-scrollto": "section-series"
+              }
+            },
+            [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card card-bordered card-hover-shadow text-center"
+                },
+                [
+                  _c("a", { staticClass: "card-block", attrs: { href: "#" } }, [
+                    _c("p", [
+                      _c("i", { staticClass: "ti-music fs-50 text-muted" })
+                    ]),
+                    _vm._v(" "),
+                    _c("h4", { staticClass: "card-title" }, [_vm._v("Music")])
+                  ])
+                ]
+              )
+            ]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "details__bottom" }, [
+      _c("div", { staticClass: "details__rating" }, [
+        _c(
+          "span",
+          { staticClass: "star-rating--static a11 text-medium-grey" },
+          [
+            _c("span", {
+              staticClass: "star-rating__star",
+              staticStyle: { width: "90.092%" }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c("span", [_vm._v("(648)")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "details__price" }, [
+        _c("span", { staticClass: "price" }, [_vm._v("$19")]),
+        _vm._v(" "),
+        _c("span", { staticClass: "price-old" }, [_vm._v("$199")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "cardf__options" }, [
+      _c("div", { staticClass: "options__wishlist active" }, [
+        _c("i", { staticClass: "icon fa fa-heart" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "tooltip left" }, [
+          _c("div", { staticClass: "tooltip__arrow tooltip-arrow" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "tooltip__inner tooltip-inner" }, [
+            _c("span", [_vm._v("Wishlisted")])
+          ])
+        ])
       ])
     ])
   }
