@@ -9,6 +9,9 @@
     <link href="{{ asset('assets/css/core.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/thesaas.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/preflight.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/utilities.min.css" rel="stylesheet">
+
 
     <!-- Font-awesome -->
 <!--     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"> -->
@@ -103,6 +106,6 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('assets/js/imageUpload.js') }}"></script>
 
-    
+
 </body>
 </html>

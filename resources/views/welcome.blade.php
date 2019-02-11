@@ -19,7 +19,7 @@
             <br>
 
             <p>
-              <a class="btn btn-lg btn-round btn-logo-color mr-12" href="#" data-scrollto="section-start">Start Now</a>
+              <a class="btn btn-lg btn-round btn-logo-color mr-12" href="#" data-scrollto="series_category">Start Now</a>
 <!--               <a class="btn btn-lg btn-round btn-outline btn-white hidden-sm-down" href="//www.youtube.com/watch?v=ah4pcPbRi2M" data-provide="lightbox"><i class="fa fa-play mr-8"></i> Play Video</a> -->
             </p>
             
@@ -35,20 +35,15 @@
 @section('content')
 
 
- <section class="section bg-gray">
-        <div class="container">
-          <header class="section-header">
-            <small>lessons</small>
-            <h2>Featured Screencasts</h2>
-            <hr>
-            <p class="lead"></p>
-          </header>
-          
-            <div class="row gap-y">
+ 
+
+
+
+
+            <vue-series></vue-series>
                 
 
-            </div>
-        </div>
-      </section>
+           
+   
 
 @stop
