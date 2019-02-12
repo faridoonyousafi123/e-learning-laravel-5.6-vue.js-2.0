@@ -109,52 +109,9 @@
 
 
 
-    <!--   <div class="divider">Series</div>
+    
 
-      <div class="row gap-y gap-2" data-shuffle="list" id="section-series">
-
-        <div v-for="series in allSeries" :key="allSeries.indexOf(series)" class="col-6 col-lg-3" data-shuffle="item" :data-groups="series.category">
-
-         <div class="cardf">
-          <a href="#">
-            <div class="cardf__image">
-              <v-lazy-image 
-              :src="'storage/' + series.image_url"
-              />
-            </div>
-            <div class="cardf__details mt-15">
-              <strong class="details__name">
-                {{ series.title }}
-              </strong>
-              <div class="details__instructor">
-                Jerad Hill,
-                Photography, Web Designer, Online Marketer, Husband, Father
-              </div>
-              <div class="details__bottom">
-                <div class="details__rating">
-                  <span class="star-rating--static a11 text-medium-grey">
-                    <span class="star-rating__star" style="width: 90.092%;"></span>
-                  </span>
-                  <span>(648)</span>
-                </div>
-                <div class="details__price">
-                  <span class="price">$19</span>
-                  <span class="price-old">$199</span>
-                </div>
-              </div>
-            </div>
-          </a>
-          <div class="cardf__options">
-            <div class="options__wishlist active">
-              <i class="icon fa fa-heart"></i>
-              <div class="tooltip left">
-                <div class="tooltip__arrow tooltip-arrow"></div>
-                <div class="tooltip__inner tooltip-inner"><span>Wishlisted</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> -->
+      
 
 
 

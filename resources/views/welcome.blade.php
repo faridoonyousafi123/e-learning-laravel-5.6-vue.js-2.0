@@ -43,7 +43,7 @@
             <vue-series></vue-series>
                 
 
-           
+           <a class="scroll-top" href="#"><i class="fa fa-angle-up"></i></a>
    
 
 @stop
