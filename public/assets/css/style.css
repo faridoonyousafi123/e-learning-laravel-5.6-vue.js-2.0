@@ -547,6 +547,51 @@ border-radius: 4px;
   font-size: 1rem;
 }
 
+.course-sticker{
+    position: absolute;
+    margin-top: -27px;
+   
+    color: white;
+    font-weight: 600;
+    font-size:12px !important;
+    font-family: inherit;
+    -webkit-border-top-right-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    -moz-border-radius-topright: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 0px;
+    width: 90px !important;
+}
+
+.sticker-hot-new{
+
+   background-color: #e5431c;
+
+}
+
+.sticker-best-seller{
+
+  background-color: #e29725;
+}
+
+.sticker-highest-rated{
+
+ background-color: #339e18;
+
+ width: 110px !important;
+
+}
+
+.price-border{
+
+  border-radius: 5px 0px 0px 0px !important;
+}
+.fixed-p-height{
+
+  max-height: 90px;
+  height: 90px !important;
+}
 @-webkit-keyframes rotation-show {
   0% {
     -webkit-transform: perspective(1000px) rotateX(-90deg);
