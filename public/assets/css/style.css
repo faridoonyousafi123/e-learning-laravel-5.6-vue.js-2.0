@@ -592,6 +592,9 @@ border-radius: 4px;
   max-height: 90px;
   height: 90px !important;
 }
+.previous-cost{
+  color:#5f593a !important;
+}
 @-webkit-keyframes rotation-show {
   0% {
     -webkit-transform: perspective(1000px) rotateX(-90deg);

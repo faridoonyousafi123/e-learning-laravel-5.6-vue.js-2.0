@@ -67,6 +67,15 @@
   
    <section class="section bg-gray">
       <div class="container">
+         <div class="row text-center">
+           
+
+            <div class="col">
+              <p>Total Courses</p>
+              <h2><span data-provide="counter" data-from="0" data-to="510" data-speed="5000"></span>+</h2>
+            </div>
+
+         
 
          <div class="row gap-y mt-100">
             <div class="col-12 col-lg-4 mb-10">
@@ -119,7 +128,9 @@
                      </div>
                   </div>
                    <div class="text-right">
-                       <a class="btn btn-success text-right price-border" href="#">1200 Afs</a>
+                       
+                       <small class="mr-5 previous-cost fs-12"><del>12,000 AFS</del></small>
+                       <a class="btn btn-success text-right price-border" href="#" > <span>499 Afs</span></a> 
                   </div>
                </div>
             </div>
@@ -176,7 +187,8 @@
 
                   </div>
                   <div class="text-right">
-                       <a class="btn btn-success text-right price-border" href="#">1200 Afs</a>
+                     <small class="mr-5 previous-cost fs-12"><del>13,000 AFS</del></small>
+                       <a class="btn btn-success text-right price-border" href="#">1250 Afs</a>
                   </div>
                 
                </div>
@@ -408,7 +420,7 @@
                      </div>
                   </div>
                    <div class="text-right">
-                       <a class="btn btn-success text-right price-border" href="#">1200 Afs</a>
+                       <a class="btn btn-success text-right price-border" href="#"> 1200 Afs</a>
                   </div>
                </div>
             </div>
