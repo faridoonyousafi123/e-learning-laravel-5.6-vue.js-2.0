@@ -17,6 +17,7 @@ class CreateSeriesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('slug');
+            $table->string('category');
             $table->string('image_url')->nullable();
             $table->text('description');
             $table->timestamps();

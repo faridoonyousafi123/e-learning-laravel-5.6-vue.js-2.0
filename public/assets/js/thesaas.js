@@ -159,7 +159,12 @@
   };
 
 
+$('#course-card').tilt({
+  scale: 1.01,
+  perspective: 1000
+});
 
+setTimeout(function(){$('#course-card-intro').fadeOut('slow');}, 5000);
 
   //----------------------------------------------------/
   // Parallax

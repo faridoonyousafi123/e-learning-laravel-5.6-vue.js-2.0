@@ -48,12 +48,38 @@ Route::get('/users',[
 
 ]);
 
+Route::get('/get-series',[
+
+	'uses' => 'SeriesController@sendAllSeries',
+	'as' => 'send.series'
+
+]);
+
+
+
 Route::get('/users-approved',[
 
 	'uses' => 'AdministratorController@sendApprovedUsers',
 	'as' => 'show.approvedUsers'
 
 ]);
+
+Route::get('/series/{slug}', [
+
+	'uses' => 'SeriesController@showSingleSeries',
+	'as' => 'singleSeries.show'
+
+]);
+
+Route::get('/series', [
+
+
+	'uses' => 'SeriesController@index',
+	'as' => 'series.all'
+
+
+]);
+
 
 
 
