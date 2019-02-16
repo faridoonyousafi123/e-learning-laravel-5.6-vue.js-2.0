@@ -111,7 +111,7 @@ xmlns:o="urn:schemas-microsoft-com:office:office">
       }
 
       .footer-wrapper div {
-        color: #37517e !important;
+        color: #37517e;
       }
 
       .footer-wrapper div a {
