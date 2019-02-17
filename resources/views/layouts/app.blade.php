@@ -141,7 +141,7 @@ document.addEventListener('click', function(e) {
   e.stopPropagation();
   if (target != "search__input" && target != "suggestion__content-left-side" && target != "suggestion__content-right-side" && target != "suggestion__content" ) {
     hideSuggestion();
-    console.log(target);
+   
   }
 });
 

@@ -332,7 +332,7 @@ xmlns:o="urn:schemas-microsoft-com:office:office">
                                                         <p>Hello {{ $user->name}} ,</p>
                                                         @if($user->hasAdminRequest())
                                                         <p class="hero">You are not Administrator to access this page.</p>
-                                                        <p>Please submit your request to our Team to give you Administrator privilege. Your request will be proceed and you will recieve an email of confirmation in next 24 hours.
+                                                        <p>Please submit your request to our Team to give you Administrator privilege. Your request will be proceed and you will recieve an email of confirmation / Rejection in next 24 hours.
                                                         </p>
                                                         <p>
 

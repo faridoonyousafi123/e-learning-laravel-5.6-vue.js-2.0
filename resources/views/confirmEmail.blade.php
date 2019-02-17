@@ -333,7 +333,7 @@ xmlns:o="urn:schemas-microsoft-com:office:office">
                                                         <p>Have we got the right email address to reach you on? To confirm that you own this email address which was just used to signup on , click the button below and we are a go!
                                                       </p>
                                                         <p>
-                                                          <a href="https://mail.google.com" class="btn" mc:disable-tracking="">Confirm my email address</a>
+                                                          <a href="https://mail.google.com" class="btn" target="_blank" mc:disable-tracking="">Confirm email address</a>
                                                         </p>
                                                         <p>If you don’t know why you got this email, please tell us straight away so we can
                                                           fix this for you.</p>

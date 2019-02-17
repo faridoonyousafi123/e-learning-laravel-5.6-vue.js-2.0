@@ -43,7 +43,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-md-6 col-lg-3" data-shuffle="button" data-group="web_development" data-scrollto="section-series">
+          <div class="col-12 col-md-6 col-lg-3">
             <div class="card card-bordered card-hover-shadow text-center">
               <a class="card-block" href="#">
                 <p><i class="icon-briefcase fs-50 text-muted"></i></p>
@@ -52,7 +52,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-md-6 col-lg-3" data-shuffle="button" data-group="web_development" data-scrollto="section-series">
+          <div class="col-12 col-md-6 col-lg-3">
             <div class="card card-bordered card-hover-shadow text-center">
               <a class="card-block" href="#">
                 <p><i class="icon-clipboard fs-50 text-muted"></i></p>
@@ -61,7 +61,7 @@
             </div>
           </div>
           
-          <div class="col-12 col-md-6 col-lg-3" data-shuffle="button" data-group="web_development" data-scrollto="section-series">
+          <div class="col-12 col-md-6 col-lg-3">
             <div class="card card-bordered card-hover-shadow text-center">
               <a class="card-block" href="#">
                 <p><i class="icon-tools fs-50 text-muted"></i></p>
@@ -70,7 +70,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-md-6 col-lg-3" data-shuffle="button" data-group="web_development" data-scrollto="section-series">
+          <div class="col-12 col-md-6 col-lg-3">
             <div class="card card-bordered card-hover-shadow text-center">
               <a class="card-block" href="#">
                 <p><i class="icon-camera fs-50 text-muted"></i></p>
@@ -79,7 +79,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-md-6 col-lg-3" data-shuffle="button" data-group="web_development" data-scrollto="section-series">
+          <div class="col-12 col-md-6 col-lg-3">
             <div class="card card-bordered card-hover-shadow text-center">
               <a class="card-block" href="#">
                 <p><i class="icon-heart fs-50 text-muted"></i></p>
@@ -88,7 +88,7 @@
             </div>
           </div>
 
-          <div class="col-12 col-md-6 col-lg-3" data-shuffle="button" data-group="web_development" data-scrollto="section-series">
+          <div class="col-12 col-md-6 col-lg-3">
             <div class="card card-bordered card-hover-shadow text-center">
               <a class="card-block" href="#">
                 <p><i class="ti-music fs-50 text-muted"></i></p>
